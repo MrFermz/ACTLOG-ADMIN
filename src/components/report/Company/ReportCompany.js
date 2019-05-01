@@ -9,13 +9,10 @@ import {
   TableCell,
   TableBody,
   Button,
-  TextField,
   Grid,
-  MenuItem,
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions
 } from '@material-ui/core'
 import {
@@ -89,7 +86,7 @@ class ReportCompany extends Component {
                   pathname: '/cdetail',
                   state: { key: key }
                 })
-              }}>ข้อมูล</Button>
+              }}>ดูข้อมูล</Button>
           </Grid>
           <Grid>
             <Button

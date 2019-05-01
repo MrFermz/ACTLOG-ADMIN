@@ -4,12 +4,7 @@ import {
   Grid,
   Paper,
   TextField,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions
+  Button
 } from '@material-ui/core'
 
 class CompanyDetail extends Component {

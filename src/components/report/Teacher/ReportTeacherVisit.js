@@ -4,7 +4,6 @@ import {
   Button,
   Paper,
   Grid,
-  TextField,
   Typography,
   Table,
   TableHead,
@@ -15,7 +14,10 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions
+  DialogActions,
+  Tooltip,
+  GridList,
+  GridListTile
 } from '@material-ui/core'
 import {
   MoreHoriz
@@ -27,9 +29,18 @@ export default class ReportTeacherVisit extends Component {
     this.state = {
       list: [],
       open: false,
-      fname: this.props.location.state.fname,
-      lname: this.props.location.state.lname,
-      email: this.props.location.state.email
+      open2: false,
+      tfname: this.props.location.state.fname,
+      tlname: this.props.location.state.lname,
+      temail: this.props.location.state.email,
+      score1: 0,
+      score2: 0,
+      score3: 0,
+      score4: 0,
+      score5: 0,
+      comment: '',
+      photos: [],
+      key: ''
     }
   }
 
@@ -87,10 +98,12 @@ export default class ReportTeacherVisit extends Component {
             .once('value').then((snapshot) => {
               snapshot.forEach((child) => {
                 var val2 = child.val()
+                var key = child.key
                 if (tuid === val2.tuid) {
                   id += 1
                   items.push({
                     id,
+                    key,
                     fname: val1.fname,
                     lname: val1.lname,
                     email: val1.email,
@@ -103,6 +116,34 @@ export default class ReportTeacherVisit extends Component {
                     score5: val2.score5,
                     comment: val2.comment
                   })
+
+                  var score1 = val2.score1 + this.state.score1
+                  var score2 = val2.score2 + this.state.score2
+                  var score3 = val2.score3 + this.state.score3
+                  var score4 = val2.score4 + this.state.score4
+                  var score5 = val2.score5 + this.state.score5
+
+                  if (score1) {
+                    this.setState({
+                      score1: score1 / id
+                    })
+                  } if (score2) {
+                    this.setState({
+                      score2: score2 / id
+                    })
+                  } if (score3) {
+                    this.setState({
+                      score3: score3 / id
+                    })
+                  } if (score4) {
+                    this.setState({
+                      score4: score4 / id
+                    })
+                  } if (score5) {
+                    this.setState({
+                      score5: score5 / id
+                    })
+                  }
                 }
               })
               this.setState({ list: items })
@@ -116,16 +157,13 @@ export default class ReportTeacherVisit extends Component {
   }
 
   Alert() {
-    const { open, uid, fname, lname, email } = this.state
+    const { open, uid, sid, fname, lname, email } = this.state
     return (
       <Dialog
         open={open}
         onClose={this.handleAlert.bind(this)}>
         <DialogTitle>{`เลือกเมนูที่จะดูรายงาน`}</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
-            {`เลือกเมนูที่จะดูรายงาน`}
-          </DialogContentText> */}
           <Grid>
             <Button
               fullWidth
@@ -134,23 +172,29 @@ export default class ReportTeacherVisit extends Component {
                   pathname: '/stdDetail',
                   state: { uid: uid }
                 })
-              }}>ข้อมูลผู้ใช้</Button>
+              }}>ข้อมูลนักศึกษา</Button>
+          </Grid>
+          <Grid>
+            <Button
+              fullWidth
+              onClick={this.handleDetail.bind(this)}>
+              ข้อเสนอแนะ</Button>
           </Grid>
           <Grid>
             <Button
               fullWidth
               onClick={() => {
                 this.props.history.push({
-                  pathname: '/ReportVisitDetail',
+                  pathname: '/ReportStudentAct',
                   state: {
-                    uid: uid,
-                    tuid: this.props.location.state.uid,
+                    sid,
+                    uid,
                     fname,
                     lname,
                     email
                   }
                 })
-              }}>รายละเอียดนิเทศ</Button>
+              }}>ดูบันทึกกิจกรรม</Button>
           </Grid>
         </DialogContent>
         <DialogActions>
@@ -163,19 +207,84 @@ export default class ReportTeacherVisit extends Component {
     )
   }
 
+  handleDetail() {
+    this.setState({ open2: !this.state.open2 })
+  }
+
+  Detail() {
+    const { open2, comment, photos, fname, lname } = this.state
+    return (
+      <Dialog
+        scroll='body'
+        open={open2}
+        onClose={this.handleDetail.bind(this)}>
+        {this.getPhotos()}
+        <DialogTitle>{`ข้อเสนอแนะ และอื่น ๆ`}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{fname} {lname}</DialogContentText>
+          <Typography
+            paragraph>{comment}</Typography>
+          <GridList
+            cellHeight={250}
+            cols={3}>
+            {photos.map((img, i) => (
+              <GridListTile
+                key={img.photo}>
+                <img
+                  src={img.photo}
+                  alt={img.photo}></img>
+              </GridListTile>
+            ))}
+          </GridList>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color='secondary'
+            onClick={this.handleDetail.bind(this)}>
+            ปิด</Button>
+        </DialogActions>
+      </Dialog>
+    )
+  }
+
+  getPhotos() {
+    const { key } = this.state
+    var photo = []
+    firebase.database().ref(`visit/${key}/photos`)
+      .once('value').then((snapshot) => {
+        snapshot.forEach((child) => {
+          var val = child.val()
+          photo.push({
+            photo: val.photo
+          })
+        })
+        this.setState({ photos: photo })
+      })
+  }
+
   render() {
-    const { list, fname, lname, email } = this.state
-    // console.log(list)
+    const { list, tfname, tlname, temail } = this.state
+    const { score1, score2, score3, score4, score5 } = this.state
     return (
       <Grid
         container>
         {this.Alert()}
+        {this.Detail()}
         <Grid
           container
           direction='column'
-          style={{ padding: 30 }}>
-          <Typography>{fname} {lname}</Typography>
-          <Typography>{email}</Typography>
+          style={{ padding: 30, alignItems: 'center' }}>
+          <Typography
+            variant='h4'
+            color='primary'
+            align='center'
+            gutterBottom>
+            {tfname} {tlname}</Typography>
+          <Typography
+            variant='h6'
+            align='center'
+            gutterBottom>
+            {temail}</Typography>
           <Paper
             style={{ width: '100%' }}>
             <Table>
@@ -183,11 +292,21 @@ export default class ReportTeacherVisit extends Component {
                 <TableRow>
                   <TableCell>ลำดับ</TableCell>
                   <TableCell>ชื่อ - สกุล</TableCell>
-                  <TableCell>ความรับผิดชอบต่องานที่ได้รับมอบหมาย</TableCell>
-                  <TableCell>มีความรอบคอบในการทำงาน</TableCell>
-                  <TableCell>มีมนุษย์สัมพันธ์</TableCell>
-                  <TableCell>การตรงต่อเวลา</TableCell>
-                  <TableCell>ปฏิบัติตนถูกต้องตามระเบียบข้อบังคับของสถานที่ฝึกงาน</TableCell>
+                  <Tooltip placement='top' title='ความรับผิดชอบต่องานที่ได้รับมอบหมาย'>
+                    <TableCell>เกณฑ์ที่ 1</TableCell>
+                  </Tooltip>
+                  <Tooltip placement='top' title='มีความรอบคอบในการทำงาน'>
+                    <TableCell>เกณฑ์ที่ 2</TableCell>
+                  </Tooltip>
+                  <Tooltip placement='top' title='มีมนุษย์สัมพันธ์'>
+                    <TableCell>เกณฑ์ที่ 3</TableCell>
+                  </Tooltip>
+                  <Tooltip placement='top' title='การตรงต่อเวลา'>
+                    <TableCell>เกณฑ์ที่ 4</TableCell>
+                  </Tooltip>
+                  <Tooltip placement='top' title='ปฏิบัติตนถูกต้องตามระเบียบข้อบังคับของสถานที่ฝึกงาน'>
+                    <TableCell>เกณฑ์ที่ 5</TableCell>
+                  </Tooltip>
                   <TableCell>เพิ่มเติม</TableCell>
                 </TableRow>
               </TableHead>
@@ -199,25 +318,38 @@ export default class ReportTeacherVisit extends Component {
                     style={i % 2 === 0 ? { backgroundColor: '#EEEEEE' } : null}>
                     <TableCell>{row.id}</TableCell>
                     <TableCell>{row.fname} {row.lname}</TableCell>
-                    <TableCell>{row.score1}</TableCell>
-                    <TableCell>{row.score2}</TableCell>
-                    <TableCell>{row.score3}</TableCell>
-                    <TableCell>{row.score4}</TableCell>
-                    <TableCell>{row.score5}</TableCell>
+                    <TableCell style={!row.score1 ? { backgroundColor: 'pink' } : null}>{row.score1}</TableCell>
+                    <TableCell style={!row.score2 ? { backgroundColor: 'pink' } : null}>{row.score2}</TableCell>
+                    <TableCell style={!row.score3 ? { backgroundColor: 'pink' } : null}>{row.score3}</TableCell>
+                    <TableCell style={!row.score4 ? { backgroundColor: 'pink' } : null}>{row.score4}</TableCell>
+                    <TableCell style={!row.score5 ? { backgroundColor: 'pink' } : null}>{row.score5}</TableCell>
                     <TableCell>
                       <Button
                         variant='contained'
                         onClickCapture={() => this.setState({
+                          sid: row.sid,
                           uid: row.uid,
                           fname: row.fname,
                           lname: row.lname,
-                          email: row.email
+                          email: row.email,
+                          comment: row.comment,
+                          key: row.key
                         })}
                         onClick={this.handleAlert.bind(this)}>
                         <MoreHoriz /></Button>
                     </TableCell>
                   </TableRow>
                 ))}
+                <TableRow>
+                  <TableCell
+                    align='center'
+                    colSpan={2}>เฉลี่ย</TableCell>
+                  <TableCell>{score1.toFixed(2)}</TableCell>
+                  <TableCell>{score2.toFixed(2)}</TableCell>
+                  <TableCell>{score3.toFixed(2)}</TableCell>
+                  <TableCell>{score4.toFixed(2)}</TableCell>
+                  <TableCell>{score5.toFixed(2)}</TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </Paper>

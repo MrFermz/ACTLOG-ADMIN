@@ -36,7 +36,6 @@ import CompanyEdit from './components/company/CompanyEdit'
 // Report
 import ReportTeacher from './components/report/Teacher/ReportTeacher'
 import ReportTeacherVisit from './components/report/Teacher/ReportTeacherVisit'
-import ReportTeacherVisitDetail from './components/report/Teacher/ReportTeacherVisitDetail'
 
 import ReportStudent from './components/report/Student/ReportStudent'
 import ReportStudentAct from './components/report/Student/ReportStudentAct'
@@ -82,12 +81,11 @@ export default class App extends Component {
           <Route path='/cedit' component={CompanyEdit} />
 
           <Route path='/ReportTeacher' component={ReportTeacher} />
-          <Route path='/ReportStudentAct' component={ReportStudentAct} />
-          <Route path='/ReportStudentActDetail' component={ReportStudentActDetail} />
           <Route path='/ReportTeacherVisit' component={ReportTeacherVisit} />
-          <Route path='/ReportTeacherVisitDetail' component={ReportTeacherVisitDetail} />
 
           <Route path='/ReportStudent' component={ReportStudent} />
+          <Route path='/ReportStudentAct' component={ReportStudentAct} />
+          <Route path='/ReportStudentActDetail' component={ReportStudentActDetail} />
           <Route path='/ReportStudentVisit' component={ReportStudentVisit} />
           <Route path='/ReportStudentComment' component={ReportStudentComment} />
 

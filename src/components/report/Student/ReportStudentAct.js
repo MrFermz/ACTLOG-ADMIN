@@ -1,25 +1,16 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import firebase from '../../firebase'
 import {
   Button,
   Paper,
   Grid,
-  TextField,
   Typography,
   Table,
   TableHead,
   TableRow,
   TableCell,
-  TableBody,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions
+  TableBody
 } from '@material-ui/core'
-import {
-  MoreHoriz
-} from '@material-ui/icons'
 
 export default class ReportStudentAct extends Component {
   constructor(props) {
@@ -104,10 +95,23 @@ export default class ReportStudentAct extends Component {
         <Grid
           container
           direction='column'
-          style={{ padding: 30 }}>
-          <Typography>{sid}</Typography>
-          <Typography>{fname} {lname}</Typography>
-          <Typography>{email}</Typography>
+          style={{ padding: 30, alignItems: 'center' }}>
+          <Typography
+            variant='h4'
+            color='primary'
+            align='center'
+            gutterBottom>
+            {sid}</Typography>
+          <Typography
+            variant='h6'
+            align='center'
+            gutterBottom>
+            {fname} {lname}</Typography>
+          <Typography
+            variant='h6'
+            align='center'
+            gutterBottom>
+            {email}</Typography>
           <Paper
             style={{ width: '100%' }}>
             <Table>

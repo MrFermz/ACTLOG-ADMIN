@@ -4,7 +4,6 @@ import {
   Button,
   Paper,
   Grid,
-  TextField,
   Typography,
   Table,
   TableHead,
@@ -14,7 +13,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions
 } from '@material-ui/core'
 import {
@@ -74,16 +72,13 @@ export default class ReportCompanyUsers extends Component {
   }
 
   Alert() {
-    const { open, uid } = this.state
+    const { open, uid, fname, lname, tel, company, email } = this.state
     return (
       <Dialog
         open={open}
         onClose={this.handleAlert.bind(this)}>
         <DialogTitle>{`เลือกเมนูที่จะดูรายงาน`}</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
-            {`เลือกเมนูที่จะดูรายงาน`}
-          </DialogContentText> */}
           <Grid>
             <Button
               fullWidth
@@ -93,6 +88,23 @@ export default class ReportCompanyUsers extends Component {
                   state: { uid }
                 })
               }}>ข้อมูลผู้ใช้</Button>
+          </Grid>
+          <Grid>
+            <Button
+              fullWidth
+              onClick={() => {
+                this.props.history.push({
+                  pathname: '/ReportStaffComment',
+                  state: {
+                    uid,
+                    fname,
+                    lname,
+                    tel,
+                    company,
+                    email
+                  }
+                })
+              }}>ความคิดเห็น</Button>
           </Grid>
         </DialogContent>
         <DialogActions>
@@ -114,10 +126,23 @@ export default class ReportCompanyUsers extends Component {
         <Grid
           container
           direction='column'
-          style={{ padding: 30 }}>
-          <Typography>{name}</Typography>
-          <Typography>{tel}</Typography>
-          <Typography>{address}</Typography>
+          style={{ padding: 30, alignItems:'center' }}>
+          <Typography
+            variant='h4'
+            color='primary'
+            align='center'
+            gutterBottom>
+            {name}</Typography>
+          <Typography
+            variant='h6'
+            align='center'
+            gutterBottom>
+            {tel}</Typography>
+          <Typography
+            variant='h6'
+            align='center'
+            gutterBottom>
+            {address}</Typography>
           <Paper
             style={{ width: '100%' }}>
             <Table>
@@ -143,7 +168,14 @@ export default class ReportCompanyUsers extends Component {
                     <TableCell>
                       <Button
                         variant='contained'
-                        onClickCapture={() => this.setState({ uid: row.uid })}
+                        onClickCapture={() => this.setState({
+                          uid: row.uid,
+                          fname: row.fname,
+                          lname: row.lname,
+                          tel: row.tel,
+                          company: row.company,
+                          email: row.email
+                        })}
                         onClick={this.handleAlert.bind(this)}>
                         <MoreHoriz /></Button>
                     </TableCell>

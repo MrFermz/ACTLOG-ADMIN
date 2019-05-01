@@ -9,13 +9,10 @@ import {
   TableCell,
   TableBody,
   Button,
-  TextField,
   Grid,
-  MenuItem,
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions
 } from '@material-ui/core'
 import {
@@ -82,14 +79,13 @@ class ReportStudent extends Component {
           </DialogContentText> */}
           <Grid>
             <Button
+              fullWidth
               onClick={() => {
                 this.props.history.push({
                   pathname: '/stdDetail',
                   state: { uid: uid }
                 })
-              }}
-              fullWidth>
-              ข้อมูลผู้ใช้</Button>
+              }}>ดูข้อมูลผู้ใช้</Button>
           </Grid>
           <Grid>
             <Button
@@ -105,7 +101,7 @@ class ReportStudent extends Component {
                     sid
                   }
                 })
-              }}>บันทึกกิจกรรม</Button>
+              }}>ดูบันทึกกิจกรรม</Button>
             <Button
               fullWidth
               onClick={() => {

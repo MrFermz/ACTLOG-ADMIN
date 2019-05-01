@@ -9,13 +9,10 @@ import {
   TableCell,
   TableBody,
   Button,
-  TextField,
   Grid,
-  MenuItem,
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions
 } from '@material-ui/core'
 import {
@@ -86,7 +83,7 @@ class ReportTeacher extends Component {
                   pathname: '/teachDetail',
                   state: { uid: uid }
                 })
-              }}>ข้อมูลผู้ใช้</Button>
+              }}>ดูข้อมูลผู้ใช้</Button>
           </Grid>
           <Grid>
             <Button
@@ -101,7 +98,7 @@ class ReportTeacher extends Component {
                     email
                   }
                 })
-              }}>ตารางนิเทศ</Button>
+              }}>ดูผลการนิเทศ</Button>
           </Grid>
         </DialogContent>
         <DialogActions>

@@ -1,25 +1,15 @@
 import React, { Component, Fragment } from 'react'
 import firebase from '../../firebase'
 import {
-  Button,
   Paper,
   Grid,
-  TextField,
   Typography,
   Table,
   TableHead,
   TableRow,
   TableCell,
-  TableBody,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions
+  TableBody
 } from '@material-ui/core'
-import {
-  MoreHoriz
-} from '@material-ui/icons'
 
 export default class ReportStudentComment extends Component {
   constructor(props) {

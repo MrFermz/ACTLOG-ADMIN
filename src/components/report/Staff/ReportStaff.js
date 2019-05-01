@@ -9,13 +9,10 @@ import {
   TableCell,
   TableBody,
   Button,
-  TextField,
   Grid,
-  MenuItem,
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions
 } from '@material-ui/core'
 import {
@@ -95,7 +92,7 @@ class ReportStaff extends Component {
                   pathname: '/staffDetail',
                   state: { uid: uid }
                 })
-              }}>ข้อมูลส่วนตัว</Button>
+              }}>ดูข้อมูลผู้ใช้</Button>
           </Grid>
           <Grid>
             <Button

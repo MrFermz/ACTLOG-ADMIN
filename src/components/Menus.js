@@ -60,14 +60,14 @@ export default class Menus extends Component {
           style={{ marginTop: 10, width: '90%' }}
           variant='contained'
           onClick={() => { this.props.history.push('/lists') }} >
-          รายชื่อผู้ใช้</Button >
+          จัดการชื่อผู้ใช้</Button >
         <Button
           disabled={clist}
           fullWidth
           style={{ marginTop: 10, width: '90%' }}
           variant='contained'
           onClick={() => { this.props.history.push('/clists') }} >
-          สถานประกอบการ</Button >
+          จัดการสถานประกอบการ</Button >
 
         <Typography
           style={{ marginTop: 30, width: '90%', fontSize: 18 }}>
