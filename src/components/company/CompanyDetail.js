@@ -7,7 +7,7 @@ import {
   Button
 } from '@material-ui/core'
 
-class CompanyDetail extends Component {
+export default class CompanyDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -54,7 +54,7 @@ class CompanyDetail extends Component {
         justify='center'
         alignItems='center'>
         <Paper
-          style={{ marginTop: 20, width: 700, padding: 20 }}>
+          style={{ overflow: 'auto', marginTop: 20, width: 700, padding: 20 }}>
           <Grid>
             <TextField
               InputLabelProps={{ shrink: true }}
@@ -112,26 +112,31 @@ class CompanyDetail extends Component {
               margin='normal'
               value={zip} />
           </Grid>
-          <Grid>
-            <Button
-              variant='contained'
-              onClick={() => this.props.history.goBack()}>
-              กลับ</Button>
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={() => {
-                this.props.history.push({
-                  pathname: '/cEdit',
-                  state: { key: key }
-                })
-              }}>
-              แก้ไข</Button>
+          <Grid
+            container
+            direction='column'
+            alignItems='center'>
+            <Grid
+              style={{ marginTop: 15 }}>
+              <Button
+                variant='contained'
+                style={{ marginRight: 10 }}
+                onClick={() => this.props.history.goBack()}>
+                กลับ</Button>
+              <Button
+                variant='contained'
+                color='primary'
+                style={{ marginRight: 10 }}
+                onClick={() => {
+                  this.props.history.push({
+                    pathname: '/cEdit',
+                    state: { key: key }
+                  })
+                }}>แก้ไข</Button>
+            </Grid>
           </Grid>
         </Paper>
       </Grid>
     )
   }
 }
-
-export default CompanyDetail

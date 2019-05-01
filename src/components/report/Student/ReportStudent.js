@@ -19,7 +19,7 @@ import {
   MoreHoriz
 } from '@material-ui/icons'
 
-class ReportStudent extends Component {
+export default class ReportStudent extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -74,9 +74,6 @@ class ReportStudent extends Component {
         onClose={this.handleAlert.bind(this)}>
         <DialogTitle>{`เลือกเมนูที่จะดูรายงาน`}</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
-            {`เลือกเมนูที่จะดูรายงาน`}
-          </DialogContentText> */}
           <Grid>
             <Button
               fullWidth
@@ -157,30 +154,28 @@ class ReportStudent extends Component {
           container
           direction='column'
           style={{ padding: 30 }}>
-
           <Paper
             style={{ width: '100%' }}>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>ลำดับ</TableCell>
-                  <TableCell>รหัส นศ.</TableCell>
-                  <TableCell>ชื่อ - สกุล</TableCell>
-                  <TableCell>อีเมลล์</TableCell>
-                  <TableCell>เพิ่มเติม</TableCell>
+                  <TableCell align='center'>ลำดับ</TableCell>
+                  <TableCell align='center'>รหัส นศ.</TableCell>
+                  <TableCell align='center'>ชื่อ - สกุล</TableCell>
+                  <TableCell align='center'>อีเมลล์</TableCell>
+                  <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
-
               <TableBody>
                 {list.map((row, i) => (
                   <TableRow
                     key={i}
                     style={i % 2 === 0 ? { backgroundColor: '#EEEEEE' } : null}>
-                    <TableCell>{row.id}</TableCell>
+                    <TableCell align='center'>{row.id}</TableCell>
                     <TableCell>{row.sid}</TableCell>
                     <TableCell>{row.fname}  {row.lname}</TableCell>
                     <TableCell>{row.email}</TableCell>
-                    <TableCell>
+                    <TableCell align='center'>
                       <Button
                         variant='contained'
                         onClickCapture={() => this.setState({
@@ -203,5 +198,3 @@ class ReportStudent extends Component {
     )
   }
 }
-
-export default ReportStudent

@@ -13,6 +13,9 @@ import {
   MenuItem
 } from '@material-ui/core'
 import Menus from '../Menus'
+import {
+  MoreHoriz
+} from '@material-ui/icons'
 
 const searchType = [
   {
@@ -82,7 +85,7 @@ const selectionStaff = [
   }
 ]
 
-class UserLists extends Component {
+export default class UserLists extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -233,7 +236,7 @@ class UserLists extends Component {
             value={this.state.select}
             margin='normal'
             variant='outlined'
-            style={{ width: 150 }}>
+            style={{ width: 150, marginRight: 15 }}>
             {selectionStd.map((option, i) => (
               <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
             ))}</TextField>
@@ -258,7 +261,7 @@ class UserLists extends Component {
             value={this.state.select}
             margin='normal'
             variant='outlined'
-            style={{ width: 150 }}>
+            style={{ width: 150, marginRight: 15 }}>
             {selectionTeacher.map((option, i) => (
               <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
             ))}</TextField>
@@ -283,7 +286,7 @@ class UserLists extends Component {
             value={this.state.select}
             margin='normal'
             variant='outlined'
-            style={{ width: 150 }}>
+            style={{ width: 150, marginRight: 15 }}>
             {selectionStaff.map((option, i) => (
               <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
             ))}</TextField>
@@ -314,12 +317,8 @@ class UserLists extends Component {
           xs={10}
           container
           direction='column'
-          // justify='flex-start'
-          // alignItems='center'
           style={{ padding: 30 }}>
           <Grid
-            // justify='flex-start'
-            // alignItems='flex-start'
             style={{ width: '100%' }}>
             <TextField
               select
@@ -328,40 +327,38 @@ class UserLists extends Component {
               value={this.state.type}
               margin='normal'
               variant='outlined'
-              style={{ width: 150 }}>
+              style={{ width: 150, marginRight: 15 }}>
               {searchType.map((option, i) => (
                 <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
               ))}</TextField>
             {this.renderSelection()}
           </Grid>
-
           <Paper
             style={{ width: '100%' }}>
             <Table>
               <TableHead >
                 <TableRow>
-                  <TableCell>ลำดับ</TableCell>
+                  <TableCell align='center'>ลำดับ</TableCell>
                   {type === 'Student'
-                    ? <TableCell>รหัส นศ.</TableCell>
+                    ? <TableCell align='center'>รหัส นศ.</TableCell>
                     : null}
-                  <TableCell>ชื่อ - สกุล</TableCell>
+                  <TableCell align='center'>ชื่อ - สกุล</TableCell>
                   {type === 'Staff'
                     ? <Fragment>
-                      <TableCell>เบอร์โทร</TableCell>
-                      <TableCell>สถานประกอบการ</TableCell>
+                      <TableCell align='center'>เบอร์โทร</TableCell>
+                      <TableCell align='center'>สถานประกอบการ</TableCell>
                     </Fragment>
                     : null}
-                  <TableCell>อีเมลล์</TableCell>
-                  <TableCell>เพิ่มเติม</TableCell>
+                  <TableCell align='center'>อีเมลล์</TableCell>
+                  <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
-
               <TableBody>
                 {list.map((row, i) => (
                   <TableRow
                     key={i}
                     style={i % 2 === 0 ? { backgroundColor: '#EEEEEE' } : null}>
-                    <TableCell>{row.id}</TableCell>
+                    <TableCell align='center'>{row.id}</TableCell>
                     {row.type === 'Student'
                       ? <TableCell>{row.sid}</TableCell>
                       : null}
@@ -373,10 +370,9 @@ class UserLists extends Component {
                       </Fragment>
                       : null}
                     <TableCell>{row.email}</TableCell>
-                    <TableCell>
+                    <TableCell align='center'>
                       <Button
-                        variant='contained'
-                        color='primary'
+                        variant='flat'
                         onClick={() => {
                           if (row.type === 'Student') {
                             console.log(row.type)
@@ -397,8 +393,7 @@ class UserLists extends Component {
                               state: { uid: row.uid }
                             })
                           }
-                        }}>
-                        เพิ่มเติม</Button>
+                        }}><MoreHoriz /></Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -410,5 +405,3 @@ class UserLists extends Component {
     )
   }
 }
-
-export default UserLists

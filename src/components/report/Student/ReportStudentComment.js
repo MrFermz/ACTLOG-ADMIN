@@ -128,62 +128,62 @@ export default class ReportStudentComment extends Component {
                 <Table key={i}>
                   <TableHead>
                     <TableRow>
-                      <TableCell>หัวข้อที่ประเมิน</TableCell>
-                      <TableCell>คะแนนเต็ม (80)</TableCell>
-                      <TableCell>คะแนนที่ได้</TableCell>
+                      <TableCell align='center'>หัวข้อที่ประเมิน</TableCell>
+                      <TableCell align='center'>คะแนนเต็ม (80)</TableCell>
+                      <TableCell align='center'>คะแนนที่ได้</TableCell>
                     </TableRow>
                   </TableHead>
 
                   <TableBody>
                     <TableRow>
                       <TableCell>1. การปฏิบัติงานตามระเบียบ และข้อตกลงในการปฏิบัติ</TableCell>
-                      <TableCell>8</TableCell>
-                      <TableCell>{row.score1}</TableCell>
+                      <TableCell align='center'>8</TableCell>
+                      <TableCell align='center'>{row.score1}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>2. การตรงต่อเวลา</TableCell>
-                      <TableCell>8</TableCell>
-                      <TableCell>{row.score2}</TableCell>
+                      <TableCell align='center'>8</TableCell>
+                      <TableCell align='center'>{row.score2}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>3. ความรับผิดชอบในการปฏิบัติงาน</TableCell>
-                      <TableCell>8</TableCell>
-                      <TableCell>{row.score3}</TableCell>
+                      <TableCell align='center'>8</TableCell>
+                      <TableCell align='center'>{row.score3}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>4. ความกระตือรือร้นในการปฏิบัติงาน</TableCell>
-                      <TableCell>8</TableCell>
-                      <TableCell>{row.score4}</TableCell>
+                      <TableCell align='center'>8</TableCell>
+                      <TableCell align='center'>{row.score4}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>5. ความตั้งใจในการศึกษาหาความรู้</TableCell>
-                      <TableCell>8</TableCell>
-                      <TableCell>{row.score5}</TableCell>
+                      <TableCell align='center'>8</TableCell>
+                      <TableCell align='center'>{row.score5}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>6. ความมีระเบียบในการจัดเก็บ อุปกรณ์การฝึกงาน</TableCell>
-                      <TableCell>8</TableCell>
-                      <TableCell>{row.score6}</TableCell>
+                      <TableCell align='center'>8</TableCell>
+                      <TableCell align='center'>{row.score6}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>7. ความประพฤติในระหว่างฝึกงาน</TableCell>
-                      <TableCell>8</TableCell>
+                      <TableCell align='center'>8</TableCell>
                       <TableCell>{row.score7}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>8. ความมีมนุษย์สัมพันธ์กับบุคคลที่เกี่ยวข้อง</TableCell>
-                      <TableCell>8</TableCell>
-                      <TableCell>{row.score8}</TableCell>
+                      <TableCell align='center'>8</TableCell>
+                      <TableCell align='center'>{row.score8}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>9. ความอดทนในการเรียนรู้ปฏิบัติงาน</TableCell>
-                      <TableCell>8</TableCell>
-                      <TableCell>{row.score9}</TableCell>
+                      <TableCell align='center'>8</TableCell>
+                      <TableCell align='center'>{row.score9}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>10. ความสำเร็จของผลงานที่ปฏิบัติ</TableCell>
-                      <TableCell>8</TableCell>
-                      <TableCell>{row.score10}</TableCell>
+                      <TableCell align='center'>8</TableCell>
+                      <TableCell align='center'>{row.score10}</TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>

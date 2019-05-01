@@ -13,11 +13,11 @@ import {
   MenuItem
 } from '@material-ui/core'
 
-class UserStaffEdit extends Component {
+export default class UserStaffEdit extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: '',
+      open: false,
       fname: '',
       lname: '',
       tel: '',
@@ -97,12 +97,8 @@ class UserStaffEdit extends Component {
     this.setState({ company: value })
   }
 
-  open() {
-    this.setState({ open: true })
-  }
-
-  close() {
-    this.setState({ open: false })
+  handleAlert() {
+    this.setState({ open: !this.state.open })
   }
 
   Alert() {
@@ -110,7 +106,7 @@ class UserStaffEdit extends Component {
     return (
       <Dialog
         open={open}
-        onClose={this.close.bind(this)}>
+        onClose={this.handleAlert.bind(this)}>
         <DialogTitle>{`แจ้งเตือน`}</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -119,7 +115,7 @@ class UserStaffEdit extends Component {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={this.close.bind(this)}>
+            onClick={this.handleAlert.bind(this)}>
             ยกเลิก</Button>
           <Button
             color='primary'
@@ -199,7 +195,7 @@ class UserStaffEdit extends Component {
             <Button
               variant='contained'
               color='primary'
-              onClick={this.open.bind(this)}>
+              onClick={this.handleAlert.bind(this)}>
               บันทึก</Button>
           </Grid>
         </Paper>
@@ -207,5 +203,3 @@ class UserStaffEdit extends Component {
     )
   }
 }
-
-export default UserStaffEdit

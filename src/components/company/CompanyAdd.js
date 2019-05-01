@@ -14,11 +14,11 @@ import {
 } from '@material-ui/core'
 import provinces from './province'
 
-class CompanyAdd extends Component {
+export default class CompanyAdd extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: '',
+      open: false,
       name: '',
       tel: '',
       address: '',
@@ -70,12 +70,8 @@ class CompanyAdd extends Component {
     })
   }
 
-  open() {
-    this.setState({ open: true })
-  }
-
-  close() {
-    this.setState({ open: false })
+  handleAlert() {
+    this.setState({ open: !this.state.open })
   }
 
   Alert() {
@@ -83,16 +79,16 @@ class CompanyAdd extends Component {
     return (
       <Dialog
         open={open}
-        onClose={this.close.bind(this)}>
+        onClose={this.handleAlert.bind(this)}>
         <DialogTitle>{`แจ้งเตือน`}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {`คุณแน่ใจหรือไม่ที่จะบันทึกข้อมูลที่แก้ไขแล้ว ?`}
+            {`คุณแน่ใจหรือไม่ที่จะเพิ่มข้อมูล ?`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={this.close.bind(this)}>
+            onClick={this.handleAlert.bind(this)}>
             ยกเลิก</Button>
           <Button
             color='primary'
@@ -106,12 +102,12 @@ class CompanyAdd extends Component {
   render() {
     return (
       <Grid
-        xs={12}
         container
         justify='center'
         alignItems='center'>
         {this.Alert()}
-        <Paper style={{ marginTop: 20, width: 500, padding: 20 }}>
+        <Paper
+          style={{ overflow: 'auto', marginTop: 20, width: 500, padding: 20 }}>
           <Grid>
             <TextField
               fullWidth
@@ -174,21 +170,27 @@ class CompanyAdd extends Component {
               name='zip'
               onChange={this.onChange} />
           </Grid>
-          <Grid>
-            <Button
-              variant='contained'
-              onClick={() => this.props.history.goBack()}>
-              ยกเลิก</Button>
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={this.open.bind(this)}>
-              เพิ่ม</Button>
+          <Grid
+            container
+            direction='column'
+            alignItems='center'>
+            <Grid
+              style={{ marginTop: 15 }}>
+              <Button
+                variant='contained'
+                style={{ marginRight: 10 }}
+                onClick={() => this.props.history.goBack()}>
+                ยกเลิก</Button>
+              <Button
+                variant='contained'
+                color='primary'
+                style={{ marginRight: 10 }}
+                onClick={this.handleAlert.bind(this)}>
+                เพิ่ม</Button>
+            </Grid>
           </Grid>
         </Paper>
       </Grid>
     )
   }
 }
-
-export default CompanyAdd

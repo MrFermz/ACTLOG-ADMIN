@@ -16,11 +16,11 @@ import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers'
 import MomentUtils from '@date-io/moment'
 import th from 'moment/locale/th'
 
-class UserEdit extends Component {
+export default class UserEdit extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: '',
+      open: false,
       uid: '',
       sid: '',
       fname: '',
@@ -124,12 +124,8 @@ class UserEdit extends Component {
     console.log(`${dateStartPicker} ## ${dateEndPicker}`)
   }
 
-  open() {
-    this.setState({ open: true })
-  }
-
-  close() {
-    this.setState({ open: false })
+  handleAlert() {
+    this.setState({ open: !this.state.open })
   }
 
   Alert() {
@@ -137,7 +133,7 @@ class UserEdit extends Component {
     return (
       <Dialog
         open={open}
-        onClose={this.close.bind(this)}>
+        onClose={this.handleAlert.bind(this)}>
         <DialogTitle>{`แจ้งเตือน`}</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -146,7 +142,7 @@ class UserEdit extends Component {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={this.close.bind(this)}>
+            onClick={this.handleAlert.bind(this)}>
             ยกเลิก</Button>
           <Button
             color='primary'
@@ -269,7 +265,7 @@ class UserEdit extends Component {
             <Button
               variant='contained'
               color='primary'
-              onClick={this.open.bind(this)}>
+              onClick={this.handleAlert.bind(this)}>
               บันทึก</Button>
           </Grid>
         </Paper>
@@ -277,5 +273,3 @@ class UserEdit extends Component {
     )
   }
 }
-
-export default UserEdit

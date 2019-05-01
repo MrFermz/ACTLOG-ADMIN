@@ -19,7 +19,7 @@ import {
   MoreHoriz
 } from '@material-ui/icons'
 
-class ReportTeacher extends Component {
+export default class ReportTeacher extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -72,9 +72,6 @@ class ReportTeacher extends Component {
         onClose={this.handleAlert.bind(this)}>
         <DialogTitle>{`เลือกเมนูที่จะดูรายงาน`}</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
-            {`เลือกเมนูที่จะดูรายงาน`}
-          </DialogContentText> */}
           <Grid>
             <Button
               fullWidth
@@ -126,28 +123,26 @@ class ReportTeacher extends Component {
           container
           direction='column'
           style={{ padding: 30 }}>
-
           <Paper
             style={{ width: '100%' }}>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>ลำดับ</TableCell>
-                  <TableCell>ชื่อ - สกุล</TableCell>
-                  <TableCell>อีเมลล์</TableCell>
-                  <TableCell>เพิ่มเติม</TableCell>
+                  <TableCell align='center'>ลำดับ</TableCell>
+                  <TableCell align='center'>ชื่อ - สกุล</TableCell>
+                  <TableCell align='center'>อีเมลล์</TableCell>
+                  <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
-
               <TableBody>
                 {list.map((row, i) => (
                   <TableRow
                     key={i}
                     style={i % 2 === 0 ? { backgroundColor: '#EEEEEE' } : null}>
-                    <TableCell>{row.id}</TableCell>
+                    <TableCell align='center'>{row.id}</TableCell>
                     <TableCell>{row.fname}  {row.lname}</TableCell>
                     <TableCell>{row.email}</TableCell>
-                    <TableCell>
+                    <TableCell align='center'>
                       <Button
                         variant='contained'
                         onClickCapture={() => this.setState({
@@ -169,5 +164,3 @@ class ReportTeacher extends Component {
     )
   }
 }
-
-export default ReportTeacher

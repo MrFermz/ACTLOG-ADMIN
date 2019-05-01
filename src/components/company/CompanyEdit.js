@@ -14,11 +14,11 @@ import {
 } from '@material-ui/core'
 import provinces from './province'
 
-class CompanyEdit extends Component {
+export default class CompanyEdit extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: '',
+      open: false,
       openType: '',
       key: '',
       name: '',
@@ -104,22 +104,17 @@ class CompanyEdit extends Component {
       })
   }
 
-  open(type) {
-    this.setState({ open: true, openType: type })
-  }
-
-  close() {
-    this.setState({ open: false })
+  handleAlert(type) {
+    this.setState({ open: !this.state.open, openType: type })
   }
 
   Alert() {
     const { open, openType } = this.state
-    console.log(openType)
     if (openType === 'save') {
       return (
         <Dialog
           open={open}
-          onClose={this.close.bind(this)}>
+          onClose={this.handleAlert.bind(this)}>
           <DialogTitle>{`แจ้งเตือน`}</DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -128,7 +123,7 @@ class CompanyEdit extends Component {
           </DialogContent>
           <DialogActions>
             <Button
-              onClick={this.close.bind(this)}>
+              onClick={this.handleAlert.bind(this)}>
               ยกเลิก</Button>
             <Button
               color='primary'
@@ -141,7 +136,7 @@ class CompanyEdit extends Component {
       return (
         <Dialog
           open={open}
-          onClose={this.close.bind(this)}>
+          onClose={this.handleAlert.bind(this)}>
           <DialogTitle>{`แจ้งเตือน`}</DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -150,7 +145,7 @@ class CompanyEdit extends Component {
           </DialogContent>
           <DialogActions>
             <Button
-              onClick={this.close.bind(this)}>
+              onClick={this.handleAlert.bind(this)}>
               ยกเลิก</Button>
             <Button
               color='secondary'
@@ -172,7 +167,7 @@ class CompanyEdit extends Component {
         alignItems='center'>
         {this.Alert()}
         <Paper
-          style={{ marginTop: 20, width: 700, padding: 20 }}>
+          style={{ overflow: 'auto', marginTop: 20, width: 700, padding: 20 }}>
           <Grid>
             <TextField
               fullWidth
@@ -241,30 +236,33 @@ class CompanyEdit extends Component {
               value={zip}
               onChange={(e) => { this.setState({ zip: e.target.value }) }} />
           </Grid>
-          <Grid>
-            <Button
-              variant='contained'
-              onClick={() => this.props.history.goBack()}>
-              ยกเลิก</Button>
-            <Button
-              variant='contained'
-              onClick={() => this.props.history.push('/lists')}>
-              หน้าแรก</Button>
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={this.open.bind(this, 'save')}>
-              บันทึก</Button>
-            <Button
-              variant='contained'
-              color='secondary'
-              onClick={this.open.bind(this, 'delete')}>
-              ลบทิ้ง</Button>
+          <Grid
+            container
+            direction='column'
+            alignItems='center'>
+            <Grid
+              style={{ marginTop: 15 }}>
+              <Button
+                variant='contained'
+                style={{ marginRight: 10 }}
+                onClick={() => this.props.history.goBack()}>
+                ยกเลิก</Button>
+              <Button
+                variant='contained'
+                color='primary'
+                style={{ marginRight: 10 }}
+                onClick={this.handleAlert.bind(this, 'save')}>
+                บันทึก</Button>
+              <Button
+                variant='contained'
+                color='secondary'
+                style={{ marginRight: 10 }}
+                onClick={this.handleAlert.bind(this, 'delete')}>
+                ลบทิ้ง</Button>
+            </Grid>
           </Grid>
         </Paper>
       </Grid>
     )
   }
 }
-
-export default CompanyEdit

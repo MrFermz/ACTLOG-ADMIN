@@ -290,24 +290,24 @@ export default class ReportTeacherVisit extends Component {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>ลำดับ</TableCell>
-                  <TableCell>ชื่อ - สกุล</TableCell>
+                  <TableCell align='center'>ลำดับ</TableCell>
+                  <TableCell align='center'>ชื่อ - สกุล</TableCell>
                   <Tooltip placement='top' title='ความรับผิดชอบต่องานที่ได้รับมอบหมาย'>
-                    <TableCell>เกณฑ์ที่ 1</TableCell>
+                    <TableCell align='center'>เกณฑ์ที่ 1</TableCell>
                   </Tooltip>
                   <Tooltip placement='top' title='มีความรอบคอบในการทำงาน'>
-                    <TableCell>เกณฑ์ที่ 2</TableCell>
+                    <TableCell align='center'>เกณฑ์ที่ 2</TableCell>
                   </Tooltip>
                   <Tooltip placement='top' title='มีมนุษย์สัมพันธ์'>
-                    <TableCell>เกณฑ์ที่ 3</TableCell>
+                    <TableCell align='center'>เกณฑ์ที่ 3</TableCell>
                   </Tooltip>
                   <Tooltip placement='top' title='การตรงต่อเวลา'>
-                    <TableCell>เกณฑ์ที่ 4</TableCell>
+                    <TableCell align='center'>เกณฑ์ที่ 4</TableCell>
                   </Tooltip>
                   <Tooltip placement='top' title='ปฏิบัติตนถูกต้องตามระเบียบข้อบังคับของสถานที่ฝึกงาน'>
-                    <TableCell>เกณฑ์ที่ 5</TableCell>
+                    <TableCell align='center'>เกณฑ์ที่ 5</TableCell>
                   </Tooltip>
-                  <TableCell>เพิ่มเติม</TableCell>
+                  <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
 
@@ -316,14 +316,14 @@ export default class ReportTeacherVisit extends Component {
                   <TableRow
                     key={i}
                     style={i % 2 === 0 ? { backgroundColor: '#EEEEEE' } : null}>
-                    <TableCell>{row.id}</TableCell>
+                    <TableCell align='center'>{row.id}</TableCell>
                     <TableCell>{row.fname} {row.lname}</TableCell>
-                    <TableCell style={!row.score1 ? { backgroundColor: 'pink' } : null}>{row.score1}</TableCell>
-                    <TableCell style={!row.score2 ? { backgroundColor: 'pink' } : null}>{row.score2}</TableCell>
-                    <TableCell style={!row.score3 ? { backgroundColor: 'pink' } : null}>{row.score3}</TableCell>
-                    <TableCell style={!row.score4 ? { backgroundColor: 'pink' } : null}>{row.score4}</TableCell>
-                    <TableCell style={!row.score5 ? { backgroundColor: 'pink' } : null}>{row.score5}</TableCell>
-                    <TableCell>
+                    <TableCell align='center' style={!row.score1 ? { backgroundColor: 'pink' } : null}>{row.score1}</TableCell>
+                    <TableCell align='center' style={!row.score2 ? { backgroundColor: 'pink' } : null}>{row.score2}</TableCell>
+                    <TableCell align='center' style={!row.score3 ? { backgroundColor: 'pink' } : null}>{row.score3}</TableCell>
+                    <TableCell align='center' style={!row.score4 ? { backgroundColor: 'pink' } : null}>{row.score4}</TableCell>
+                    <TableCell align='center' style={!row.score5 ? { backgroundColor: 'pink' } : null}>{row.score5}</TableCell>
+                    <TableCell align='center'>
                       <Button
                         variant='contained'
                         onClickCapture={() => this.setState({
@@ -344,11 +344,11 @@ export default class ReportTeacherVisit extends Component {
                   <TableCell
                     align='center'
                     colSpan={2}>เฉลี่ย</TableCell>
-                  <TableCell>{score1.toFixed(2)}</TableCell>
-                  <TableCell>{score2.toFixed(2)}</TableCell>
-                  <TableCell>{score3.toFixed(2)}</TableCell>
-                  <TableCell>{score4.toFixed(2)}</TableCell>
-                  <TableCell>{score5.toFixed(2)}</TableCell>
+                  <TableCell align='center'>{score1.toFixed(2)}</TableCell>
+                  <TableCell align='center'>{score2.toFixed(2)}</TableCell>
+                  <TableCell align='center'>{score3.toFixed(2)}</TableCell>
+                  <TableCell align='center'>{score4.toFixed(2)}</TableCell>
+                  <TableCell align='center'>{score5.toFixed(2)}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>

@@ -12,11 +12,11 @@ import {
   DialogActions
 } from '@material-ui/core'
 
-class UserStaffDetail extends Component {
+export default class UserStaffDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: '',
+      open: false,
       uid: ''
     }
   }
@@ -70,12 +70,8 @@ class UserStaffDetail extends Component {
       })
   }
 
-  open() {
-    this.setState({ open: true })
-  }
-
-  close() {
-    this.setState({ open: false })
+  handleAlert() {
+    this.setState({ open: !this.state.open })
   }
 
   Alert() {
@@ -83,7 +79,7 @@ class UserStaffDetail extends Component {
     return (
       <Dialog
         open={open}
-        onClose={this.close.bind(this)}>
+        onClose={this.handleAlert.bind(this)}>
         <DialogTitle>{`แจ้งเตือน`}</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -92,7 +88,7 @@ class UserStaffDetail extends Component {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={this.close.bind(this)}>
+            onClick={this.handleAlert.bind(this)}>
             ยกเลิก</Button>
           <Button
             color='primary'
@@ -105,7 +101,6 @@ class UserStaffDetail extends Component {
 
   typeStatRender() {
     const { uid, fname, lname, tel, email, typeStat, company } = this.state
-    console.log(typeStat)
     if (typeStat) {
       return (
         <Fragment>
@@ -182,7 +177,7 @@ class UserStaffDetail extends Component {
           <Button
             variant='contained'
             color='primary'
-            onClick={this.open.bind(this)}>
+            onClick={this.handleAlert.bind(this)}>
             ยืนยัน</Button>
         </Fragment >
       )
@@ -205,5 +200,3 @@ class UserStaffDetail extends Component {
     )
   }
 }
-
-export default UserStaffDetail

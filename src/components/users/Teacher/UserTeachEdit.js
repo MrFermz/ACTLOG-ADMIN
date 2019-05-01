@@ -12,11 +12,11 @@ import {
   DialogActions
 } from '@material-ui/core'
 
-class UserTeachEdit extends Component {
+export default class UserTeachEdit extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: '',
+      open: false,
       fname: '',
       lname: '',
       tel: '',
@@ -66,12 +66,8 @@ class UserTeachEdit extends Component {
     })
   }
 
-  open() {
-    this.setState({ open: true })
-  }
-
-  close() {
-    this.setState({ open: false })
+  handleAlert() {
+    this.setState({ open: !this.state.open })
   }
 
   Alert() {
@@ -79,7 +75,7 @@ class UserTeachEdit extends Component {
     return (
       <Dialog
         open={open}
-        onClose={this.close.bind(this)}>
+        onClose={this.handleAlert.bind(this)}>
         <DialogTitle>{`แจ้งเตือน`}</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -88,7 +84,7 @@ class UserTeachEdit extends Component {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={this.close.bind(this)}>
+            onClick={this.handleAlert.bind(this)}>
             ยกเลิก</Button>
           <Button
             color='primary'
@@ -152,7 +148,7 @@ class UserTeachEdit extends Component {
             <Button
               variant='contained'
               color='primary'
-              onClick={this.open.bind(this)}>
+              onClick={this.handleAlert.bind(this)}>
               บันทึก</Button>
           </Grid>
         </Paper>
@@ -160,5 +156,3 @@ class UserTeachEdit extends Component {
     )
   }
 }
-
-export default UserTeachEdit

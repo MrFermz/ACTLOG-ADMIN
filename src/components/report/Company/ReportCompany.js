@@ -13,13 +13,14 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  TextField
 } from '@material-ui/core'
 import {
   MoreHoriz
 } from '@material-ui/icons'
 
-class ReportCompany extends Component {
+export default class ReportCompany extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -63,6 +64,39 @@ class ReportCompany extends Component {
       })
   }
 
+  onChange = (e) => {
+    const { value } = e.target
+    console.log(value)
+    this.searchData(value)
+  }
+
+  searchData(word) {
+    var items = [], id = 0
+    firebase.database().ref('company')
+      .orderByChild('name')
+      .startAt(word)
+      .endAt(word + '\uf8ff')
+      .once('value').then((snapshot) => {
+        snapshot.forEach((child) => {
+          var val = child.val()
+          var key = child.key
+          id += 1
+          items.push({
+            id: id,
+            key,
+            name: val.name,
+            tel: val.tel,
+            add: val.address,
+            add1: val.address1,
+            add2: val.address2,
+            province: val.province,
+            zip: val.zip
+          })
+        })
+        this.setState({ list: items })
+      })
+  }
+
   handleAlert() {
     this.setState({ open: !this.state.open })
   }
@@ -75,9 +109,6 @@ class ReportCompany extends Component {
         onClose={this.handleAlert.bind(this)}>
         <DialogTitle>{`เลือกเมนูที่จะดูรายงาน`}</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
-            {`เลือกเมนูที่จะดูรายงาน`}
-          </DialogContentText> */}
           <Grid>
             <Button
               fullWidth
@@ -118,8 +149,7 @@ class ReportCompany extends Component {
     const { list } = this.state
     return (
       <Grid
-        container
-        direction='row'>
+        container>
         {this.Alert()}
         <Menus
           history={this.props.history}
@@ -129,32 +159,42 @@ class ReportCompany extends Component {
           container
           direction='column'
           style={{ padding: 30 }}>
-
+          <Grid
+            style={{ width: '100%' }}>
+            <TextField
+              label='ค้นหาชื่อ'
+              type='search'
+              name='search'
+              onChange={this.onChange}
+              margin='normal'
+              variant='outlined' />
+          </Grid>
           <Paper
             style={{ width: '100%' }}>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>ลำดับ</TableCell>
-                  <TableCell>ชื่อสถานประกอบการ</TableCell>
-                  <TableCell>เบอร์ติดต่อ</TableCell>
-                  <TableCell>ที่อยู่</TableCell>
-                  <TableCell>เพิ่มเติม</TableCell>
+                  <TableCell align='center'>ลำดับ</TableCell>
+                  <TableCell align='center'>ชื่อสถานประกอบการ</TableCell>
+                  <TableCell align='center'>เบอร์ติดต่อ</TableCell>
+                  <TableCell align='center'>ที่อยู่</TableCell>
+                  <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
-
               <TableBody>
                 {list.map((row, i) => (
                   <TableRow
                     key={i}
                     style={i % 2 === 0 ? { backgroundColor: '#EEEEEE' } : null}>
-                    <TableCell>{row.id}</TableCell>
+                    <TableCell align='center'>{row.id}</TableCell>
                     <TableCell>{row.name}</TableCell>
                     <TableCell>{row.tel}</TableCell>
-                    <TableCell>{`${row.add} ${row.add1} ${row.add2} ${row.province} ${row.zip}`}</TableCell>
                     <TableCell>
+                      {`${row.add} ${row.add1} ${row.add2} ${row.province} ${row.zip}`}
+                    </TableCell>
+                    <TableCell align='center'>
                       <Button
-                        variant='contained'
+                        variant='text'
                         onClickCapture={() => this.setState({
                           key: row.key,
                           name: row.name,
@@ -174,5 +214,3 @@ class ReportCompany extends Component {
     )
   }
 }
-
-export default ReportCompany

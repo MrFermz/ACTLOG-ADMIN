@@ -3,13 +3,20 @@ import firebase from './firebase'
 import {
   Grid,
   Button,
-  Typography
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions
 } from '@material-ui/core'
 
 export default class Menus extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      open: false
+    }
   }
 
   componentDidMount() {
@@ -24,9 +31,38 @@ export default class Menus extends Component {
 
   Logout = (e) => {
     e.preventDefault()
-    firebase.auth().signOut().then((res) => {
+    firebase.auth().signOut().then(() => {
       this.props.history.push('/')
     })
+  }
+
+  handleAlert() {
+    this.setState({ open: !this.state.open })
+  }
+
+  Alert() {
+    const { open } = this.state
+    return (
+      <Dialog
+        open={open}
+        onClose={this.handleAlert.bind(this)}>
+        <DialogTitle>{`แจ้งเตือน`}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {`คุณแน่ใจหรือไม่ที่จะออกจากระบบ ?`}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={this.handleAlert.bind(this)}>
+            ยกเลิก</Button>
+          <Button
+            color='secondary'
+            onClick={this.Logout.bind(this)}>
+            ออกจากระบบ</Button>
+        </DialogActions>
+      </Dialog>
+    )
   }
 
   render() {
@@ -44,7 +80,9 @@ export default class Menus extends Component {
         direction='column'
         justify='flex-start'
         alignItems='center'>
+        {this.Alert()}
         <Typography
+          align='center'
           style={{ marginTop: 30, width: '90%', fontSize: 18 }}>
           เมนูหลัก</Typography>
         <Button
@@ -70,6 +108,7 @@ export default class Menus extends Component {
           จัดการสถานประกอบการ</Button >
 
         <Typography
+          align='center'
           style={{ marginTop: 30, width: '90%', fontSize: 18 }}>
           รายงาน</Typography>
         <Button
@@ -101,13 +140,16 @@ export default class Menus extends Component {
           variant='contained'>
           สถานประกอบการ</Button>
 
-        <Typography style={{ marginTop: 30, width: '90%', fontSize: 18 }} />
+        <Typography
+          align='center'
+          style={{ marginTop: 30, width: '90%', fontSize: 18 }}>
+          อื่น ๆ</Typography>
         <Button
           fullWidth
           style={{ marginTop: 10, width: '90%' }}
           variant='contained'
           color='secondary'
-          onClick={this.Logout.bind(this)}>
+          onClick={this.handleAlert.bind(this)}>
           ออกจากระบบ</Button>
       </Grid>
     )

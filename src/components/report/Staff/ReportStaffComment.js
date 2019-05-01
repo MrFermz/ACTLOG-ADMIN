@@ -145,7 +145,6 @@ export default class ReportStaffComment extends Component {
                 <TableCell>คะแนนที่ได้</TableCell>
               </TableRow>
             </TableHead>
-
             <TableBody>
               <TableRow>
                 <TableCell>1. การปฏิบัติงานตามระเบียบ และข้อตกลงในการปฏิบัติ</TableCell>
@@ -280,24 +279,23 @@ export default class ReportStaffComment extends Component {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>ลำดับ</TableCell>
-                  <TableCell>รหัสนักศึกษา</TableCell>
-                  <TableCell>ชื่อ - สกุล</TableCell>
-                  <TableCell>อีเมลล์</TableCell>
-                  <TableCell>เพิ่มเติม</TableCell>
+                  <TableCell align='center'>ลำดับ</TableCell>
+                  <TableCell align='center'>รหัสนักศึกษา</TableCell>
+                  <TableCell align='center'>ชื่อ - สกุล</TableCell>
+                  <TableCell align='center'>อีเมลล์</TableCell>
+                  <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
-
               <TableBody>
                 {list.map((row, i) => (
                   <TableRow
                     key={i}
                     style={i % 2 === 0 ? { backgroundColor: '#EEEEEE' } : null}>
-                    <TableCell>{row.id}</TableCell>
+                    <TableCell align='center'>{row.id}</TableCell>
                     <TableCell>{row.sid}</TableCell>
                     <TableCell>{row.fname}  {row.lname}</TableCell>
                     <TableCell>{row.email}</TableCell>
-                    <TableCell>
+                    <TableCell align='center'>
                       <Button
                         variant='contained'
                         onClickCapture={() => this.setState({

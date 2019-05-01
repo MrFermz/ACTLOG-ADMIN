@@ -138,26 +138,25 @@ export default class ReportStudentAct extends Component {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>ลำดับ</TableCell>
-                  <TableCell>วันที่</TableCell>
-                  <TableCell>เวลามา</TableCell>
-                  <TableCell>เวลากลับ</TableCell>
-                  <TableCell>ผู้ดูแล</TableCell>
-                  <TableCell>เพิ่มเติม</TableCell>
+                  <TableCell align='center'>ลำดับ</TableCell>
+                  <TableCell align='center'>วันที่</TableCell>
+                  <TableCell align='center'>เวลามา</TableCell>
+                  <TableCell align='center'>เวลากลับ</TableCell>
+                  <TableCell align='center'>สถานะ</TableCell>
+                  <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
-
               <TableBody>
                 {list.map((row, i) => (
                   <TableRow
                     key={i}
                     style={i % 2 === 0 ? { backgroundColor: '#EEEEEE' } : null}>
-                    <TableCell>{row.id}</TableCell>
+                    <TableCell align='center'>{row.id}</TableCell>
                     <TableCell>{row.date}</TableCell>
                     <TableCell>{row.timeCome}</TableCell>
                     <TableCell>{row.timeBack}</TableCell>
-                    <TableCell>{this.renderCheck(row.stat)}</TableCell>
-                    <TableCell>
+                    <TableCell align='center'>{this.renderCheck(row.stat)}</TableCell>
+                    <TableCell align='center'>
                       <Button
                         variant='contained'
                         color='primary'

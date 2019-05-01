@@ -12,7 +12,7 @@ import {
   DialogActions
 } from '@material-ui/core'
 
-class UserTeachDetail extends Component {
+export default class UserTeachDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -183,5 +183,3 @@ class UserTeachDetail extends Component {
     )
   }
 }
-
-export default UserTeachDetail

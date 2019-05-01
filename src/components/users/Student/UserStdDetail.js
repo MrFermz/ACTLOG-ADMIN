@@ -15,11 +15,11 @@ import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers'
 import MomentUtils from '@date-io/moment'
 import th from 'moment/locale/th'
 
-class UserDetail extends Component {
+export default class UserDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: '',
+      open: false,
       uid: ''
     }
   }
@@ -122,12 +122,8 @@ class UserDetail extends Component {
     })
   }
 
-  open() {
-    this.setState({ open: true })
-  }
-
-  close() {
-    this.setState({ open: false })
+  handleAlert() {
+    this.setState({ open: !this.state.open })
   }
 
   Alert() {
@@ -135,7 +131,7 @@ class UserDetail extends Component {
     return (
       <Dialog
         open={open}
-        onClose={this.close.bind(this)}>
+        onClose={this.handleAlert.bind(this)}>
         <DialogTitle>{`แจ้งเตือน`}</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -144,7 +140,7 @@ class UserDetail extends Component {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={this.close.bind(this)}>
+            onClick={this.handleAlert.bind(this)}>
             ยกเลิก</Button>
           <Button
             color='primary'
@@ -278,7 +274,7 @@ class UserDetail extends Component {
             <Button
               variant='contained'
               color='primary'
-              onClick={this.open.bind(this)}>
+              onClick={this.handleAlert.bind(this)}>
               ยืนยัน</Button>
           </Fragment>
         )
@@ -303,5 +299,3 @@ class UserDetail extends Component {
     )
   }
 }
-
-export default UserDetail

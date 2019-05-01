@@ -19,7 +19,7 @@ import {
   MoreHoriz
 } from '@material-ui/icons'
 
-class ReportStaff extends Component {
+export default class ReportStaff extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -143,12 +143,12 @@ class ReportStaff extends Component {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>ลำดับ</TableCell>
-                  <TableCell>ชื่อ - สกุล</TableCell>
-                  <TableCell>เบอร์โทร</TableCell>
-                  <TableCell>สถานประกอบการ</TableCell>
-                  <TableCell>อีเมลล์</TableCell>
-                  <TableCell>เพิ่มเติม</TableCell>
+                  <TableCell align='center'>ลำดับ</TableCell>
+                  <TableCell align='center'>ชื่อ - สกุล</TableCell>
+                  <TableCell align='center'>เบอร์โทร</TableCell>
+                  <TableCell align='center'>สถานประกอบการ</TableCell>
+                  <TableCell align='center'>อีเมลล์</TableCell>
+                  <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
 
@@ -157,12 +157,12 @@ class ReportStaff extends Component {
                   <TableRow
                     key={i}
                     style={i % 2 === 0 ? { backgroundColor: '#EEEEEE' } : null}>
-                    <TableCell>{row.id}</TableCell>
+                    <TableCell align='center'>{row.id}</TableCell>
                     <TableCell>{row.fname}  {row.lname}</TableCell>
                     <TableCell>{row.tel}</TableCell>
                     <TableCell>{row.company}</TableCell>
                     <TableCell>{row.email}</TableCell>
-                    <TableCell>
+                    <TableCell align='center'>
                       <Button
                         variant='contained'
                         onClickCapture={() => this.setState({
@@ -186,5 +186,3 @@ class ReportStaff extends Component {
     )
   }
 }
-
-export default ReportStaff
