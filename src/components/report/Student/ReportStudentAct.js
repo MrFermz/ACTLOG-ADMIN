@@ -21,7 +21,13 @@ export default class ReportStudentAct extends Component {
       sid: this.props.location.state.sid,
       fname: this.props.location.state.fname,
       lname: this.props.location.state.lname,
-      email: this.props.location.state.email
+      email: this.props.location.state.email,
+      stat0: 0,
+      stat1: 0,
+      stat2: 0,
+      stat3: 0,
+      stat4: 0,
+      stat5: 0,
     }
   }
 
@@ -54,6 +60,21 @@ export default class ReportStudentAct extends Component {
             timeBack: val.timeBack,
             stat: val.stat
           })
+
+          var stat = val.stat
+          if (stat === 0) {
+            this.setState({ stat0: this.state.stat0 + 1 })
+          } else if (stat === 1) {
+            this.setState({ stat1: this.state.stat1 + 1 })
+          } else if (stat === 2) {
+            this.setState({ stat2: this.state.stat2 + 1 })
+          } else if (stat === 3) {
+            this.setState({ stat3: this.state.stat3 + 1 })
+          } else if (stat === 4) {
+            this.setState({ stat4: this.state.stat4 + 1 })
+          } else {
+            this.setState({ stat5: this.state.stat5 + 1 })
+          }
         })
         this.setState({ list: items })
       })
@@ -62,7 +83,7 @@ export default class ReportStudentAct extends Component {
   renderCheck(stat) {
     if (stat === 0) {
       return (
-        <Typography>ปกติ</Typography>
+        <Typography>ตรวจแล้ว</Typography>
       )
     } else if (stat === 1) {
       return (
@@ -88,7 +109,7 @@ export default class ReportStudentAct extends Component {
   }
 
   render() {
-    const { list, sid, fname, lname, email } = this.state
+    const { list, sid, fname, lname, email, stat0, stat1, stat2, stat3, stat4, stat5 } = this.state
     return (
       <Grid
         container>
@@ -151,6 +172,40 @@ export default class ReportStudentAct extends Component {
                 ))}
               </TableBody>
             </Table>
+            <Typography
+              variant='h4'
+              color='primary'
+              align='center'
+              gutterBottom>
+              รวม</Typography>
+            <Grid container direction='column' alignItems='center'>
+              <Grid>
+                <Button
+                  variant='flat'
+                  style={{ backgroundColor: '#82E0AA', margin: 10 }}>
+                  {`ตรวจแล้ว = ${stat0}`}</Button>
+                <Button
+                  variant='flat'
+                  style={{ backgroundColor: '#EEEEEE', margin: 10 }}>
+                  {`รอตรวจ = ${stat5}`}</Button>
+                <Button
+                  variant='flat'
+                  style={{ backgroundColor: '#F1948A', margin: 10 }}>
+                  {`ขาด = ${stat1}`}</Button>
+                <Button
+                  variant='flat'
+                  style={{ backgroundColor: '#F8C471', margin: 10 }}>
+                  {`สาย = ${stat2}`}</Button>
+                <Button
+                  variant='flat'
+                  style={{ backgroundColor: '#BB8FCE', margin: 10 }}>
+                  {`ป่วย = ${stat3}`}</Button>
+                <Button
+                  variant='flat'
+                  style={{ backgroundColor: '#85C1E9', margin: 10 }}>
+                  {`ลา = ${stat4}`}</Button>
+              </Grid>
+            </Grid>
           </Paper>
         </Grid>
       </Grid>

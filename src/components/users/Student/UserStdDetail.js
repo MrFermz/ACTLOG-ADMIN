@@ -40,41 +40,69 @@ class UserDetail extends Component {
     firebase.database().ref(`users/${uid}`)
       .once('value').then((snapshot) => {
         var val = snapshot.val()
-        // console.log(val.company)
-        if (val.company) {
-          firebase.database().ref(`company/${val.company}`)
-            .once('value').then((snapshot) => {
-              this.setState({
-                uid: uid,
-                sid: val.sid,
-                fname: val.fname,
-                lname: val.lname,
-                group: val.group,
-                tel: val.telNum,
-                dateStart: val.dateStart,
-                dateEnd: val.dateEnd,
-                email: val.email,
-                company: snapshot.val().name,
-                typeStat: val.typeStat,
-                type: val.type
-              })
+        this.setState({
+          uid: uid,
+          sid: val.sid,
+          fname: val.fname,
+          lname: val.lname,
+          group: val.group,
+          tel: val.telNum,
+          dateStart: val.dateStart,
+          dateEnd: val.dateEnd,
+          email: val.email,
+          company: '- เลือก -',
+          typeStat: val.typeStat,
+          type: val.type
+        })
+        firebase.database().ref('comment')
+          .orderByChild('suid')
+          .equalTo(uid)
+          .once('value').then((snapshot) => {
+            snapshot.forEach((child) => {
+              var val2 = child.val()
+              var cuid = val2.cuid
+              firebase.database().ref(`users/${cuid}/company`)
+                .once('value').then((snapshot) => {
+                  var val3 = snapshot.val()
+                  var key = val3
+                  firebase.database().ref(`company/${key}`)
+                    .once('value').then((snapshot) => {
+                      var val4 = snapshot.val()
+                      if (val4.name) {
+                        this.setState({
+                          uid: uid,
+                          sid: val.sid,
+                          fname: val.fname,
+                          lname: val.lname,
+                          group: val.group,
+                          tel: val.telNum,
+                          dateStart: val.dateStart,
+                          dateEnd: val.dateEnd,
+                          email: val.email,
+                          company: val4.name,
+                          typeStat: val.typeStat,
+                          type: val.type
+                        })
+                      } else {
+                        this.setState({
+                          uid: uid,
+                          sid: val.sid,
+                          fname: val.fname,
+                          lname: val.lname,
+                          group: val.group,
+                          tel: val.telNum,
+                          dateStart: val.dateStart,
+                          dateEnd: val.dateEnd,
+                          email: val.email,
+                          company: '- เลือก -',
+                          typeStat: val.typeStat,
+                          type: val.type
+                        })
+                      }
+                    })
+                })
             })
-        } else {
-          this.setState({
-            uid: uid,
-            sid: val.sid,
-            fname: val.fname,
-            lname: val.lname,
-            group: val.group,
-            tel: val.telNum,
-            dateStart: val.dateStart,
-            dateEnd: val.dateEnd,
-            email: val.email,
-            company: '- เลือก -',
-            typeStat: val.typeStat,
-            type: val.type
           })
-        }
       })
   }
 
