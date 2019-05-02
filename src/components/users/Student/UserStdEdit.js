@@ -5,7 +5,6 @@ import {
   Paper,
   TextField,
   Button,
-  MenuItem,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -53,28 +52,51 @@ export default class UserEdit extends Component {
     firebase.database().ref(`users/${uid}`)
       .once('value').then((snapshot) => {
         var val = snapshot.val()
-        // console.log(val.company)
-        firebase.database().ref(`company/${val.company}`)
-          .once('value').then((snapshot) => {
-            console.log(snapshot.val().name)
-            this.setState({
-              sid: val.sid,
-              fname: val.fname,
-              lname: val.lname,
-              email: val.email,
-              group: val.group,
-              tel: val.telNum,
-              dateStartPicker: val.dateStart,
-              dateEndPicker: val.dateEnd,
-              company: snapshot.key
+        this.setState({
+          sid: val.sid,
+          fname: val.fname,
+          lname: val.lname,
+          email: val.email,
+          group: val.group,
+          tel: val.telNum,
+          dateStartPicker: val.dateStart,
+          dateEndPicker: val.dateEnd,
+          company: '-'
+        })
+        firebase.database().ref('comment')
+          .orderByChild('suid')
+          .equalTo(uid)
+          .once('value').then((snapshot => {
+            snapshot.forEach((child) => {
+              var val1 = child.val()
+              var cuid = val1.cuid
+              firebase.database().ref(`users/${cuid}/company`)
+                .once('value').then((snapshot) => {
+                  var val2 = snapshot.val()
+                  var key = val2
+                  firebase.database().ref(`company/${key}`)
+                    .once('value').then((snapshot) => {
+                      var val3 = snapshot.val()
+                      this.setState({
+                        sid: val.sid,
+                        fname: val.fname,
+                        lname: val.lname,
+                        email: val.email,
+                        group: val.group,
+                        tel: val.telNum,
+                        dateStartPicker: val.dateStart,
+                        dateEndPicker: val.dateEnd,
+                        company: val3.name
+                      })
+                    })
+                })
             })
-          })
+          }))
       })
     firebase.database().ref('company')
       .orderByChild('name')
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
-          // console.log(child.key)
           items.push({
             id: child.key,
             name: child.val().name
@@ -86,27 +108,39 @@ export default class UserEdit extends Component {
 
   onSubmit = (e) => {
     e.preventDefault()
-    const { uid, sid, fname, lname, group, tel, dateStartPicker, dateEndPicker, company } = this.state
-    firebase.database().ref(`users/${uid}`).update({
-      sid: sid,
-      fname: fname,
-      lname: lname,
-      group: group,
-      telNum: tel,
-      dateStart: dateStartPicker,
-      dateEnd: dateEndPicker,
-      company: company
-    }).then(() => {
-      // console.log('Saved.')
-      this.close()
-      this.props.history.goBack()
-    })
+    const { uid, sid, fname, lname, group, tel, dateStartPicker, dateEndPicker } = this.state
+    if (dateStartPicker || dateEndPicker) {
+      firebase.database().ref(`users/${uid}`).update({
+        sid,
+        fname,
+        lname,
+        group,
+        telNum: tel,
+        dateStart: dateStartPicker,
+        dateEnd: dateEndPicker
+      }).then(() => {
+        this.handleAlert()
+        this.props.history.goBack()
+      })
+    } else {
+      firebase.database().ref(`users/${uid}`).update({
+        sid,
+        fname,
+        lname,
+        group,
+        telNum: tel,
+        dateStart: '',
+        dateEnd: ''
+      }).then(() => {
+        this.handleAlert()
+        this.props.history.goBack()
+      })
+    }
   }
 
   onChange = (e) => {
     const { value } = e.target
     console.log(value)
-    this.setState({ company: value })
   }
 
   onStartDateChange = (e) => {
@@ -154,8 +188,7 @@ export default class UserEdit extends Component {
   }
 
   render() {
-    const { sid, fname, lname, email, group, tel, company, list, dateStartPicker, dateEndPicker } = this.state
-    // console.log(list)
+    const { sid, fname, lname, email, group, tel, company, dateStartPicker, dateEndPicker } = this.state
     return (
       <Grid
         xs={12}
@@ -181,7 +214,8 @@ export default class UserEdit extends Component {
               margin='normal'
               name='fname'
               value={fname}
-              onChange={(e) => { this.setState({ fname: e.target.value }) }} />
+              onChange={(e) => { this.setState({ fname: e.target.value }) }}
+              style={{ marginRight: 10 }} />
             <TextField
               label='นามสกุล'
               variant='outlined'
@@ -206,7 +240,8 @@ export default class UserEdit extends Component {
               margin='normal'
               name='group'
               value={group}
-              onChange={(e) => { this.setState({ group: e.target.value }) }} />
+              onChange={(e) => { this.setState({ group: e.target.value }) }}
+              style={{ marginRight: 10 }} />
             <TextField
               label='เบอร์โทร'
               variant='outlined'
@@ -227,7 +262,8 @@ export default class UserEdit extends Component {
                 margin='normal'
                 label='ระยะเวลาเริ่มฝึกงาน'
                 value={dateStartPicker}
-                onChange={this.onStartDateChange} />
+                onChange={this.onStartDateChange}
+                style={{ marginRight: 10 }} />
               <DatePicker
                 keyboard
                 autoOk
@@ -242,25 +278,22 @@ export default class UserEdit extends Component {
           <Grid>
             <TextField
               style={{ width: 300 }}
-              select
-              label='เลือกสถานประกอบการ'
+              label='สถานประกอบการ'
               variant='outlined'
               margin='normal'
-              value={company}
-              onChange={this.onChange} >
-              {list.map((option, i) => {
-                return <MenuItem key={i} value={option.id}>{option.name}</MenuItem>
-              })}
-            </TextField>
+              value={company} />
           </Grid>
-          <Grid>
+          <Grid
+            style={{ marginTop: 15 }}>
             <Button
               variant='contained'
-              onClick={() => this.props.history.goBack()}>
+              onClick={() => this.props.history.goBack()}
+              style={{ marginRight: 10 }}>
               ยกเลิก</Button>
             <Button
               variant='contained'
-              onClick={() => { this.props.history.push('/lists') }}>
+              onClick={() => { this.props.history.push('/lists') }}
+              style={{ marginRight: 10 }}>
               หน้าแรก</Button>
             <Button
               variant='contained'

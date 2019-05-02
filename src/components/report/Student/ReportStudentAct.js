@@ -11,6 +11,9 @@ import {
   TableCell,
   TableBody
 } from '@material-ui/core'
+import {
+  MoreHoriz
+} from '@material-ui/icons'
 
 export default class ReportStudentAct extends Component {
   constructor(props) {
@@ -139,9 +142,9 @@ export default class ReportStudentAct extends Component {
               <TableHead>
                 <TableRow>
                   <TableCell align='center'>ลำดับ</TableCell>
-                  <TableCell align='center'>วันที่</TableCell>
-                  <TableCell align='center'>เวลามา</TableCell>
-                  <TableCell align='center'>เวลากลับ</TableCell>
+                  <TableCell>วันที่</TableCell>
+                  <TableCell>เวลามา</TableCell>
+                  <TableCell>เวลากลับ</TableCell>
                   <TableCell align='center'>สถานะ</TableCell>
                   <TableCell align='center'></TableCell>
                 </TableRow>
@@ -158,14 +161,16 @@ export default class ReportStudentAct extends Component {
                     <TableCell align='center'>{this.renderCheck(row.stat)}</TableCell>
                     <TableCell align='center'>
                       <Button
-                        variant='contained'
-                        color='primary'
+                        variant='text'
                         onClick={() => {
                           this.props.history.push({
                             pathname: '/ReportStudentActDetail',
-                            state: ({ key: row.key, uid: row.uid })
+                            state: ({
+                              key: row.key,
+                              uid: row.uid
+                            })
                           })
-                        }}>เพิ่มเติม</Button>
+                        }}><MoreHoriz /></Button>
                     </TableCell>
                   </TableRow>
                 ))}

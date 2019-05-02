@@ -9,18 +9,39 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions
+  DialogActions,
+  MenuItem
 } from '@material-ui/core'
 import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers'
 import MomentUtils from '@date-io/moment'
 import th from 'moment/locale/th'
+
+const userType = [
+  {
+    value: 'Student',
+    label: 'นักศึกษา'
+  },
+  {
+    value: 'Teacher',
+    label: 'อาจารย์'
+  },
+  {
+    value: 'Staff',
+    label: 'ผู้ดูแล'
+  },
+  {
+    value: 'Admin',
+    label: 'แอดมิน'
+  },
+]
 
 export default class UserDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
       open: false,
-      uid: ''
+      uid: '',
+      type: ''
     }
   }
 
@@ -50,7 +71,7 @@ export default class UserDetail extends Component {
           dateStart: val.dateStart,
           dateEnd: val.dateEnd,
           email: val.email,
-          company: '- เลือก -',
+          company: '-',
           typeStat: val.typeStat,
           type: val.type
         })
@@ -94,7 +115,7 @@ export default class UserDetail extends Component {
                           dateStart: val.dateStart,
                           dateEnd: val.dateEnd,
                           email: val.email,
-                          company: '- เลือก -',
+                          company: '-',
                           typeStat: val.typeStat,
                           type: val.type
                         })
@@ -116,8 +137,7 @@ export default class UserDetail extends Component {
       subject: 'เทคโนโลยีสารสนเทศ',
       vStat: true
     }).then(() => {
-      // this.props.history.goBack()
-      this.close()
+      this.handleAlert()
       this.getData()
     })
   }
@@ -152,7 +172,7 @@ export default class UserDetail extends Component {
   }
 
   typeStatRender() {
-    const { uid, sid, fname, lname, group, tel, dateStart, dateEnd, email, company, typeStat } = this.state
+    const { uid, sid, fname, lname, group, tel, dateStart, dateEnd, email, company, typeStat, type } = this.state
     // var options = { year: 'numeric', month: 'long', day: 'numeric' }
     // var start = new Date(dateStart).toLocaleDateString('th-TH', options)
     // var end = new Date(dateEnd).toLocaleDateString('th-TH', options)
@@ -166,17 +186,17 @@ export default class UserDetail extends Component {
               label='รหัสนักศึกษา'
               variant='outlined'
               margin='normal'
-              value={sid} />
+              value={sid}
+              style={{ marginRight: 10 }} />
           </Grid>
           <Grid>
             <TextField
-              // disabled
               label='ชื่อจริง'
               variant='outlined'
               margin='normal'
-              value={fname} />
+              value={fname}
+              style={{ marginRight: 10 }} />
             <TextField
-              // disabled
               label='นามสกุล'
               variant='outlined'
               margin='normal'
@@ -184,7 +204,6 @@ export default class UserDetail extends Component {
           </Grid>
           <Grid>
             <TextField
-              // disabled
               label='อีเมลล์'
               variant='outlined'
               margin='normal'
@@ -192,13 +211,12 @@ export default class UserDetail extends Component {
           </Grid>
           <Grid>
             <TextField
-              // disabled
               label='กลุ่ม'
               variant='outlined'
               margin='normal'
-              value={group} />
+              value={group}
+              style={{ marginRight: 10 }} />
             <TextField
-              // disabled
               label='เบอร์โทร'
               variant='outlined'
               margin='normal'
@@ -211,16 +229,15 @@ export default class UserDetail extends Component {
               <DatePicker
                 disabled
                 keyboard
-                // autoOk
                 format='DD MMMM YYYY'
                 variant='outlined'
                 margin='normal'
                 label='ระยะเวลาเริ่มฝึกงาน'
-                value={dateStart} />
+                value={dateStart}
+                style={{ marginRight: 10 }} />
               <DatePicker
                 disabled
                 keyboard
-                // autoOk
                 format='DD MMMM YYYY'
                 variant='outlined'
                 margin='normal'
@@ -236,24 +253,29 @@ export default class UserDetail extends Component {
               margin='normal'
               value={company} />
           </Grid>
-          <Button
-            variant='contained'
-            onClick={() => { this.props.history.goBack() }}>
-            กลับ</Button>
-          <Button
-            variant='outlined'
-            color='default'
-            disabled>
-            ยืนยันแล้ว</Button>
-          <Button
-            variant='contained'
-            color='primary'
-            onClick={() => {
-              this.props.history.push({
-                pathname: '/stdEdit',
-                state: { uid: uid }
-              })
-            }}>แก้ไข</Button>
+          <Grid
+            style={{ marginTop: 15 }}>
+            <Button
+              variant='contained'
+              onClick={() => { this.props.history.goBack() }}
+              style={{ marginRight: 10 }}>
+              กลับ</Button>
+            <Button
+              variant='outlined'
+              color='default'
+              disabled
+              style={{ marginRight: 10 }}>
+              ยืนยันแล้ว</Button>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={() => {
+                this.props.history.push({
+                  pathname: '/stdEdit',
+                  state: { uid: uid }
+                })
+              }}>แก้ไข</Button>
+          </Grid>
         </Fragment>
       )
     } else {
@@ -262,30 +284,63 @@ export default class UserDetail extends Component {
           <Fragment>
             <Grid>
               <TextField
+                InputLabelProps={{ shrink: true }}
                 label='อีเมลล์'
                 variant='outlined'
                 margin='normal'
-                value={email} />
+                value={email}
+                style={{ marginRight: 10 }} />
+              <TextField
+                InputLabelProps={{ shrink: true }}
+                select
+                label='ประเภทผู้ใช้'
+                variant='outlined'
+                margin='normal'
+                onChange={this.onChangeType}
+                value={type}
+                style={{ width: 150 }}>
+                {userType.map((option, i) => (
+                  <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
+                ))}
+              </TextField>
             </Grid>
-            <Button
-              variant='contained'
-              onClick={() => { this.props.history.goBack() }}>
-              กลับ</Button>
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={this.handleAlert.bind(this)}>
-              ยืนยัน</Button>
+            <Grid
+              style={{ marginTop: 15 }}>
+              <Button
+                variant='contained'
+                onClick={() => { this.props.history.goBack() }}
+                style={{ marginRight: 10 }}>
+                กลับ</Button>
+              <Button
+                variant='contained'
+                color='primary'
+                onClick={this.handleAlert.bind(this)}>
+                ยืนยัน</Button>
+            </Grid>
           </Fragment>
         )
       }
     }
   }
 
+  onChangeType = (e) => {
+    const { value } = e.target
+    var uid = this.props.location.state.uid
+    console.log(value, uid)
+    firebase.database().ref(`users/${uid}`).update({
+      type: value
+    }).then(() => {
+      if (value === 'Student') {
+        //
+      } else {
+        this.props.history.goBack()
+      }
+    })
+  }
+
   render() {
     return (
       <Grid
-        xs={12}
         container
         direction='column'
         justify='center'

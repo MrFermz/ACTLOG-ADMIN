@@ -149,9 +149,9 @@ export default class ReportCompanyUsers extends Component {
               <TableHead>
                 <TableRow>
                   <TableCell align='center'>ลำดับ</TableCell>
-                  <TableCell align='center'>ชื่อ - สกุล</TableCell>
-                  <TableCell align='center'>เบอร์โทร</TableCell>
-                  <TableCell align='center'>อีเมลล์</TableCell>
+                  <TableCell>ชื่อ - สกุล</TableCell>
+                  <TableCell>เบอร์โทร</TableCell>
+                  <TableCell>อีเมลล์</TableCell>
                   <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
@@ -166,7 +166,7 @@ export default class ReportCompanyUsers extends Component {
                     <TableCell>{row.email}</TableCell>
                     <TableCell align='center'>
                       <Button
-                        variant='contained'
+                        variant='text'
                         onClickCapture={() => this.setState({
                           uid: row.uid,
                           fname: row.fname,

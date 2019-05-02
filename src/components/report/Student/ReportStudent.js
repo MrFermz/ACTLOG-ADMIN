@@ -117,7 +117,7 @@ export default class ReportStudent extends Component {
               fullWidth
               onClick={() => {
                 this.props.history.push({
-                  pathname: '/ReportStudentComment',
+                  pathname: '/ReportStaffComment',
                   state: {
                     uid: uid,
                     fname,
@@ -160,9 +160,9 @@ export default class ReportStudent extends Component {
               <TableHead>
                 <TableRow>
                   <TableCell align='center'>ลำดับ</TableCell>
-                  <TableCell align='center'>รหัส นศ.</TableCell>
-                  <TableCell align='center'>ชื่อ - สกุล</TableCell>
-                  <TableCell align='center'>อีเมลล์</TableCell>
+                  <TableCell>รหัส นศ.</TableCell>
+                  <TableCell>ชื่อ - สกุล</TableCell>
+                  <TableCell>อีเมลล์</TableCell>
                   <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
@@ -177,7 +177,7 @@ export default class ReportStudent extends Component {
                     <TableCell>{row.email}</TableCell>
                     <TableCell align='center'>
                       <Button
-                        variant='contained'
+                        variant='text'
                         onClickCapture={() => this.setState({
                           uid: row.uid,
                           sid: row.sid,

@@ -122,7 +122,8 @@ export default class UserLists extends Component {
             email: val.email,
             uid: val.uid,
             type: val.type,
-            sid: val.sid
+            sid: val.sid,
+            stat: val.typeStat
           })
         })
         this.setState({ list: items })
@@ -157,7 +158,8 @@ export default class UserLists extends Component {
               uid: val.uid,
               type: val.type,
               sid: val.sid,
-              tel: val.telNum
+              tel: val.telNum,
+              stat: val.typeStat
             })
           }
           this.setState({ list: items })
@@ -180,12 +182,11 @@ export default class UserLists extends Component {
       .equalTo(type)
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
-          console.log(child.key)
           var val = child.val()
           id += 1
           if (type !== 'Staff') {
             items.push({
-              id: id,
+              id,
               fname: val.fname,
               lname: val.lname,
               email: val.email,
@@ -193,26 +194,48 @@ export default class UserLists extends Component {
               type: val.type,
               sid: val.sid,
               tel: val.telNum,
+              stat: val.typeStat
             })
             this.setState({ list: items })
           } else {
-            var ckey = val.company
-            firebase.database().ref(`company/${ckey}`)
-              .once('value').then((snapshot) => {
-                var val1 = snapshot.val()
-                items.push({
-                  id: id,
-                  fname: val.fname,
-                  lname: val.lname,
-                  email: val.email,
-                  uid: val.uid,
-                  type: val.type,
-                  sid: val.sid,
-                  tel: val.telNum,
-                  company: val1.name
+            var key = val.company
+            id = 0
+            if (key) {
+              firebase.database().ref(`company/${key}`)
+                .once('value').then((snapshot) => {
+                  var val1 = snapshot.val()
+                  id += 1
+                  items.push({
+                    id,
+                    fname: val.fname,
+                    lname: val.lname,
+                    email: val.email,
+                    uid: val.uid,
+                    type: val.type,
+                    tel: val.telNum,
+                    company: val1.name,
+                    stat: val.typeStat
+                  })
+                  this.setState({ list: items })
                 })
-                this.setState({ list: items })
-              })
+            } else {
+              firebase.database().ref(`company/${key}`)
+                .once('value').then((snapshot) => {
+                  id += 1
+                  items.push({
+                    id,
+                    fname: val.fname,
+                    lname: val.lname,
+                    email: val.email,
+                    uid: val.uid,
+                    type: val.type,
+                    tel: val.telNum,
+                    company: '-',
+                    stat: val.typeStat
+                  })
+                  this.setState({ list: items })
+                })
+            }
           }
         })
       })
@@ -340,16 +363,20 @@ export default class UserLists extends Component {
                 <TableRow>
                   <TableCell align='center'>ลำดับ</TableCell>
                   {type === 'Student'
-                    ? <TableCell align='center'>รหัส นศ.</TableCell>
+                    ? <TableCell>รหัส นศ.</TableCell>
                     : null}
-                  <TableCell align='center'>ชื่อ - สกุล</TableCell>
+                  <TableCell
+                    style={{ width: 150 }}>ชื่อ - สกุล</TableCell>
+                  {type === 'Staff' || type === 'Teacher'
+                    ? <TableCell>เบอร์โทร</TableCell>
+                    : null}
                   {type === 'Staff'
-                    ? <Fragment>
-                      <TableCell align='center'>เบอร์โทร</TableCell>
-                      <TableCell align='center'>สถานประกอบการ</TableCell>
-                    </Fragment>
+                    ? <TableCell>สถานประกอบการ</TableCell>
                     : null}
-                  <TableCell align='center'>อีเมลล์</TableCell>
+                  <TableCell>อีเมลล์</TableCell>
+                  <TableCell
+                    align='center'
+                    style={{ width: 70 }}>สถานะ</TableCell>
                   <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
@@ -363,13 +390,16 @@ export default class UserLists extends Component {
                       ? <TableCell>{row.sid}</TableCell>
                       : null}
                     <TableCell>{row.fname}  {row.lname}</TableCell>
+                    {type === 'Staff' || type === 'Teacher'
+                      ? <TableCell>{row.tel}</TableCell>
+                      : null}
                     {type === 'Staff'
-                      ? <Fragment>
-                        <TableCell>{row.tel}</TableCell>
-                        <TableCell>{row.company}</TableCell>
-                      </Fragment>
+                      ? <TableCell>{row.company}</TableCell>
                       : null}
                     <TableCell>{row.email}</TableCell>
+                    {row.stat === false
+                      ? <TableCell align='center'>รอยืนยัน</TableCell>
+                      : <TableCell align='center'>ยืนยันแล้ว</TableCell>}
                     <TableCell align='center'>
                       <Button
                         variant='flat'

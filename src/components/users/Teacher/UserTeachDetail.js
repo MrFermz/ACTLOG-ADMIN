@@ -9,8 +9,28 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions
+  DialogActions,
+  MenuItem
 } from '@material-ui/core'
+
+const userType = [
+  {
+    value: 'Student',
+    label: 'นักศึกษา'
+  },
+  {
+    value: 'Teacher',
+    label: 'อาจารย์'
+  },
+  {
+    value: 'Staff',
+    label: 'ผู้ดูแล'
+  },
+  {
+    value: 'Admin',
+    label: 'แอดมิน'
+  },
+]
 
 export default class UserTeachDetail extends Component {
   constructor(props) {
@@ -51,13 +71,11 @@ export default class UserTeachDetail extends Component {
 
   onTypeStat() {
     const { uid } = this.state
-    // console.log(uid)
     firebase.database().ref(`users/${uid}`).update({
       typeStat: true,
       setup: true,
     }).then(() => {
-      // this.props.history.goBack()
-      this.close()
+      this.handleAlert()
       this.getData()
     })
   }
@@ -92,7 +110,7 @@ export default class UserTeachDetail extends Component {
   }
 
   typeStatRender() {
-    const { uid, fname, lname, tel, email, typeStat } = this.state
+    const { uid, fname, lname, tel, email, typeStat, type } = this.state
     if (typeStat) {
       return (
         <Fragment>
@@ -102,7 +120,8 @@ export default class UserTeachDetail extends Component {
               label='ชื่อจริง'
               variant='outlined'
               margin='normal'
-              value={fname} />
+              value={fname}
+              style={{ marginRight: 10 }} />
             <TextField
               label='นามสกุล'
               variant='outlined'
@@ -123,24 +142,29 @@ export default class UserTeachDetail extends Component {
               margin='normal'
               value={tel} />
           </Grid>
-          <Button
-            variant='contained'
-            onClick={() => { this.props.history.goBack() }}>
-            กลับ</Button>
-          <Button
-            variant='outlined'
-            color='default'
-            disabled>
-            ยืนยันแล้ว</Button>
-          <Button
-            variant='contained'
-            color='primary'
-            onClick={() => {
-              this.props.history.push({
-                pathname: '/teachEdit',
-                state: { uid: uid }
-              })
-            }}>แก้ไข</Button>
+          <Grid
+            style={{ marginTop: 15 }}>
+            <Button
+              variant='contained'
+              onClick={() => { this.props.history.goBack() }}
+              style={{ marginRight: 10 }}>
+              กลับ</Button>
+            <Button
+              variant='outlined'
+              color='default'
+              disabled
+              style={{ marginRight: 10 }}>
+              ยืนยันแล้ว</Button>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={() => {
+                this.props.history.push({
+                  pathname: '/teachEdit',
+                  state: { uid: uid }
+                })
+              }}>แก้ไข</Button>
+          </Grid>
         </Fragment>
       )
     } else {
@@ -152,20 +176,53 @@ export default class UserTeachDetail extends Component {
               label='อีเมลล์'
               variant='outlined'
               margin='normal'
-              value={email} />
+              value={email}
+              style={{ marginRight: 10 }} />
+            <TextField
+              InputLabelProps={{ shrink: true }}
+              select
+              label='ประเภทผู้ใช้'
+              variant='outlined'
+              margin='normal'
+              onChange={this.onChangeType}
+              value={type}
+              style={{ width: 150 }}>
+              {userType.map((option, i) => (
+                <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
+              ))}
+            </TextField>
           </Grid>
-          <Button
-            variant='contained'
-            onClick={() => { this.props.history.goBack() }}>
-            กลับ</Button>
-          <Button
-            variant='contained'
-            color='primary'
-            onClick={this.handleAlert.bind(this)}>
-            ยืนยัน</Button>
+          <Grid
+            style={{ marginTop: 15 }}>
+            <Button
+              variant='contained'
+              onClick={() => { this.props.history.goBack() }}
+              style={{ marginRight: 10 }}>
+              กลับ</Button>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={this.handleAlert.bind(this)}>
+              ยืนยัน</Button>
+          </Grid>
         </Fragment >
       )
     }
+  }
+
+  onChangeType = (e) => {
+    const { value } = e.target
+    var uid = this.props.location.state.uid
+    console.log(value, uid)
+    firebase.database().ref(`users/${uid}`).update({
+      type: value
+    }).then(() => {
+      if (value === 'Teacher') {
+        //
+      } else {
+        this.props.history.goBack()
+      }
+    })
   }
 
   render() {

@@ -20,7 +20,16 @@ export default class Login extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.props.history.push('/home')
+        firebase.database().ref(`users/${user.uid}/type`)
+          .once('value').then((snapshot) => {
+            var val = snapshot.val()
+            if (val === 'Admin') {
+              this.props.history.push('/home')
+            } else {
+              this.props.history.push('/')
+              this.setState({ message: 'ต้องเป็นแอดมินเท่านั้น !' })
+            }
+          })
       } else {
         this.props.history.push('/')
       }
@@ -43,11 +52,21 @@ export default class Login extends Component {
       .signInWithEmailAndPassword(email, password)
       .then((res) => {
         console.log('Login success')
-        this.props.history.push('/home')
+        firebase.database().ref(`users/${res.user.uid}/type`)
+          .once('value').then((snapshot) => {
+            var val = snapshot.val()
+            if (val === 'Admin') {
+              this.props.history.push('/home')
+            } else {
+              this.props.history.push('/')
+              this.setState({ message: 'ต้องเป็นแอดมินเท่านั้น !' })
+            }
+          })
       }).catch((err) => {
         this.setState({ message: err.message })
       })
   }
+
 
   render() {
     const { message } = this.state
@@ -79,6 +98,7 @@ export default class Login extends Component {
         {message ? <Typography variant='subtitle1'>{message}</Typography> : null}
         <Button
           variant='contained'
+          color='primary'
           onClick={this.onSubmit.bind(this)}>
           เข้าสู่ระบบ</Button>
       </Grid>

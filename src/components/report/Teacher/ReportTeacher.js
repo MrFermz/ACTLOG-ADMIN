@@ -53,7 +53,8 @@ export default class ReportTeacher extends Component {
             fname: val.fname,
             lname: val.lname,
             email: val.email,
-            uid: val.uid
+            uid: val.uid,
+            tel: val.telNum
           })
           this.setState({ list: items })
         })
@@ -129,8 +130,9 @@ export default class ReportTeacher extends Component {
               <TableHead>
                 <TableRow>
                   <TableCell align='center'>ลำดับ</TableCell>
-                  <TableCell align='center'>ชื่อ - สกุล</TableCell>
-                  <TableCell align='center'>อีเมลล์</TableCell>
+                  <TableCell>ชื่อ - สกุล</TableCell>
+                  <TableCell>เบอร์โทร</TableCell>
+                  <TableCell>อีเมลล์</TableCell>
                   <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
@@ -141,10 +143,11 @@ export default class ReportTeacher extends Component {
                     style={i % 2 === 0 ? { backgroundColor: '#EEEEEE' } : null}>
                     <TableCell align='center'>{row.id}</TableCell>
                     <TableCell>{row.fname}  {row.lname}</TableCell>
+                    <TableCell>{row.tel}</TableCell>
                     <TableCell>{row.email}</TableCell>
                     <TableCell align='center'>
                       <Button
-                        variant='contained'
+                        variant='text'
                         onClickCapture={() => this.setState({
                           uid: row.uid,
                           fname: row.fname,

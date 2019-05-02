@@ -100,7 +100,7 @@ export default class CompanyEdit extends Component {
             })
           })
       }).then(() => {
-        this.props.history.goBack()
+        this.props.history.push('/clists')
       })
   }
 

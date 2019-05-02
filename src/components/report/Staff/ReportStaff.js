@@ -47,24 +47,41 @@ export default class ReportStaff extends Component {
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
           var val = child.val()
-          var ckey = val.company
-          firebase.database().ref(`company/${ckey}`)
-            .once('value').then((snapshot) => {
-              var val1 = snapshot.val()
-              id += 1
-              items.push({
-                id: id,
-                fname: val.fname,
-                lname: val.lname,
-                email: val.email,
-                uid: val.uid,
-                type: val.type,
-                sid: val.sid,
-                tel: val.telNum,
-                company: val1.name
+          var key = val.company
+          if (key) {
+            firebase.database().ref(`company/${key}`)
+              .once('value').then((snapshot) => {
+                var val1 = snapshot.val()
+                id += 1
+                items.push({
+                  id: id,
+                  fname: val.fname,
+                  lname: val.lname,
+                  email: val.email,
+                  uid: val.uid,
+                  type: val.type,
+                  tel: val.telNum,
+                  company: val1.name
+                })
+                this.setState({ list: items })
               })
-              this.setState({ list: items })
-            })
+          } else {
+            firebase.database().ref(`company/${key}`)
+              .once('value').then((snapshot) => {
+                id += 1
+                items.push({
+                  id: id,
+                  fname: val.fname,
+                  lname: val.lname,
+                  email: val.email,
+                  uid: val.uid,
+                  type: val.type,
+                  tel: val.telNum,
+                  company: '-'
+                })
+                this.setState({ list: items })
+              })
+          }
         })
       })
   }
@@ -81,9 +98,6 @@ export default class ReportStaff extends Component {
         onClose={this.handleAlert.bind(this)}>
         <DialogTitle>{`เลือกเมนูที่จะดูรายงาน`}</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
-            {`เลือกเมนูที่จะดูรายงาน`}
-          </DialogContentText> */}
           <Grid>
             <Button
               fullWidth
@@ -144,10 +158,10 @@ export default class ReportStaff extends Component {
               <TableHead>
                 <TableRow>
                   <TableCell align='center'>ลำดับ</TableCell>
-                  <TableCell align='center'>ชื่อ - สกุล</TableCell>
-                  <TableCell align='center'>เบอร์โทร</TableCell>
-                  <TableCell align='center'>สถานประกอบการ</TableCell>
-                  <TableCell align='center'>อีเมลล์</TableCell>
+                  <TableCell>ชื่อ - สกุล</TableCell>
+                  <TableCell>เบอร์โทร</TableCell>
+                  <TableCell>สถานประกอบการ</TableCell>
+                  <TableCell>อีเมลล์</TableCell>
                   <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
@@ -164,7 +178,7 @@ export default class ReportStaff extends Component {
                     <TableCell>{row.email}</TableCell>
                     <TableCell align='center'>
                       <Button
-                        variant='contained'
+                        variant='text'
                         onClickCapture={() => this.setState({
                           uid: row.uid,
                           fname: row.fname,

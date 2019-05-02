@@ -61,7 +61,7 @@ export default class UserTeachEdit extends Component {
       telNum: tel,
       email
     }).then(() => {
-      this.close()
+      this.handleAlert()
       this.props.history.goBack()
     })
   }
@@ -112,7 +112,8 @@ export default class UserTeachEdit extends Component {
               variant='outlined'
               margin='normal'
               value={fname}
-              onChange={(e) => { this.setState({ fname: e.target.value }) }} />
+              onChange={(e) => { this.setState({ fname: e.target.value }) }}
+              style={{ marginRight: 10 }} />
             <TextField
               label='นามสกุล'
               variant='outlined'
@@ -136,14 +137,17 @@ export default class UserTeachEdit extends Component {
               value={tel}
               onChange={(e) => { this.setState({ tel: e.target.value }) }} />
           </Grid>
-          <Grid>
+          <Grid
+            style={{ marginTop: 15 }} >
             <Button
               variant='contained'
-              onClick={() => this.props.history.goBack()}>
+              onClick={() => this.props.history.goBack()}
+              style={{ marginRight: 10 }} >
               ยกเลิก</Button>
             <Button
               variant='contained'
-              onClick={() => { this.props.history.push('/lists') }}>
+              onClick={() => { this.props.history.push('/lists') }}
+              style={{ marginRight: 10 }} >
               หน้าแรก</Button>
             <Button
               variant='contained'

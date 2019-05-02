@@ -175,9 +175,9 @@ export default class ReportCompany extends Component {
               <TableHead>
                 <TableRow>
                   <TableCell align='center'>ลำดับ</TableCell>
-                  <TableCell align='center'>ชื่อสถานประกอบการ</TableCell>
-                  <TableCell align='center'>เบอร์ติดต่อ</TableCell>
-                  <TableCell align='center'>ที่อยู่</TableCell>
+                  <TableCell>ชื่อสถานประกอบการ</TableCell>
+                  <TableCell>เบอร์ติดต่อ</TableCell>
+                  <TableCell style={{ width: 300 }}>ที่อยู่</TableCell>
                   <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>

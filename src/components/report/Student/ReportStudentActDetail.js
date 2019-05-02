@@ -5,8 +5,7 @@ import {
   Paper,
   Typography,
   GridList,
-  GridListTile,
-  Button
+  GridListTile
 } from '@material-ui/core'
 
 export default class ReportStudentActDetail extends Component {
@@ -77,40 +76,32 @@ export default class ReportStudentActDetail extends Component {
           container
           direction='column'
           style={{ padding: 30 }}>
-          <Grid>
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={() => this.props.history.goBack()}>
-              กลับ</Button>
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={() => this.props.history.push('/lists')}>
-              หน้าแรก</Button>
-          </Grid>
+          <Typography
+            variant='h4'
+            color='primary'
+            align='center'
+            gutterBottom>
+            {date}</Typography>
+          <Typography
+            variant='h6'
+            align='center'
+            gutterBottom>
+            {timeCome} - {timeBack}</Typography>
           <Paper
             style={{ marginTop: 20, padding: 20 }}>
-            <Typography>
-              {`${date} เวลา ${timeCome} ถึง ${timeBack}`}
-            </Typography>
-
             <Paper
               style={{ marginTop: 20, width: 700, padding: 20 }}>
               <Typography paragraph>{`${morning}`}</Typography>
             </Paper>
-
             <Paper
               style={{ marginTop: 20, width: 700, padding: 20 }}>
               <Typography paragraph>{`${afternoon}`}</Typography>
             </Paper>
-
             <Paper
               style={{ marginTop: 20, width: 700, padding: 20 }}>
               <Typography >ความเห็นผู้ดูแล :</Typography>
               <Typography paragraph>{`${comment}`}</Typography>
             </Paper>
-
             <Paper
               style={{ marginTop: 20, padding: 20 }}>
               <GridList

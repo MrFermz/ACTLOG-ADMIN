@@ -291,7 +291,7 @@ export default class ReportTeacherVisit extends Component {
               <TableHead>
                 <TableRow>
                   <TableCell align='center'>ลำดับ</TableCell>
-                  <TableCell align='center'>ชื่อ - สกุล</TableCell>
+                  <TableCell>ชื่อ - สกุล</TableCell>
                   <Tooltip placement='top' title='ความรับผิดชอบต่องานที่ได้รับมอบหมาย'>
                     <TableCell align='center'>เกณฑ์ที่ 1</TableCell>
                   </Tooltip>
