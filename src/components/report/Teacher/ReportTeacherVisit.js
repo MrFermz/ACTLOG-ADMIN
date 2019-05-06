@@ -310,7 +310,6 @@ export default class ReportTeacherVisit extends Component {
                   <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
-
               <TableBody>
                 {list.map((row, i) => (
                   <TableRow
@@ -325,7 +324,7 @@ export default class ReportTeacherVisit extends Component {
                     <TableCell align='center' style={!row.score5 ? { backgroundColor: 'pink' } : null}>{row.score5}</TableCell>
                     <TableCell align='center'>
                       <Button
-                        variant='contained'
+                        variant='text'
                         onClickCapture={() => this.setState({
                           sid: row.sid,
                           uid: row.uid,
@@ -340,7 +339,8 @@ export default class ReportTeacherVisit extends Component {
                     </TableCell>
                   </TableRow>
                 ))}
-                <TableRow>
+                <TableRow
+                  style={{ backgroundColor: 'lightgray' }}>
                   <TableCell
                     align='center'
                     colSpan={2}>เฉลี่ย</TableCell>
@@ -349,6 +349,7 @@ export default class ReportTeacherVisit extends Component {
                   <TableCell align='center'>{score3.toFixed(2)}</TableCell>
                   <TableCell align='center'>{score4.toFixed(2)}</TableCell>
                   <TableCell align='center'>{score5.toFixed(2)}</TableCell>
+                  <TableCell align='center'/>
                 </TableRow>
               </TableBody>
             </Table>

@@ -13,11 +13,32 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  MenuItem,
+  TextField
 } from '@material-ui/core'
 import {
   MoreHoriz
 } from '@material-ui/icons'
+
+const selectionStd = [
+  {
+    value: 'fname',
+    label: 'ชื่อ'
+  },
+  {
+    value: 'lname',
+    label: 'นามสกุล'
+  },
+  {
+    value: 'sid',
+    label: 'รหัส นศ.'
+  },
+  {
+    value: 'email',
+    label: 'อีเมลล์'
+  }
+]
 
 export default class ReportStudent extends Component {
   constructor(props) {
@@ -49,7 +70,7 @@ export default class ReportStudent extends Component {
           var val = child.val()
           id += 1
           items.push({
-            id: id,
+            id,
             fname: val.fname,
             lname: val.lname,
             email: val.email,
@@ -112,12 +133,12 @@ export default class ReportStudent extends Component {
                     sid
                   }
                 })
-              }}>ตารางนิเทศ</Button>
+              }}>ดูผลนิเทศ</Button>
             <Button
               fullWidth
               onClick={() => {
                 this.props.history.push({
-                  pathname: '/ReportStaffComment',
+                  pathname: '/ReportStudentComment',
                   state: {
                     uid: uid,
                     fname,
@@ -139,6 +160,45 @@ export default class ReportStudent extends Component {
     )
   }
 
+  onChangeSelect = (e) => {
+    const { value } = e.target
+    this.setState({ select: value })
+  }
+
+  onChange = (e) => {
+    const { value } = e.target
+    this.searchData(value)
+  }
+
+  searchData(word) {
+    const { select } = this.state
+    var items = [], id = 0
+    if (select) {
+      firebase.database().ref('users')
+        .orderByChild(select)
+        .startAt(word)
+        .endAt(word + '\uf8ff')
+        .once('value').then((snapshot) => {
+          snapshot.forEach((child) => {
+            var val = child.val()
+            if (val.type === 'Student') {
+              id += 1
+              items.push({
+                id,
+                fname: val.fname,
+                lname: val.lname,
+                email: val.email,
+                uid: val.uid,
+                type: val.type,
+                sid: val.sid
+              })
+            }
+            this.setState({ list: items })
+          })
+        })
+    }
+  }
+
   render() {
     const { list } = this.state
     return (
@@ -154,6 +214,28 @@ export default class ReportStudent extends Component {
           container
           direction='column'
           style={{ padding: 30 }}>
+          <Grid>
+            <TextField
+              select
+              label='เลือกการค้นหา'
+              onChange={this.onChangeSelect}
+              value={this.state.select}
+              margin='normal'
+              variant='outlined'
+              InputLabelProps={{ shrink: true }}
+              style={{ width: 150, marginRight: 15 }}>
+              {selectionStd.map((option, i) => (
+                <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
+              ))}</TextField>
+            <TextField
+              label={`ค้นหา`}
+              type='search'
+              name='search'
+              style={{ marginRight: 10 }}
+              onChange={this.onChange}
+              margin='normal'
+              variant='outlined' />
+          </Grid>
           <Paper
             style={{ width: '100%' }}>
             <Table>

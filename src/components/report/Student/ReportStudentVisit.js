@@ -13,8 +13,11 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  DialogContentText,
   DialogActions,
-  Tooltip
+  Tooltip,
+  GridList,
+  GridListTile
 } from '@material-ui/core'
 import {
   MoreHoriz
@@ -26,6 +29,7 @@ export default class ReportVisit extends Component {
     this.state = {
       list: [],
       open: false,
+      open2: false,
       sid: this.props.location.state.sid,
       fname: this.props.location.state.fname,
       lname: this.props.location.state.lname,
@@ -35,6 +39,9 @@ export default class ReportVisit extends Component {
       score3: 0,
       score4: 0,
       score5: 0,
+      comment: '',
+      photos: [],
+      key: ''
     }
   }
 
@@ -92,10 +99,12 @@ export default class ReportVisit extends Component {
             .once('value').then((snapshot) => {
               snapshot.forEach((child) => {
                 var val2 = child.val()
+                var key = child.key
                 if (suid === val2.suid) {
                   id += 1
                   items.push({
                     id,
+                    key,
                     fname: val1.fname,
                     lname: val1.lname,
                     email: val1.email,
@@ -165,6 +174,12 @@ export default class ReportVisit extends Component {
                 })
               }}>ดูข้อมูลผู้ใช้</Button>
           </Grid>
+          <Grid>
+            <Button
+              fullWidth
+              onClick={this.handleDetail.bind(this)}>
+              ข้อเสนอแนะ</Button>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button
@@ -176,6 +191,61 @@ export default class ReportVisit extends Component {
     )
   }
 
+  handleDetail() {
+    this.setState({ open2: !this.state.open2 })
+  }
+
+  Detail() {
+    const { open2, comment, photos, fname, lname } = this.state
+    return (
+      <Dialog
+        scroll='body'
+        open={open2}
+        onClose={this.handleDetail.bind(this)}>
+        {this.getPhotos()}
+        <DialogTitle>{`ข้อเสนอแนะ และอื่น ๆ`}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{fname} {lname}</DialogContentText>
+          <Typography
+            paragraph>{comment}</Typography>
+          <GridList
+            cellHeight={250}
+            cols={3}>
+            {photos.map((img, i) => (
+              <GridListTile
+                key={img.photo}>
+                <img
+                  src={img.photo}
+                  alt={img.photo}></img>
+              </GridListTile>
+            ))}
+          </GridList>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color='secondary'
+            onClick={this.handleDetail.bind(this)}>
+            ปิด</Button>
+        </DialogActions>
+      </Dialog>
+    )
+  }
+
+  getPhotos() {
+    const { key } = this.state
+    var photo = []
+    firebase.database().ref(`visit/${key}/photos`)
+      .once('value').then((snapshot) => {
+        snapshot.forEach((child) => {
+          var val = child.val()
+          photo.push({
+            photo: val.photo
+          })
+        })
+        this.setState({ photos: photo })
+      })
+  }
+
   render() {
     const { list, sid, fname, lname, email } = this.state
     const { score1, score2, score3, score4, score5 } = this.state
@@ -183,6 +253,7 @@ export default class ReportVisit extends Component {
       <Grid
         container>
         {this.Alert()}
+        {this.Detail()}
         <Grid
           container
           direction='column'
@@ -242,16 +313,22 @@ export default class ReportVisit extends Component {
                     <TableCell align='center' style={!row.score5 ? { backgroundColor: 'pink' } : null}>{row.score5}</TableCell>
                     <TableCell align='center'>
                       <Button
-                        variant='contained'
+                        variant='text'
                         onClickCapture={() => this.setState({
-                          uid: row.uid
+                          uid: row.uid,
+                          fname: row.fname,
+                          lname: row.lname,
+                          email: row.email,
+                          comment: row.comment,
+                          key: row.key
                         })}
                         onClick={this.handleAlert.bind(this)}>
                         <MoreHoriz /></Button>
                     </TableCell>
                   </TableRow>
                 ))}
-                <TableRow>
+                <TableRow
+                  style={{ backgroundColor: 'lightgray' }}>
                   <TableCell
                     align='center'
                     colSpan={2}>เฉลี่ย</TableCell>
@@ -260,6 +337,7 @@ export default class ReportVisit extends Component {
                   <TableCell align='center'>{score3.toFixed(2)}</TableCell>
                   <TableCell align='center'>{score4.toFixed(2)}</TableCell>
                   <TableCell align='center'>{score5.toFixed(2)}</TableCell>
+                  <TableCell align='center' />
                 </TableRow>
               </TableBody>
             </Table>

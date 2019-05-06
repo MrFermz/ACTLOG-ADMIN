@@ -13,11 +13,28 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  MenuItem,
+  TextField
 } from '@material-ui/core'
 import {
   MoreHoriz
 } from '@material-ui/icons'
+
+const selectionStaff = [
+  {
+    value: 'fname',
+    label: 'ชื่อ'
+  },
+  {
+    value: 'lname',
+    label: 'นามสกุล'
+  },
+  {
+    value: 'email',
+    label: 'อีเมลล์'
+  }
+]
 
 export default class ReportStaff extends Component {
   constructor(props) {
@@ -136,6 +153,69 @@ export default class ReportStaff extends Component {
     )
   }
 
+  onChangeSelect = (e) => {
+    const { value } = e.target
+    this.setState({ select: value })
+  }
+
+  onChange = (e) => {
+    const { value } = e.target
+    this.searchData(value)
+  }
+
+  searchData(word) {
+    const { select } = this.state
+    var items = [], id = 0
+    if (select) {
+      firebase.database().ref('users')
+        .orderByChild(select)
+        .startAt(word)
+        .endAt(word + '\uf8ff')
+        .once('value').then((snapshot) => {
+          snapshot.forEach((child) => {
+            var val = child.val()
+            var key = val.company
+            if (val.type === 'Staff') {
+              if (key) {
+                firebase.database().ref(`company/${key}`)
+                  .once('value').then((snapshot) => {
+                    var val1 = snapshot.val()
+                    id += 1
+                    items.push({
+                      id: id,
+                      fname: val.fname,
+                      lname: val.lname,
+                      email: val.email,
+                      uid: val.uid,
+                      type: val.type,
+                      tel: val.telNum,
+                      company: val1.name
+                    })
+                    this.setState({ list: items })
+                  })
+              } else {
+                firebase.database().ref(`company/${key}`)
+                  .once('value').then((snapshot) => {
+                    id += 1
+                    items.push({
+                      id: id,
+                      fname: val.fname,
+                      lname: val.lname,
+                      email: val.email,
+                      uid: val.uid,
+                      type: val.type,
+                      tel: val.telNum,
+                      company: '-'
+                    })
+                    this.setState({ list: items })
+                  })
+              }
+            }
+          })
+        })
+    }
+  }
+
   render() {
     const { list } = this.state
     return (
@@ -151,7 +231,28 @@ export default class ReportStaff extends Component {
           container
           direction='column'
           style={{ padding: 30 }}>
-
+          <Grid>
+            <TextField
+              select
+              label='เลือกการค้นหา'
+              onChange={this.onChangeSelect}
+              value={this.state.select}
+              margin='normal'
+              variant='outlined'
+              InputLabelProps={{ shrink: true }}
+              style={{ width: 150, marginRight: 15 }}>
+              {selectionStaff.map((option, i) => (
+                <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
+              ))}</TextField>
+            <TextField
+              label={`ค้นหา`}
+              type='search'
+              name='search'
+              style={{ marginRight: 10 }}
+              onChange={this.onChange}
+              margin='normal'
+              variant='outlined' />
+          </Grid>
           <Paper
             style={{ width: '100%' }}>
             <Table>

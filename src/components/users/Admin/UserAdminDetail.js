@@ -33,13 +33,13 @@ const userType = [
   },
 ]
 
-export default class UserStaffDetail extends Component {
+export default class UserAdminDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
       open: false,
-      uid: '',
-      type: ''
+      del: false,
+      uid: ''
     }
   }
 
@@ -56,62 +56,40 @@ export default class UserStaffDetail extends Component {
   getData() {
     var uid = this.props.location.state.uid
     this.setState({ uid: uid })
-
     firebase.database().ref(`users/${uid}`)
       .once('value').then((snapshot) => {
         var val = snapshot.val()
-        var key = val.company
-        console.log(key)
-        if (key) {
-          firebase.database().ref(`company/${key}`)
-            .once('value').then((snapshot) => {
-              var val1 = snapshot.val()
-              this.setState({
-                uid: val.uid,
-                fname: val.fname,
-                lname: val.lname,
-                tel: val.telNum,
-                email: val.email,
-                typeStat: val.typeStat,
-                type: val.type,
-                company: val1.name
-              })
-            })
-        } else {
-          firebase.database().ref(`company/${key}`)
-            .once('value').then((snapshot) => {
-              this.setState({
-                uid: val.uid,
-                fname: val.fname,
-                lname: val.lname,
-                tel: val.telNum,
-                email: val.email,
-                typeStat: val.typeStat,
-                type: val.type,
-                company: '-'
-              })
-            })
-        }
+        this.setState({
+          uid: val.uid,
+          fname: val.fname,
+          lname: val.lname,
+          email: val.email,
+          typeStat: val.typeStat,
+          type: val.type
+        })
       })
   }
 
   onTypeStat() {
-    const { uid, type } = this.state
-    // console.log(uid)
-    firebase.database().ref(`users/${uid}`)
-      .update({
-        typeStat: true,
-        setup: true,
-        type
-      }).then(() => {
-        // this.props.history.goBack()
-        this.handleAlert()
-        this.getData()
-      })
+    const { uid } = this.state
+    firebase.database().ref(`users/${uid}`).update({
+      typeStat: true
+    }).then(() => {
+      this.handleAlert()
+      this.getData()
+    })
+  }
+
+  onDelete() {
+    // var uid = this.props.location.state.uid
   }
 
   handleAlert() {
     this.setState({ open: !this.state.open })
+  }
+
+  handleDelete() {
+    this.setState({ del: !this.state.del })
   }
 
   Alert() {
@@ -139,8 +117,33 @@ export default class UserStaffDetail extends Component {
     )
   }
 
+  Delete() {
+    const { del } = this.state
+    return (
+      <Dialog
+        open={del}
+        onClose={this.handleDelete.bind(this)}>
+        <DialogTitle>{`แจ้งเตือน`}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {`คุณแน่ใจหรือไม่ที่จะยืนยันผู้ใช้ ?`}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={this.handleDelete.bind(this)}>
+            ยกเลิก</Button>
+          <Button
+            color='secondary'
+            onClick={this.onDelete.bind(this)}>
+            ลบ</Button>
+        </DialogActions>
+      </Dialog>
+    )
+  }
+
   typeStatRender() {
-    const { uid, fname, lname, tel, email, typeStat, company, type } = this.state
+    const { uid, fname, lname, email, typeStat, type } = this.state
     if (typeStat) {
       return (
         <Fragment>
@@ -153,6 +156,7 @@ export default class UserStaffDetail extends Component {
               value={fname}
               style={{ marginRight: 10 }} />
             <TextField
+              InputLabelProps={{ shrink: true }}
               label='นามสกุล'
               variant='outlined'
               margin='normal'
@@ -164,21 +168,6 @@ export default class UserStaffDetail extends Component {
               variant='outlined'
               margin='normal'
               value={email} />
-          </Grid>
-          <Grid>
-            <TextField
-              label='เบอร์โทร'
-              variant='outlined'
-              margin='normal'
-              value={tel} />
-          </Grid>
-          <Grid>
-            <TextField
-              style={{ width: 300 }}
-              label='สถานประกอบการ'
-              variant='outlined'
-              margin='normal'
-              value={company} />
           </Grid>
           <Grid
             style={{ marginTop: 15 }}>
@@ -198,11 +187,10 @@ export default class UserStaffDetail extends Component {
               color='primary'
               onClick={() => {
                 this.props.history.push({
-                  pathname: '/staffEdit',
+                  pathname: '/adminEdit',
                   state: { uid: uid }
                 })
-              }}>
-              แก้ไข</Button>
+              }}>แก้ไข</Button>
           </Grid>
         </Fragment>
       )
@@ -245,8 +233,14 @@ export default class UserStaffDetail extends Component {
             <Button
               variant='contained'
               color='primary'
-              onClick={this.handleAlert.bind(this)}>
+              onClick={this.handleAlert.bind(this)}
+              style={{ marginRight: 10 }}>
               ยืนยัน</Button>
+            {/* <Button
+              variant='contained'
+              color='secondary'
+              onClick={this.handleDelete.bind(this)}>
+              ลบทิ้ง</Button> */}
           </Grid>
         </Fragment >
       )
@@ -260,7 +254,7 @@ export default class UserStaffDetail extends Component {
     firebase.database().ref(`users/${uid}`).update({
       type: value
     }).then(() => {
-      if (value === 'Staff') {
+      if (value === 'Admin') {
         //
       } else {
         this.props.history.goBack()
@@ -275,11 +269,11 @@ export default class UserStaffDetail extends Component {
         container
         justify='center'
         alignItems='center'>
-        <Paper
-          style={{ marginTop: 20, width: 700, padding: 20 }}>
+        <Paper style={{ marginTop: 20, width: 700, padding: 20 }}>
           {this.typeStatRender()}
         </Paper>
         {this.Alert()}
+        {this.Delete()}
       </Grid>
     )
   }

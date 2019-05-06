@@ -134,6 +134,21 @@ export default class ReportCompany extends Component {
                 })
               }}>รายชื่อผู้ดูแล</Button>
           </Grid>
+          <Grid>
+            <Button
+              fullWidth
+              onClick={() => {
+                this.props.history.push({
+                  pathname: '/ReportCompanyStudent',
+                  state: {
+                    key,
+                    name,
+                    tel,
+                    address
+                  }
+                })
+              }}>รายชื่อนักศึกษา</Button>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button

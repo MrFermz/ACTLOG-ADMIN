@@ -1,48 +1,33 @@
 import React, { Component } from 'react'
 import firebase from '../../firebase'
-import Menus from '../../Menus'
 import {
+  Button,
   Paper,
+  Grid,
+  Typography,
   Table,
   TableHead,
   TableRow,
   TableCell,
   TableBody,
-  Button,
-  Grid,
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
-  MenuItem,
-  TextField
+  DialogActions
 } from '@material-ui/core'
 import {
   MoreHoriz
 } from '@material-ui/icons'
 
-const selectionTeacher = [
-  {
-    value: 'fname',
-    label: 'ชื่อ'
-  },
-  {
-    value: 'lname',
-    label: 'นามสกุล'
-  },
-  {
-    value: 'email',
-    label: 'อีเมลล์'
-  }
-]
-
-export default class ReportTeacher extends Component {
+export default class ReportCompanyStudent extends Component {
   constructor(props) {
     super(props)
     this.state = {
       list: [],
       open: false,
-      uid: ''
+      name: this.props.location.state.name,
+      ctel: this.props.location.state.tel,
+      address: this.props.location.state.address,
     }
   }
 
@@ -57,23 +42,41 @@ export default class ReportTeacher extends Component {
   }
 
   getData() {
+    var key = this.props.location.state.key
     var items = [], id = 0
     firebase.database().ref('users')
-      .orderByChild('type')
-      .equalTo('Teacher')
+      .orderByChild('company')
+      .equalTo(key)
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
           var val = child.val()
-          id += 1
-          items.push({
-            id: id,
-            fname: val.fname,
-            lname: val.lname,
-            email: val.email,
-            uid: val.uid,
-            tel: val.telNum,
-          })
-          this.setState({ list: items })
+          var cuid = val.uid
+
+          firebase.database().ref('comment')
+            .orderByChild('cuid')
+            .equalTo(cuid)
+            .once('value').then((snapshot) => {
+              snapshot.forEach((child) => {
+                var val2 = child.val()
+                var suid = val2.suid
+
+                firebase.database().ref(`users/${suid}`)
+                  .once('value').then((snapshot) => {
+                    var val3 = snapshot.val()
+                    id += 1
+                    items.push({
+                      id,
+                      uid: val3.uid,
+                      sid: val3.sid,
+                      fname: val3.fname,
+                      lname: val3.lname,
+                      email: val3.email,
+                      tel: val3.telNum
+                    })
+                    this.setState({ list: items })
+                  })
+              })
+            })
         })
       })
   }
@@ -83,7 +86,7 @@ export default class ReportTeacher extends Component {
   }
 
   Alert() {
-    const { open, uid, fname, lname, email } = this.state
+    const { open, uid, sid, fname, lname, email, tel } = this.state
     return (
       <Dialog
         open={open}
@@ -95,25 +98,55 @@ export default class ReportTeacher extends Component {
               fullWidth
               onClick={() => {
                 this.props.history.push({
-                  pathname: '/teachDetail',
-                  state: { uid: uid }
+                  pathname: '/stdDetail',
+                  state: { uid }
                 })
-              }}>ดูข้อมูลผู้ใช้</Button>
+              }}>ข้อมูลผู้ใช้</Button>
           </Grid>
           <Grid>
             <Button
               fullWidth
               onClick={() => {
                 this.props.history.push({
-                  pathname: '/ReportTeacherVisit',
+                  pathname: '/ReportStudentAct',
                   state: {
                     uid: uid,
                     fname,
                     lname,
-                    email
+                    email,
+                    sid
                   }
                 })
-              }}>ดูผลการนิเทศ</Button>
+              }}>ดูบันทึกกิจกรรม</Button>
+            <Button
+              fullWidth
+              onClick={() => {
+                this.props.history.push({
+                  pathname: '/ReportStudentVisit',
+                  state: {
+                    uid: uid,
+                    fname,
+                    lname,
+                    email,
+                    sid
+                  }
+                })
+              }}>ดูผลนิเทศ</Button>
+            <Button
+              fullWidth
+              onClick={() => {
+                this.props.history.push({
+                  pathname: '/ReportStudentComment',
+                  state: {
+                    uid: uid,
+                    fname,
+                    lname,
+                    email,
+                    sid,
+                    tel
+                  }
+                })
+              }}>ความคิดเห็นผู้ดูแล</Button>
           </Grid>
         </DialogContent>
         <DialogActions>
@@ -126,89 +159,41 @@ export default class ReportTeacher extends Component {
     )
   }
 
-  onChangeSelect = (e) => {
-    const { value } = e.target
-    this.setState({ select: value })
-  }
-
-  onChange = (e) => {
-    const { value } = e.target
-    this.searchData(value)
-  }
-
-  searchData(word) {
-    const { select } = this.state
-    var items = [], id = 0
-    if (select) {
-      firebase.database().ref('users')
-        .orderByChild(select)
-        .startAt(word)
-        .endAt(word + '\uf8ff')
-        .once('value').then((snapshot) => {
-          snapshot.forEach((child) => {
-            var val = child.val()
-            if (val.type === 'Teacher') {
-              id += 1
-              items.push({
-                id: id,
-                fname: val.fname,
-                lname: val.lname,
-                email: val.email,
-                uid: val.uid,
-                tel: val.telNum
-              })
-            }
-            this.setState({ list: items })
-          })
-        })
-    }
-  }
-
   render() {
-    const { list } = this.state
+    const { list, name, ctel, address } = this.state
+    console.log(list)
     return (
       <Grid
-        container
-        direction='row'>
+        container>
         {this.Alert()}
-        <Menus
-          history={this.props.history}
-          state={{ rTea: true }} />
         <Grid
-          xs={10}
           container
           direction='column'
-          style={{ padding: 30 }}>
-          <Grid>
-            <TextField
-              select
-              label='เลือกการค้นหา'
-              onChange={this.onChangeSelect}
-              value={this.state.select}
-              margin='normal'
-              variant='outlined'
-              InputLabelProps={{ shrink: true }}
-              style={{ width: 150, marginRight: 15 }}>
-              {selectionTeacher.map((option, i) => (
-                <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
-              ))}</TextField>
-            <TextField
-              label={`ค้นหา`}
-              type='search'
-              name='search'
-              style={{ marginRight: 10 }}
-              onChange={this.onChange}
-              margin='normal'
-              variant='outlined' />
-          </Grid>
+          style={{ padding: 30, alignItems: 'center' }}>
+          <Typography
+            variant='h4'
+            color='primary'
+            align='center'
+            gutterBottom>
+            {name}</Typography>
+          <Typography
+            variant='h6'
+            align='center'
+            gutterBottom>
+            {ctel}</Typography>
+          <Typography
+            variant='h6'
+            align='center'
+            gutterBottom>
+            {address}</Typography>
           <Paper
             style={{ width: '100%' }}>
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell align='center'>ลำดับ</TableCell>
+                  <TableCell>รหัสนักศึกษา</TableCell>
                   <TableCell>ชื่อ - สกุล</TableCell>
-                  <TableCell>เบอร์โทร</TableCell>
                   <TableCell>อีเมลล์</TableCell>
                   <TableCell align='center'></TableCell>
                 </TableRow>
@@ -219,17 +204,19 @@ export default class ReportTeacher extends Component {
                     key={i}
                     style={i % 2 === 0 ? { backgroundColor: '#EEEEEE' } : null}>
                     <TableCell align='center'>{row.id}</TableCell>
+                    <TableCell>{row.sid}</TableCell>
                     <TableCell>{row.fname}  {row.lname}</TableCell>
-                    <TableCell>{row.tel}</TableCell>
                     <TableCell>{row.email}</TableCell>
                     <TableCell align='center'>
                       <Button
                         variant='text'
                         onClickCapture={() => this.setState({
                           uid: row.uid,
+                          sid: row.sid,
                           fname: row.fname,
                           lname: row.lname,
-                          email: row.email
+                          email: row.email,
+                          tel: row.tel
                         })}
                         onClick={this.handleAlert.bind(this)}>
                         <MoreHoriz /></Button>

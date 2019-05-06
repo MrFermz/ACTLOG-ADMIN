@@ -15,6 +15,10 @@ import Home from './components/Home'
 // All
 import UserLists from './components/users/UserLists'
 
+// Admin
+import UserAdminDetail from './components/users/Admin/UserAdminDetail'
+import UserAdminEdit from './components/users/Admin/UserAdminEdit'
+
 // Student
 import UserStdDetail from './components/users/Student/UserStdDetail'
 import UserStdEdit from './components/users/Student/UserStdEdit'
@@ -48,6 +52,7 @@ import ReportStaffComment from './components/report/Staff/ReportStaffComment'
 
 import ReportCompany from './components/report/Company/ReportCompany'
 import ReportCompanyUsers from './components/report/Company/ReportCompanyUsers'
+import ReportCompanyStudent from './components/report/Company/ReportCompanyStudent'
 
 const theme = createMuiTheme({
   typography: {
@@ -65,6 +70,9 @@ export default class App extends Component {
           <Route path='/home' component={Home} />
 
           <Route path='/lists' component={UserLists} />
+
+          <Route path='/adminDetail' component={UserAdminDetail} />
+          <Route path='/adminEdit' component={UserAdminEdit} />
 
           <Route path='/stdDetail' component={UserStdDetail} />
           <Route path='/stdEdit' component={UserStdEdit} />
@@ -94,6 +102,7 @@ export default class App extends Component {
 
           <Route path='/ReportCompany' component={ReportCompany} />
           <Route path='/ReportCompanyUsers' component={ReportCompanyUsers} />
+          <Route path='/ReportCompanyStudent' component={ReportCompanyStudent} />
 
         </Router>
       </MuiThemeProvider>

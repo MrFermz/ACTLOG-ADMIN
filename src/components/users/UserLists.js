@@ -132,7 +132,6 @@ export default class UserLists extends Component {
 
   onChange = (e) => {
     const { value } = e.target
-    // console.log(value)
     this.searchData(value)
   }
 
@@ -243,7 +242,6 @@ export default class UserLists extends Component {
 
   onChangeSelect = (e) => {
     const { value } = e.target
-    console.log(value)
     this.setState({ select: value })
   }
 
@@ -420,6 +418,11 @@ export default class UserLists extends Component {
                             console.log(row.type)
                             this.props.history.push({
                               pathname: '/staffDetail',
+                              state: { uid: row.uid }
+                            })
+                          } else if (row.type === 'Admin') {
+                            this.props.history.push({
+                              pathname: '/adminDetail',
                               state: { uid: row.uid }
                             })
                           }

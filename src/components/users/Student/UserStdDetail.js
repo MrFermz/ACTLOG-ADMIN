@@ -10,7 +10,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-  MenuItem
+  MenuItem,
+  Typography
 } from '@material-ui/core'
 import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers'
 import MomentUtils from '@date-io/moment'
@@ -283,6 +284,9 @@ export default class UserDetail extends Component {
         return (
           <Fragment>
             <Grid>
+              <Typography
+                style={{ color: 'gray', marginBottom: 15 }}>
+                {`ยืนยันผู้ใช้เพื่อให้เข้าใช้งานแอปพลิเคชันได้ และแอดมินสามารถดู แก้ไข ข้อมูลได้`}</Typography>
               <TextField
                 InputLabelProps={{ shrink: true }}
                 label='อีเมลล์'
@@ -296,6 +300,7 @@ export default class UserDetail extends Component {
                 label='ประเภทผู้ใช้'
                 variant='outlined'
                 margin='normal'
+                helperText='ทำงานทันทีเมื่อเลือก'
                 onChange={this.onChangeType}
                 value={type}
                 style={{ width: 150 }}>
