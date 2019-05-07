@@ -47,6 +47,7 @@ export default class ReportStaff extends Component {
   }
 
   componentDidMount() {
+    document.title = 'รายงานผู้ดูแล - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()
@@ -140,7 +141,7 @@ export default class ReportStaff extends Component {
                     email
                   }
                 })
-              }}>ความคิดเห็น</Button>
+              }}>ดูผลการประเมิน</Button>
           </Grid>
         </DialogContent>
         <DialogActions>

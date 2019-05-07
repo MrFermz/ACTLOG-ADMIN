@@ -51,6 +51,7 @@ export default class ReportStudent extends Component {
   }
 
   componentDidMount() {
+    document.title = 'รายงานนักศึกษา - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()
@@ -133,7 +134,7 @@ export default class ReportStudent extends Component {
                     sid
                   }
                 })
-              }}>ดูผลนิเทศ</Button>
+              }}>ดูผลการนิเทศ</Button>
             <Button
               fullWidth
               onClick={() => {

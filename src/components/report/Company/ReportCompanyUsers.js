@@ -32,6 +32,7 @@ export default class ReportCompanyUsers extends Component {
   }
 
   componentDidMount() {
+    document.title = 'รายชื่อผู้ดูแล - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()

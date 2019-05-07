@@ -16,6 +16,7 @@ export default class CompanyDetail extends Component {
   }
 
   componentDidMount() {
+    document.title = 'ข้อมูลสถานประกอบการ - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()

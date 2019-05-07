@@ -35,6 +35,7 @@ export default class ReportStudentAct extends Component {
   }
 
   componentDidMount() {
+    document.title = 'รายงานกิจกรรมนักศึกษา - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()

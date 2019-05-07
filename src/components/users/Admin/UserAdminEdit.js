@@ -25,6 +25,7 @@ export default class UserAdminEdit extends Component {
   }
 
   componentDidMount() {
+    document.title = 'แก้ไขข้อมูลส่วนตัวแอดมิน - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()

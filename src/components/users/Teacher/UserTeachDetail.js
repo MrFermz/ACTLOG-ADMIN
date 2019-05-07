@@ -43,6 +43,7 @@ export default class UserTeachDetail extends Component {
   }
 
   componentDidMount() {
+    document.title = 'ข้อมูลส่วนตัวอาจารย์ - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()
@@ -124,6 +125,7 @@ export default class UserTeachDetail extends Component {
               value={fname}
               style={{ marginRight: 10 }} />
             <TextField
+              InputLabelProps={{ shrink: true }}
               label='นามสกุล'
               variant='outlined'
               margin='normal'

@@ -46,6 +46,7 @@ export default class ReportVisit extends Component {
   }
 
   componentDidMount() {
+    document.title = 'ผลนิเทศนักศึกษา - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()

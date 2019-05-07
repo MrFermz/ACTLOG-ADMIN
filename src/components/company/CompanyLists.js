@@ -26,6 +26,7 @@ export default class CompanyLists extends Component {
   }
 
   componentDidMount() {
+    document.title = 'รายชื่อสถานประกอบการ - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()

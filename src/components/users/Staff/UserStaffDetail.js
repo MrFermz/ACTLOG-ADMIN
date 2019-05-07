@@ -44,6 +44,7 @@ export default class UserStaffDetail extends Component {
   }
 
   componentDidMount() {
+    document.title = 'ข้อมูลส่วนตัวผู้ดูแล - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()
@@ -153,6 +154,7 @@ export default class UserStaffDetail extends Component {
               value={fname}
               style={{ marginRight: 10 }} />
             <TextField
+              InputLabelProps={{ shrink: true }}
               label='นามสกุล'
               variant='outlined'
               margin='normal'

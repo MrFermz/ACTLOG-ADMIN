@@ -15,6 +15,7 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
+    document.title = 'หน้าแรก - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ uid: user.uid })

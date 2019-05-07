@@ -35,6 +35,7 @@ export default class UserEdit extends Component {
   }
 
   componentDidMount() {
+    document.title = 'แก้ไขข้อมูลส่วนตัวนักศึกษา - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()

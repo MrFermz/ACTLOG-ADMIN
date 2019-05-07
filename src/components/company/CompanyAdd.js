@@ -30,6 +30,7 @@ export default class CompanyAdd extends Component {
   }
 
   componentDidMount() {
+    document.title = 'เพิ่มสถานประกอบการ - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         //

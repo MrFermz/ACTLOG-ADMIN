@@ -10,7 +10,8 @@ import {
   Button,
   TextField,
   Grid,
-  MenuItem
+  MenuItem,
+  Typography
 } from '@material-ui/core'
 import Menus from '../Menus'
 import {
@@ -96,6 +97,7 @@ export default class UserLists extends Component {
   }
 
   componentDidMount() {
+    document.title = 'รายชื่อผู้ใช้ทั้งหมด - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()

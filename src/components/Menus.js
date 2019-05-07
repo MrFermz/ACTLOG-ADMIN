@@ -151,6 +151,16 @@ export default class Menus extends Component {
           color='secondary'
           onClick={this.handleAlert.bind(this)}>
           ออกจากระบบ</Button>
+        <Typography
+          align='center'
+          inline
+          style={{ marginTop: 100, width: '90%', fontSize: 15 }}>
+          Copyright © 2019 RUTS.</Typography>
+        <Typography
+          align='center'
+          inline
+          style={{ marginTop: 5, width: '90%', fontSize: 15 }}>
+          All rights reserved.</Typography>
       </Grid>
     )
   }

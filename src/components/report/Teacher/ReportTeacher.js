@@ -47,6 +47,7 @@ export default class ReportTeacher extends Component {
   }
 
   componentDidMount() {
+    document.title = 'รายงานอาจารย์ - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()

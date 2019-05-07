@@ -45,6 +45,7 @@ export default class ReportTeacherVisit extends Component {
   }
 
   componentDidMount() {
+    document.title = 'ผลนิเทศอาจารย์ - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()
@@ -349,7 +350,7 @@ export default class ReportTeacherVisit extends Component {
                   <TableCell align='center'>{score3.toFixed(2)}</TableCell>
                   <TableCell align='center'>{score4.toFixed(2)}</TableCell>
                   <TableCell align='center'>{score5.toFixed(2)}</TableCell>
-                  <TableCell align='center'/>
+                  <TableCell align='center' />
                 </TableRow>
               </TableBody>
             </Table>

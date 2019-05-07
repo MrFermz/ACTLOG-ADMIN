@@ -47,6 +47,7 @@ export default class UserDetail extends Component {
   }
 
   componentDidMount() {
+    document.title = 'ข้อมูลส่วนตัวนักศึกษา - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()

@@ -39,6 +39,7 @@ export default class ReportStaffComment extends Component {
   }
 
   componentDidMount() {
+    document.title = 'ประเมินผลการฝึกงาน - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()

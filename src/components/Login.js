@@ -18,6 +18,7 @@ export default class Login extends Component {
   }
 
   componentDidMount() {
+    document.title = 'LOGIN - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         firebase.database().ref(`users/${user.uid}/type`)
@@ -77,6 +78,7 @@ export default class Login extends Component {
         direction='column'
         justify='center'
         alignItems='center'>
+        <img />
         <TextField
           id='outlined-email-input'
           label='อีเมลล์'
