@@ -4,7 +4,8 @@ import {
   TextField,
   Button,
   Grid,
-  Typography
+  Typography,
+  CardMedia
 } from '@material-ui/core'
 
 export default class Login extends Component {
@@ -78,7 +79,9 @@ export default class Login extends Component {
         direction='column'
         justify='center'
         alignItems='center'>
-        <img />
+        <CardMedia
+          src={`${window.location.origin}../../assets/logo.png`}
+        />
         <TextField
           id='outlined-email-input'
           label='อีเมลล์'
