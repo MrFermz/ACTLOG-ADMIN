@@ -4,8 +4,7 @@ import {
   TextField,
   Button,
   Grid,
-  Typography,
-  CardMedia
+  Typography
 } from '@material-ui/core'
 
 export default class Login extends Component {
@@ -19,7 +18,7 @@ export default class Login extends Component {
   }
 
   componentDidMount() {
-    document.title = 'LOGIN - ACTLOG ADMIN'
+    document.title = 'เข้าสู่ระบบ - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         firebase.database().ref(`users/${user.uid}/type`)
@@ -72,6 +71,7 @@ export default class Login extends Component {
 
   render() {
     const { message } = this.state
+    const logo = require('../assets/logo.png')
     return (
       <Grid
         style={{ minHeight: '100vh' }}
@@ -79,9 +79,10 @@ export default class Login extends Component {
         direction='column'
         justify='center'
         alignItems='center'>
-        <CardMedia
-          src={`${window.location.origin}../../assets/logo.png`}
-        />
+        <img
+          src={logo}
+          width='10%'
+          alt='logo' />
         <TextField
           id='outlined-email-input'
           label='อีเมลล์'
@@ -106,6 +107,16 @@ export default class Login extends Component {
           color='primary'
           onClick={this.onSubmit.bind(this)}>
           เข้าสู่ระบบ</Button>
+        <Typography
+          align='center'
+          inline
+          style={{ marginTop: 100, width: '90%', fontSize: 15 }}>
+          Copyright © 2019 RUTS.</Typography>
+        <Typography
+          align='center'
+          inline
+          style={{ marginTop: 5, width: '90%', fontSize: 15 }}>
+          All rights reserved.</Typography>
       </Grid>
     )
   }

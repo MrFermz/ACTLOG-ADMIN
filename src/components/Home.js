@@ -37,8 +37,10 @@ export default class Home extends Component {
           container
           style={{ padding: 30 }}>
           <Typography
-            variant='h4'>
-            {`สวัสดี Admin~`}
+            align='center'
+            inline
+            style={{ marginTop: 5, width: '90%', fontSize: 25 }}>
+            {`ยินดีต้อนรับสู่ "โครงงานระบบบันทึกกิจกรรมนักศึกษาฝึกงานของสาขาวิทยาศาสตร์คอมพิวเตอร์"`}
           </Typography>
         </Grid>
       </Grid>
