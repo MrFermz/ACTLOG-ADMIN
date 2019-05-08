@@ -136,8 +136,7 @@ export default class UserDetail extends Component {
       typeStat: true,
       setup: true,
       sidStat: true,
-      subject: 'เทคโนโลยีสารสนเทศ',
-      vStat: true
+      subject: 'เทคโนโลยีสารสนเทศ'
     }).then(() => {
       this.handleAlert()
       this.getData()
