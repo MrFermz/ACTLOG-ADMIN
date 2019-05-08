@@ -75,7 +75,9 @@ export default class UserStaffDetail extends Component {
                 email: val.email,
                 typeStat: val.typeStat,
                 type: val.type,
-                company: val1.name
+                company: val1.name,
+                position: val.position,
+                major: val.major
               })
             })
         } else {
@@ -89,7 +91,9 @@ export default class UserStaffDetail extends Component {
                 email: val.email,
                 typeStat: val.typeStat,
                 type: val.type,
-                company: '-'
+                company: '-',
+                position: val.position,
+                major: val.major
               })
             })
         }
@@ -141,7 +145,7 @@ export default class UserStaffDetail extends Component {
   }
 
   typeStatRender() {
-    const { uid, fname, lname, tel, email, typeStat, company, type } = this.state
+    const { uid, fname, lname, tel, email, typeStat, company, type, position, major } = this.state
     if (typeStat) {
       return (
         <Fragment>
@@ -181,6 +185,20 @@ export default class UserStaffDetail extends Component {
               variant='outlined'
               margin='normal'
               value={company} />
+          </Grid>
+          <Grid>
+            <TextField
+              label='ตำแหน่ง'
+              variant='outlined'
+              margin='normal'
+              value={position} 
+              style={{ width: 300 ,marginRight: 10}}/>
+            <TextField
+              style={{ width: 300 }}
+              label='ฝ่าย/แผนกงาน'
+              variant='outlined'
+              margin='normal'
+              value={major} />
           </Grid>
           <Grid
             style={{ marginTop: 15 }}>

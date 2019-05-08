@@ -23,7 +23,9 @@ export default class UserStaffEdit extends Component {
       tel: '',
       email: '',
       type: '',
-      list: []
+      list: [],
+      position: '',
+      major: ''
     }
   }
 
@@ -57,7 +59,9 @@ export default class UserStaffEdit extends Component {
               tel: val.telNum,
               email: val.email,
               type: val.type,
-              company: key
+              company: key,
+              position: val.position,
+              major: val.major
             })
           })
       })
@@ -78,14 +82,16 @@ export default class UserStaffEdit extends Component {
 
   onSubmit = (e) => {
     e.preventDefault()
-    const { uid, fname, lname, tel, email, company } = this.state
+    const { uid, fname, lname, tel, email, company, position, major } = this.state
     firebase.database().ref(`users/${uid}`)
       .update({
         fname,
         lname,
         telNum: tel,
         email,
-        company
+        company,
+        position,
+        major
       }).then(() => {
         this.handleAlert()
         this.props.history.goBack()
@@ -130,7 +136,7 @@ export default class UserStaffEdit extends Component {
 
 
   render() {
-    const { fname, lname, tel, email, list, company } = this.state
+    const { fname, lname, tel, email, list, company, position, major } = this.state
     return (
       <Grid
         xs={12}
@@ -184,6 +190,22 @@ export default class UserStaffEdit extends Component {
               {list.map((option, i) => {
                 return <MenuItem key={i} value={option.id}>{option.name}</MenuItem>
               })}</TextField>
+          </Grid>
+          <Grid>
+            <TextField
+              label='ตำแหน่ง'
+              variant='outlined'
+              margin='normal'
+              value={position}
+              style={{ width: 300, marginRight: 10 }}
+              onChange={(e) => { this.setState({ position: e.target.value }) }} />
+            <TextField
+              style={{ width: 300 }}
+              label='ฝ่าย/แผนกงาน'
+              variant='outlined'
+              margin='normal'
+              value={major}
+              onChange={(e) => { this.setState({ major: e.target.value }) }} />
           </Grid>
           <Grid
             style={{ marginTop: 15 }}>
