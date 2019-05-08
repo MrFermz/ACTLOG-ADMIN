@@ -14,18 +14,45 @@ import {
 } from '@material-ui/core'
 import provinces from './province'
 
+const comTypeSelect = [
+  {
+    value: 'government',
+    label: 'องค์กรรัฐบาล'
+  },
+  {
+    value: 'enterprise',
+    label: 'รัฐวิสาหกิจ'
+  },
+  {
+    value: 'private',
+    label: 'องค์กรเอกชน'
+  },
+  {
+    value: 'company',
+    label: 'บริษัท'
+  },
+  {
+    value: 'other',
+    label: 'อื่น ๆ'
+  },
+]
+
 export default class CompanyAdd extends Component {
   constructor(props) {
     super(props)
     this.state = {
       open: false,
-      name: '',
+      name: null,
       tel: '',
       address: '',
       address1: '',
       address2: '',
       province: '',
-      zip: ''
+      zip: '',
+      comType: '',
+      objective: '',
+      other: true,
+      isNull: false
     }
   }
 
@@ -44,31 +71,40 @@ export default class CompanyAdd extends Component {
     const { name, value } = e.target
     console.log([name], value)
     this.setState({ [name]: value })
+    if (value === 'other') {
+      this.setState({ other: false })
+    }
   }
 
   onSubmit = (e) => {
     e.preventDefault()
-    const { name, tel, address, address1, address2, province, zip } = this.state
-    var date = new Date()
-    var year = date.getFullYear()
-    var month = date.getMonth()
-    var day = date.getDay()
-    var hour = date.getHours()
-    var min = date.getMinutes()
-    var sec = date.getSeconds()
-    var id = `${year}-${month}-${day}-${hour}-${min}-${sec}`
-    console.log(id)
-    firebase.database().ref(`company`).push({
-      name,
-      tel,
-      address,
-      address1,
-      address2,
-      province,
-      zip
-    }).then(() => {
-      this.props.history.goBack()
-    })
+    const { name, tel, address, address1, address2, province, zip, comType, objective } = this.state
+    if (name) {
+      // var date = new Date()
+      // var year = date.getFullYear()
+      // var month = date.getMonth()
+      // var day = date.getDay()
+      // var hour = date.getHours()
+      // var min = date.getMinutes()
+      // var sec = date.getSeconds()
+      // var id = `${year}-${month}-${day}-${hour}-${min}-${sec}`
+      // console.log(id)
+      firebase.database().ref(`company`).push({
+        name,
+        tel,
+        address,
+        address1,
+        address2,
+        province,
+        zip,
+        comType,
+        objective
+      }).then(() => {
+        this.props.history.goBack()
+      })
+    } else {
+      this.setState({ isNull: true })
+    }
   }
 
   handleAlert() {
@@ -76,28 +112,50 @@ export default class CompanyAdd extends Component {
   }
 
   Alert() {
-    const { open } = this.state
-    return (
-      <Dialog
-        open={open}
-        onClose={this.handleAlert.bind(this)}>
-        <DialogTitle>{`แจ้งเตือน`}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {`คุณแน่ใจหรือไม่ที่จะเพิ่มข้อมูล ?`}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={this.handleAlert.bind(this)}>
-            ยกเลิก</Button>
-          <Button
-            color='primary'
-            onClick={this.onSubmit.bind(this)}>
-            ตกลง</Button>
-        </DialogActions>
-      </Dialog>
-    )
+    const { open, isNull } = this.state
+    console.log(this.state.name)
+    if (isNull) {
+      return (
+        <Dialog
+          open={open}
+          onClose={this.handleAlert.bind(this)}>
+          <DialogTitle>{`แจ้งเตือน`}</DialogTitle>
+          <DialogContent>
+            <DialogContentText style={{ color: 'red' }}>
+              {`ต้องเพิ่มข้อมูลอย่างน้อยดังนี้ [ชื่อสถานประกอบการ]`}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              color='primary'
+              onClick={() => this.setState({ isNull: false, open: false })}>
+              ตกลง</Button>
+          </DialogActions>
+        </Dialog>
+      )
+    } else {
+      return (
+        <Dialog
+          open={open}
+          onClose={this.handleAlert.bind(this)}>
+          <DialogTitle>{`แจ้งเตือน`}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              {`คุณแน่ใจหรือไม่ที่จะเพิ่มข้อมูล ?`}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={this.handleAlert.bind(this)}>
+              ยกเลิก</Button>
+            <Button
+              color='primary'
+              onClick={this.onSubmit.bind(this)}>
+              ตกลง</Button>
+          </DialogActions>
+        </Dialog>
+      )
+    }
   }
 
   render() {
@@ -116,6 +174,39 @@ export default class CompanyAdd extends Component {
               variant='outlined'
               margin='normal'
               name='name'
+              onChange={this.onChange} />
+          </Grid>
+          <Grid>
+            <TextField
+              fullWidth
+              select
+              label='เลือกประเภทสถานประกอบการ'
+              name='comType'
+              onChange={this.onChange}
+              InputLabelProps={{ shrink: true }}
+              margin='normal'
+              variant='outlined'>
+              {comTypeSelect.map((option, i) => (
+                <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
+              ))}</TextField>
+            <TextField
+              disabled={this.state.other}
+              fullWidth
+              label='อื่น ๆ'
+              variant='outlined'
+              margin='normal'
+              name='comType'
+              onChange={this.onChange} />
+          </Grid>
+          <Grid>
+            <TextField
+              multiline
+              rows={6}
+              fullWidth
+              label='ภารกิจหลัก'
+              variant='outlined'
+              margin='normal'
+              name='objective'
               onChange={this.onChange} />
           </Grid>
           <Grid>

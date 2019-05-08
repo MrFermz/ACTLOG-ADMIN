@@ -14,6 +14,29 @@ import {
 } from '@material-ui/core'
 import provinces from './province'
 
+const comTypeSelect = [
+  {
+    value: 'government',
+    label: 'องค์กรรัฐบาล'
+  },
+  {
+    value: 'enterprise',
+    label: 'รัฐวิสาหกิจ'
+  },
+  {
+    value: 'private',
+    label: 'องค์กรเอกชน'
+  },
+  {
+    value: 'company',
+    label: 'บริษัท'
+  },
+  {
+    value: 'other',
+    label: 'อื่น ๆ'
+  },
+]
+
 export default class CompanyEdit extends Component {
   constructor(props) {
     super(props)
@@ -27,7 +50,10 @@ export default class CompanyEdit extends Component {
       address1: '',
       address2: '',
       province: '',
-      zip: ''
+      zip: '',
+      comType: '',
+      objective: '',
+      other: true
     }
   }
 
@@ -55,20 +81,25 @@ export default class CompanyEdit extends Component {
           address1: val.address1,
           address2: val.address2,
           province: val.province,
-          zip: val.zip
+          zip: val.zip,
+          comType: val.comType,
+          objective: val.objective
         })
       })
   }
 
   onChange = (e) => {
-    const { value } = e.target
-    console.log(value)
-    this.setState({ province: value })
+    const { name, value } = e.target
+    console.log([name], value)
+    this.setState({ [name]: value })
+    if (value === 'other') {
+      this.setState({ other: false })
+    }
   }
 
   onSubmit = (e) => {
     e.preventDefault()
-    const { key, name, tel, address, address1, address2, province, zip } = this.state
+    const { key, name, tel, address, address1, address2, province, zip, comType, objective } = this.state
     firebase.database().ref(`company/${key}`).update({
       name: name,
       tel,
@@ -76,7 +107,9 @@ export default class CompanyEdit extends Component {
       address1,
       address2,
       province,
-      zip
+      zip,
+      comType,
+      objective
     }).then(() => {
       this.props.history.goBack()
     })
@@ -159,7 +192,7 @@ export default class CompanyEdit extends Component {
   }
 
   render() {
-    const { name, tel, address, address1, address2, province, zip } = this.state
+    const { name, tel, address, address1, address2, province, zip, comType, objective, other } = this.state
     return (
       <Grid
         xs={12}
@@ -178,6 +211,42 @@ export default class CompanyEdit extends Component {
               name='name'
               value={name}
               onChange={(e) => { this.setState({ name: e.target.value }) }} />
+          </Grid>
+          <Grid>
+            <TextField
+              fullWidth
+              select
+              label='เลือกประเภทสถานประกอบการ'
+              name='comType'
+              onChange={this.onChange}
+              value={comType}
+              InputLabelProps={{ shrink: true }}
+              margin='normal'
+              variant='outlined'>
+              {comTypeSelect.map((option, i) => (
+                <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
+              ))}</TextField>
+            <TextField
+              disabled={other}
+              fullWidth
+              label='อื่น ๆ'
+              variant='outlined'
+              margin='normal'
+              name='comType'
+              value={comType}
+              onChange={this.onChange} />
+          </Grid>
+          <Grid>
+            <TextField
+              multiline
+              rows={6}
+              fullWidth
+              label='ภารกิจหลัก'
+              variant='outlined'
+              margin='normal'
+              name='objective'
+              value={objective}
+              onChange={(e) => { this.setState({ objective: e.target.value }) }} />
           </Grid>
           <Grid>
             <TextField

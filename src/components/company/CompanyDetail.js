@@ -41,13 +41,40 @@ export default class CompanyDetail extends Component {
           address1: val.address1,
           address2: val.address2,
           province: val.province,
-          zip: val.zip
+          zip: val.zip,
+          comType: val.comType,
+          objective: val.objective
         })
       })
   }
 
+  renderComtype() {
+    const { comType } = this.state
+    var val = ''
+    if (comType === 'government') {
+      val = 'องค์กรรัฐบาล'
+    } else if (comType === 'enterprise') {
+      val = 'รัฐวิสาหกิจ'
+    } else if (comType === 'private') {
+      val = 'องค์กรเอกชน'
+    } else if (comType === 'company') {
+      val = 'บริษัท'
+    } else {
+      val = comType
+    }
+    return (
+      <TextField
+        InputLabelProps={{ shrink: true }}
+        fullWidth
+        label='ประเภทสถานประกอบการ'
+        variant='outlined'
+        margin='normal'
+        value={val} />
+    )
+  }
+
   render() {
-    const { key, name, tel, address, address1, address2, province, zip } = this.state
+    const { key, name, tel, address, address1, address2, province, zip, objective } = this.state
     return (
       <Grid
         xs={12}
@@ -64,6 +91,20 @@ export default class CompanyDetail extends Component {
               variant='outlined'
               margin='normal'
               value={name} />
+          </Grid>
+          <Grid>
+            {this.renderComtype()}
+          </Grid>
+          <Grid>
+            <TextField
+              multiline
+              rows={6}
+              InputLabelProps={{ shrink: true }}
+              fullWidth
+              label='ภารกิจหลัก'
+              variant='outlined'
+              margin='normal'
+              value={objective} />
           </Grid>
           <Grid>
             <TextField
