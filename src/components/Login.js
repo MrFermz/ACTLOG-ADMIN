@@ -77,46 +77,58 @@ export default class Login extends Component {
         style={{ minHeight: '100vh' }}
         container
         direction='column'
-        justify='center'
+        justify='space-between'
         alignItems='center'>
-        <img
-          src={logo}
-          width='10%'
-          alt='logo' />
-        <TextField
-          id='outlined-email-input'
-          label='อีเมลล์'
-          type='email'
-          name='email'
-          onChange={this.onChange}
-          margin='normal'
-          variant='outlined'
-          autoComplete='email' />
-        <TextField
-          id='outlined-email-input'
-          label='รหัสผ่าน'
-          type='password'
-          name='password'
-          onChange={this.onChange}
-          margin='normal'
-          variant='outlined'
-          autoComplete='current-password' />
-        {message ? <Typography variant='subtitle1'>{message}</Typography> : null}
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={this.onSubmit.bind(this)}>
-          เข้าสู่ระบบ</Button>
-        <Typography
-          align='center'
-          inline
-          style={{ marginTop: 100, width: '90%', fontSize: 15 }}>
-          Copyright © 2019 RUTS.</Typography>
-        <Typography
-          align='center'
-          inline
-          style={{ marginTop: 5, width: '90%', fontSize: 15 }}>
-          All rights reserved.</Typography>
+        <Grid
+          container
+          direction='column'
+          justify='center'
+          alignItems='center'>
+          <img
+            src={logo}
+            width='10%'
+            alt='logo' />
+          <TextField
+            id='outlined-email-input'
+            label='อีเมลล์'
+            type='email'
+            name='email'
+            onChange={this.onChange}
+            margin='normal'
+            variant='outlined'
+            autoComplete='email' />
+          <TextField
+            id='outlined-email-input'
+            label='รหัสผ่าน'
+            type='password'
+            name='password'
+            onChange={this.onChange}
+            margin='normal'
+            variant='outlined'
+            autoComplete='current-password' />
+          {message ? <Typography variant='subtitle1' color='secondary'>{message}</Typography> : null}
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={this.onSubmit.bind(this)}>
+            เข้าสู่ระบบ</Button>
+        </Grid>
+        <Grid
+          container
+          direction='column'
+          justify='center'
+          alignItems='center'>
+          <Typography
+            align='center'
+            inline
+            style={{ marginTop: 100, width: '90%', fontSize: 15 }}>
+            Copyright © 2019 RUTS.</Typography>
+          <Typography
+            align='center'
+            inline
+            style={{ marginTop: 5, width: '90%', fontSize: 15 }}>
+            All rights reserved.</Typography>
+        </Grid>
       </Grid>
     )
   }

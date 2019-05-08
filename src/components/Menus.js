@@ -78,89 +78,101 @@ export default class Menus extends Component {
         xs={2}
         container
         direction='column'
-        justify='flex-start'
+        justify='space-between'
         alignItems='center'>
         {this.Alert()}
-        <Typography
-          align='center'
-          style={{ marginTop: 30, width: '90%', fontSize: 18 }}>
-          เมนูหลัก</Typography>
-        <Button
-          disabled={home}
-          fullWidth
-          style={{ marginTop: 10, width: '90%' }}
-          variant='contained'
-          onClick={() => { this.props.history.push('/home') }} >
-          หน้าแรก</Button >
-        <Button
-          disabled={list}
-          fullWidth
-          style={{ marginTop: 10, width: '90%' }}
-          variant='contained'
-          onClick={() => { this.props.history.push('/lists') }} >
-          จัดการชื่อผู้ใช้</Button >
-        <Button
-          disabled={clist}
-          fullWidth
-          style={{ marginTop: 10, width: '90%' }}
-          variant='contained'
-          onClick={() => { this.props.history.push('/clists') }} >
-          จัดการสถานประกอบการ</Button >
+        <Grid
+          container
+          direction='column'
+          justify='flex-start'
+          alignItems='center'>
+          <Typography
+            align='center'
+            style={{ marginTop: 30, width: '90%', fontSize: 18 }}>
+            เมนูหลัก</Typography>
+          <Button
+            disabled={home}
+            fullWidth
+            style={{ marginTop: 10, width: '90%' }}
+            variant='contained'
+            onClick={() => { this.props.history.push('/home') }} >
+            หน้าแรก</Button >
+          <Button
+            disabled={list}
+            fullWidth
+            style={{ marginTop: 10, width: '90%' }}
+            variant='contained'
+            onClick={() => { this.props.history.push('/lists') }} >
+            จัดการชื่อผู้ใช้</Button >
+          <Button
+            disabled={clist}
+            fullWidth
+            style={{ marginTop: 10, width: '90%' }}
+            variant='contained'
+            onClick={() => { this.props.history.push('/clists') }} >
+            จัดการสถานประกอบการ</Button >
 
-        <Typography
-          align='center'
-          style={{ marginTop: 30, width: '90%', fontSize: 18 }}>
-          รายงาน</Typography>
-        <Button
-          disabled={rTea}
-          fullWidth
-          onClick={() => { this.props.history.push('/ReportTeacher') }}
-          style={{ marginTop: 10, width: '90%' }}
-          variant='contained'>
-          อาจารย์</Button>
-        <Button
-          disabled={rStd}
-          fullWidth
-          onClick={() => { this.props.history.push('/ReportStudent') }}
-          style={{ marginTop: 10, width: '90%' }}
-          variant='contained'>
-          นักศึกษา</Button>
-        <Button
-          disabled={rStaff}
-          fullWidth
-          onClick={() => { this.props.history.push('/ReportStaff') }}
-          style={{ marginTop: 10, width: '90%' }}
-          variant='contained'>
-          ผู้ดูแล</Button>
-        <Button
-          disabled={rCom}
-          fullWidth
-          onClick={() => { this.props.history.push('/ReportCompany') }}
-          style={{ marginTop: 10, width: '90%' }}
-          variant='contained'>
-          สถานประกอบการ</Button>
+          <Typography
+            align='center'
+            style={{ marginTop: 30, width: '90%', fontSize: 18 }}>
+            รายงาน</Typography>
+          <Button
+            disabled={rTea}
+            fullWidth
+            onClick={() => { this.props.history.push('/ReportTeacher') }}
+            style={{ marginTop: 10, width: '90%' }}
+            variant='contained'>
+            อาจารย์</Button>
+          <Button
+            disabled={rStd}
+            fullWidth
+            onClick={() => { this.props.history.push('/ReportStudent') }}
+            style={{ marginTop: 10, width: '90%' }}
+            variant='contained'>
+            นักศึกษา</Button>
+          <Button
+            disabled={rStaff}
+            fullWidth
+            onClick={() => { this.props.history.push('/ReportStaff') }}
+            style={{ marginTop: 10, width: '90%' }}
+            variant='contained'>
+            ผู้ดูแล</Button>
+          <Button
+            disabled={rCom}
+            fullWidth
+            onClick={() => { this.props.history.push('/ReportCompany') }}
+            style={{ marginTop: 10, width: '90%' }}
+            variant='contained'>
+            สถานประกอบการ</Button>
 
-        <Typography
-          align='center'
-          style={{ marginTop: 30, width: '90%', fontSize: 18 }}>
-          อื่น ๆ</Typography>
-        <Button
-          fullWidth
-          style={{ marginTop: 10, width: '90%' }}
-          variant='contained'
-          color='secondary'
-          onClick={this.handleAlert.bind(this)}>
-          ออกจากระบบ</Button>
-        <Typography
-          align='center'
-          inline
-          style={{ marginTop: 100, width: '90%', fontSize: 15 }}>
-          Copyright © 2019 RUTS.</Typography>
-        <Typography
-          align='center'
-          inline
-          style={{ marginTop: 5, width: '90%', fontSize: 15 }}>
-          All rights reserved.</Typography>
+          <Typography
+            align='center'
+            style={{ marginTop: 30, width: '90%', fontSize: 18 }}>
+            อื่น ๆ</Typography>
+          <Button
+            fullWidth
+            style={{ marginTop: 10, width: '90%' }}
+            variant='contained'
+            color='secondary'
+            onClick={this.handleAlert.bind(this)}>
+            ออกจากระบบ</Button>
+        </Grid>
+        <Grid
+          container
+          direction='column'
+          justify='flex-start'
+          alignItems='center'>
+          <Typography
+            align='center'
+            inline
+            style={{ marginTop: 100, width: '90%', fontSize: 15 }}>
+            Copyright © 2019 RUTS.</Typography>
+          <Typography
+            align='center'
+            inline
+            style={{ marginTop: 5, width: '90%', fontSize: 15 }}>
+            All rights reserved.</Typography>
+        </Grid>
       </Grid>
     )
   }
