@@ -10,7 +10,8 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Button
+  Button,
+  Fab
 } from '@material-ui/core'
 import {
   Add,
@@ -114,12 +115,11 @@ export default class CompanyLists extends Component {
               onChange={this.onChange}
               margin='normal'
               variant='outlined' />
-            <Button
+            <Fab
               style={{ marginTop: 17, marginLeft: 15 }}
-              variant='fab'
               color='primary'
               onClick={() => this.props.history.push('/cadd')}>
-              <Add /></Button>
+              <Add /></Fab>
           </Grid>
           <Paper
             style={{ width: '100%' }}>

@@ -15,7 +15,8 @@ import {
   DialogContent,
   DialogActions,
   GridList,
-  GridListTile
+  GridListTile,
+  Fab
 } from '@material-ui/core'
 import {
   Photo
@@ -269,12 +270,11 @@ export default class ReportStudentComment extends Component {
                 </TableRow>
               </TableBody>
             </Table>
-            <Button
-              variant='fab'
+            <Fab
               color='primary'
               onClick={this.handleAlert.bind(this)}
               style={{ marginTop: 15, marginLeft: 15 }}>
-              <Photo /></Button>
+              <Photo /></Fab>
             <Typography
               paragraph
               style={{ margin: 15 }}>
