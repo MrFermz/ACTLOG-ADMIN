@@ -116,7 +116,7 @@ export default class ReportCompany extends Component {
               onClick={() => {
                 this.props.history.push({
                   pathname: '/cdetail',
-                  state: { key: key }
+                  state: { key }
                 })
               }}>ดูข้อมูล</Button>
           </Grid>

@@ -38,7 +38,6 @@ export default class ReportStudentActDetail extends Component {
     var key = this.props.location.state.key
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
     var items = []
-
     firebase.database().ref(`timeTable/${uid}/${key}`)
       .once('value').then((snapshot) => {
         var val = snapshot.val()
@@ -51,7 +50,6 @@ export default class ReportStudentActDetail extends Component {
           comment: val.comment
         })
       })
-
     firebase.database().ref(`timeTable/${uid}/${key}/photos`)
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {

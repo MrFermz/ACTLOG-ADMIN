@@ -113,7 +113,6 @@ export default class UserLists extends Component {
       .equalTo('Student')
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
-          // console.log(child.key)
           var val = child.val()
           id += 1
           items.push({
@@ -137,7 +136,6 @@ export default class UserLists extends Component {
   }
 
   searchData(word) {
-    console.log(word)
     const { type, select } = this.state
     var items = [], id = 0
     firebase.database().ref('users')
@@ -146,7 +144,6 @@ export default class UserLists extends Component {
       .endAt(word + '\uf8ff')
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
-          console.log(child.key)
           var val = child.val()
           id += 1
           if (val.type === type) {
@@ -169,13 +166,11 @@ export default class UserLists extends Component {
 
   onChangeType = (e) => {
     const { value } = e.target
-    console.log(value)
     this.setState({ type: value, word: '' })
     this.searchDataType(value)
   }
 
   searchDataType(type) {
-    console.log(type)
     var items = [], id = 0
     firebase.database().ref('users')
       .orderByChild('type')
@@ -404,19 +399,16 @@ export default class UserLists extends Component {
                         variant='flat'
                         onClick={() => {
                           if (row.type === 'Student') {
-                            console.log(row.type)
                             this.props.history.push({
                               pathname: '/stdDetail',
                               state: { uid: row.uid }
                             })
                           } else if (row.type === 'Teacher') {
-                            console.log(row.type)
                             this.props.history.push({
                               pathname: '/teachDetail',
                               state: { uid: row.uid }
                             })
                           } else if (row.type === 'Staff') {
-                            console.log(row.type)
                             this.props.history.push({
                               pathname: '/staffDetail',
                               state: { uid: row.uid }

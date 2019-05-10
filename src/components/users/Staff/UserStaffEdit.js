@@ -70,7 +70,6 @@ export default class UserStaffEdit extends Component {
       .orderByChild('name')
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
-          // console.log(child.key)
           items.push({
             id: child.key,
             name: child.val().name
@@ -100,7 +99,6 @@ export default class UserStaffEdit extends Component {
 
   onChange = (e) => {
     const { value } = e.target
-    console.log(value)
     this.setState({ company: value })
   }
 
@@ -132,8 +130,6 @@ export default class UserStaffEdit extends Component {
       </Dialog>
     )
   }
-
-
 
   render() {
     const { fname, lname, tel, email, list, company, position, major } = this.state

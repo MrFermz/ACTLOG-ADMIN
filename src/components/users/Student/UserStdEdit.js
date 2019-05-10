@@ -48,7 +48,6 @@ export default class UserEdit extends Component {
   getData() {
     var items = []
     var uid = this.props.location.state.uid
-    // console.log(uid)
     this.setState({ uid: uid })
     firebase.database().ref(`users/${uid}`)
       .once('value').then((snapshot) => {
@@ -139,24 +138,12 @@ export default class UserEdit extends Component {
     }
   }
 
-  onChange = (e) => {
-    const { value } = e.target
-    console.log(value)
-  }
-
   onStartDateChange = (e) => {
-    // console.log(`Start : ${e}`)
-    this.setState({ dateStartPicker: new Date(e) }, () => this.onDateChange())
+    this.setState({ dateStartPicker: new Date(e) })
   }
 
   onEndDateChange = (e) => {
-    // console.log(`End : ${e}`)
-    this.setState({ dateEndPicker: new Date(e) }, () => this.onDateChange())
-  }
-
-  onDateChange() {
-    const { dateStartPicker, dateEndPicker } = this.state
-    console.log(`${dateStartPicker} ## ${dateEndPicker}`)
+    this.setState({ dateEndPicker: new Date(e) })
   }
 
   handleAlert() {

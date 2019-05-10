@@ -49,7 +49,6 @@ export default class ReportStudentAct extends Component {
     var uid = this.props.location.state.uid
     var items = [], id = 0
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit' }
-
     firebase.database().ref(`timeTable/${uid}`)
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
@@ -64,7 +63,6 @@ export default class ReportStudentAct extends Component {
             timeBack: val.timeBack,
             stat: val.stat
           })
-
           var stat = val.stat
           if (stat === 0) {
             this.setState({ stat0: this.state.stat0 + 1 })

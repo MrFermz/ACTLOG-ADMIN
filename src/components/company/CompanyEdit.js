@@ -90,7 +90,6 @@ export default class CompanyEdit extends Component {
 
   onChange = (e) => {
     const { name, value } = e.target
-    console.log([name], value)
     this.setState({ [name]: value })
     if (value === 'other') {
       this.setState({ other: false })
@@ -117,16 +116,13 @@ export default class CompanyEdit extends Component {
 
   onDelete() {
     const { key } = this.state
-    console.log(key)
     firebase.database().ref(`company/${key}`)
       .remove().then(() => {
         firebase.database().ref('users')
           .orderByChild('company')
           .equalTo(key)
           .once('value').then((snapshot) => {
-            // console.log(snapshot.val())
             snapshot.forEach((child) => {
-              // console.log(child.key)
               firebase.database().ref(`users/${child.key}`)
                 .update({
                   company: ''

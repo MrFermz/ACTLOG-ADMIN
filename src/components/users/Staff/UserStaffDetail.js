@@ -57,12 +57,10 @@ export default class UserStaffDetail extends Component {
   getData() {
     var uid = this.props.location.state.uid
     this.setState({ uid: uid })
-
     firebase.database().ref(`users/${uid}`)
       .once('value').then((snapshot) => {
         var val = snapshot.val()
         var key = val.company
-        console.log(key)
         if (key) {
           firebase.database().ref(`company/${key}`)
             .once('value').then((snapshot) => {
@@ -102,7 +100,6 @@ export default class UserStaffDetail extends Component {
 
   onTypeStat() {
     const { uid, type } = this.state
-    // console.log(uid)
     firebase.database().ref(`users/${uid}`)
       .update({
         typeStat: true,
@@ -191,8 +188,8 @@ export default class UserStaffDetail extends Component {
               label='ตำแหน่ง'
               variant='outlined'
               margin='normal'
-              value={position} 
-              style={{ width: 300 ,marginRight: 10}}/>
+              value={position}
+              style={{ width: 300, marginRight: 10 }} />
             <TextField
               style={{ width: 300 }}
               label='ฝ่าย/แผนกงาน'
@@ -276,7 +273,6 @@ export default class UserStaffDetail extends Component {
   onChangeType = (e) => {
     const { value } = e.target
     var uid = this.props.location.state.uid
-    console.log(value, uid)
     firebase.database().ref(`users/${uid}`).update({
       type: value
     }).then(() => {

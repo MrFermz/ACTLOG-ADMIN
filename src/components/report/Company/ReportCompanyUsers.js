@@ -45,7 +45,6 @@ export default class ReportCompanyUsers extends Component {
   getData() {
     var items = [], id = 0
     var key = this.props.location.state.key
-    console.log(key)
     firebase.database().ref('users')
       .orderByChild('company')
       .equalTo(key)

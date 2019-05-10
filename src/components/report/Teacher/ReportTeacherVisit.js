@@ -92,7 +92,6 @@ export default class ReportTeacherVisit extends Component {
       firebase.database().ref(`users/${val}`)
         .once('value').then((snapshot) => {
           var val1 = snapshot.val()
-
           firebase.database().ref('visit')
             .orderByChild('suid')
             .equalTo(val)
@@ -117,13 +116,11 @@ export default class ReportTeacherVisit extends Component {
                     score5: val2.score5,
                     comment: val2.comment
                   })
-
                   var score1 = val2.score1 + this.state.score1
                   var score2 = val2.score2 + this.state.score2
                   var score3 = val2.score3 + this.state.score3
                   var score4 = val2.score4 + this.state.score4
                   var score5 = val2.score5 + this.state.score5
-
                   if (score1) {
                     this.setState({
                       score1: score1 / id

@@ -48,7 +48,6 @@ export default class ReportStudentComment extends Component {
   getData() {
     var suid = this.props.location.state.uid
     var ccuid = [], cuid = []
-
     firebase.database().ref('comment')
       .orderByChild('suid')
       .equalTo(suid)
@@ -59,7 +58,6 @@ export default class ReportStudentComment extends Component {
         })
         this.setState({ Ccuid: ccuid })
       })
-
     firebase.database().ref('users')
       .orderByChild('type')
       .equalTo('Staff')
@@ -82,7 +80,6 @@ export default class ReportStudentComment extends Component {
       firebase.database().ref(`users/${val}`)
         .once('value').then((snapshot) => {
           var val1 = snapshot.val()
-
           firebase.database().ref('comment')
             .orderByChild('cuid')
             .equalTo(val)

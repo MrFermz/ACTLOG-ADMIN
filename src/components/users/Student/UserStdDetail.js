@@ -131,7 +131,6 @@ export default class UserDetail extends Component {
 
   onTypeStat() {
     const { uid } = this.state
-    // console.log(uid)
     firebase.database().ref(`users/${uid}`).update({
       typeStat: true,
       setup: true,
@@ -177,7 +176,6 @@ export default class UserDetail extends Component {
     // var options = { year: 'numeric', month: 'long', day: 'numeric' }
     // var start = new Date(dateStart).toLocaleDateString('th-TH', options)
     // var end = new Date(dateEnd).toLocaleDateString('th-TH', options)
-    // console.log(company)
     if (typeStat) {
       return (
         <Fragment>
@@ -331,7 +329,6 @@ export default class UserDetail extends Component {
   onChangeType = (e) => {
     const { value } = e.target
     var uid = this.props.location.state.uid
-    console.log(value, uid)
     firebase.database().ref(`users/${uid}`).update({
       type: value
     }).then(() => {

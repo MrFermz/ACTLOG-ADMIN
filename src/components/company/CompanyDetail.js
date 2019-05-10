@@ -29,7 +29,6 @@ export default class CompanyDetail extends Component {
   getData() {
     var key = this.props.location.state.key
     this.setState({ key })
-
     firebase.database().ref(`company/${key}`)
       .once('value').then((snapshot) => {
         var val = snapshot.val()
