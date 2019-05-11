@@ -332,6 +332,7 @@ export default class UserLists extends Component {
           state={{ list: true }} />
         <Grid
           xs={10}
+          item
           container
           direction='column'
           style={{ padding: 30 }}>

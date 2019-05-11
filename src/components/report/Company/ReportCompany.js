@@ -67,7 +67,6 @@ export default class ReportCompany extends Component {
 
   onChange = (e) => {
     const { value } = e.target
-    console.log(value)
     this.searchData(value)
   }
 
@@ -172,6 +171,7 @@ export default class ReportCompany extends Component {
           state={{ rCom: true }} />
         <Grid
           xs={10}
+          item
           container
           direction='column'
           style={{ padding: 30 }}>

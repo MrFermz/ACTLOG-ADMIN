@@ -76,9 +76,10 @@ export default class Menus extends Component {
     return (
       <Grid
         xs={2}
+        item
         container
         direction='column'
-        justify='space-between'
+        justify='flex-start'
         alignItems='center'>
         {this.Alert()}
         <Grid

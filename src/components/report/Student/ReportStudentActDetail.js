@@ -64,10 +64,10 @@ export default class ReportStudentActDetail extends Component {
 
   render() {
     const { date, timeCome, timeBack, morning, afternoon, list, comment } = this.state
-    console.log(list)
     return (
       <Grid
         xs={12}
+        item
         container
         justify='center'
         alignItems='center'>

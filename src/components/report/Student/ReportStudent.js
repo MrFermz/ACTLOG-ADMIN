@@ -212,6 +212,7 @@ export default class ReportStudent extends Component {
           state={{ rStd: true }} />
         <Grid
           xs={10}
+          item
           container
           direction='column'
           style={{ padding: 30 }}>

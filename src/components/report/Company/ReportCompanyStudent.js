@@ -162,7 +162,6 @@ export default class ReportCompanyStudent extends Component {
 
   render() {
     const { list, name, ctel, address } = this.state
-    console.log(list)
     return (
       <Grid
         container>

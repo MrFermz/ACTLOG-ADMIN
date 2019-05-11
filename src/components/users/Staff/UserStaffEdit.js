@@ -136,6 +136,7 @@ export default class UserStaffEdit extends Component {
     return (
       <Grid
         xs={12}
+        item
         container
         justify='center'
         alignItems='center'>

@@ -34,6 +34,7 @@ export default class Home extends Component {
           state={{ home: true }} />
         <Grid
           xs={10}
+          item
           container
           style={{ padding: 30 }}>
           <Typography

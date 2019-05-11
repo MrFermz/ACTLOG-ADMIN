@@ -251,7 +251,6 @@ export default class UserAdminDetail extends Component {
   onChangeType = (e) => {
     const { value } = e.target
     var uid = this.props.location.state.uid
-    console.log(value, uid)
     firebase.database().ref(`users/${uid}`).update({
       type: value
     }).then(() => {
@@ -267,6 +266,7 @@ export default class UserAdminDetail extends Component {
     return (
       <Grid
         xs={12}
+        item
         container
         justify='center'
         alignItems='center'>

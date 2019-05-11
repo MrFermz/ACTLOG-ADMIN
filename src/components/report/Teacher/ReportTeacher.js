@@ -177,6 +177,7 @@ export default class ReportTeacher extends Component {
           state={{ rTea: true }} />
         <Grid
           xs={10}
+          item
           container
           direction='column'
           style={{ padding: 30 }}>

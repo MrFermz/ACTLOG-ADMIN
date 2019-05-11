@@ -229,6 +229,7 @@ export default class ReportStaff extends Component {
           state={{ rStaff: true }} />
         <Grid
           xs={10}
+          item
           container
           direction='column'
           style={{ padding: 30 }}>

@@ -39,7 +39,6 @@ export default class Login extends Component {
 
   onChange = (e) => {
     const { name, value } = e.target
-    console.log([name], value)
     this.setState({
       [name]: value
     })
@@ -48,11 +47,9 @@ export default class Login extends Component {
   onSubmit = (e) => {
     e.preventDefault()
     const { email, password } = this.state
-    console.log(email, password)
     firebase.auth()
       .signInWithEmailAndPassword(email, password)
       .then((res) => {
-        console.log('Login success')
         firebase.database().ref(`users/${res.user.uid}/type`)
           .once('value').then((snapshot) => {
             var val = snapshot.val()
@@ -89,23 +86,21 @@ export default class Login extends Component {
             width='10%'
             alt='logo' />
           <TextField
-            id='outlined-email-input'
             label='อีเมลล์'
             type='email'
             name='email'
             onChange={this.onChange}
+            style={{ width: '30%' }}
             margin='normal'
-            variant='outlined'
-            autoComplete='email' />
+            variant='outlined' />
           <TextField
-            id='outlined-email-input'
             label='รหัสผ่าน'
             type='password'
             name='password'
             onChange={this.onChange}
+            style={{ width: '30%' }}
             margin='normal'
-            variant='outlined'
-            autoComplete='current-password' />
+            variant='outlined' />
           {message ? <Typography variant='subtitle1' color='secondary'>{message}</Typography> : null}
           <Button
             variant='contained'
@@ -117,7 +112,8 @@ export default class Login extends Component {
           container
           direction='column'
           justify='center'
-          alignItems='center'>
+          alignItems='center'
+          style={{ marginBottom: 10 }}>
           <Typography
             align='center'
             inline

@@ -69,7 +69,6 @@ export default class CompanyAdd extends Component {
 
   onChange = (e) => {
     const { name, value } = e.target
-    console.log([name], value)
     this.setState({ [name]: value })
     if (value === 'other') {
       this.setState({ other: false })
@@ -88,7 +87,6 @@ export default class CompanyAdd extends Component {
       // var min = date.getMinutes()
       // var sec = date.getSeconds()
       // var id = `${year}-${month}-${day}-${hour}-${min}-${sec}`
-      // console.log(id)
       firebase.database().ref(`company`).push({
         name,
         tel,
@@ -113,7 +111,6 @@ export default class CompanyAdd extends Component {
 
   Alert() {
     const { open, isNull } = this.state
-    console.log(this.state.name)
     if (isNull) {
       return (
         <Dialog

@@ -62,7 +62,6 @@ export default class CompanyLists extends Component {
 
   onChange = (e) => {
     const { value } = e.target
-    console.log(value)
     this.searchData(value)
   }
 
@@ -103,6 +102,7 @@ export default class CompanyLists extends Component {
           state={{ clist: true }} />
         <Grid
           xs={10}
+          item
           container
           direction='column'
           style={{ padding: 30 }}>

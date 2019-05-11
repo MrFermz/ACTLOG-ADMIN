@@ -288,6 +288,7 @@ export default class UserStaffDetail extends Component {
     return (
       <Grid
         xs={12}
+        item
         container
         justify='center'
         alignItems='center'>

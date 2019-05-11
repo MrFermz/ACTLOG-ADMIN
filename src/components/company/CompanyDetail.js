@@ -77,6 +77,7 @@ export default class CompanyDetail extends Component {
     return (
       <Grid
         xs={12}
+        item
         container
         justify='center'
         alignItems='center'>

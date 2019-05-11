@@ -11,7 +11,7 @@ import {
   DialogContentText,
   DialogActions
 } from '@material-ui/core'
-import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers'
+import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment'
 import th from 'moment/locale/th'
 
@@ -180,6 +180,7 @@ export default class UserEdit extends Component {
     return (
       <Grid
         xs={12}
+        item
         container
         justify='center'
         alignItems='center'>
