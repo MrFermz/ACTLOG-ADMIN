@@ -96,22 +96,22 @@ export default class Menus extends Component {
             fullWidth
             style={{ marginTop: 10, width: '90%' }}
             variant='contained'
-            onClick={() => { this.props.history.push('/home') }} >
+            onClick={() => { this.props.history.push('/home') }}>
             หน้าแรก</Button >
           <Button
             disabled={list}
             fullWidth
             style={{ marginTop: 10, width: '90%' }}
             variant='contained'
-            onClick={() => { this.props.history.push('/lists') }} >
-            จัดการชื่อผู้ใช้</Button >
+            onClick={() => { this.props.history.push('/lists') }}>
+            จัดการข้อมูลผู้ใช้</Button >
           <Button
             disabled={clist}
             fullWidth
             style={{ marginTop: 10, width: '90%' }}
             variant='contained'
-            onClick={() => { this.props.history.push('/clists') }} >
-            จัดการสถานประกอบการ</Button >
+            onClick={() => { this.props.history.push('/clists') }}>
+            จัดการข้อมูลสถานประกอบการ</Button >
 
           <Typography
             align='center'
