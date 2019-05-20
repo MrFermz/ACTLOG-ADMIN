@@ -90,6 +90,9 @@ export default class ReportStudentComment extends Component {
                 var key = child.key
                 if (suid === val2.suid) {
                   id += 1
+                  var sum = val2.score1 + val2.score2 + val2.score3 + val2.score4
+                    + val2.score5 + val2.score6 + val2.score7 + val2.score8 +
+                    val2.score9 + val2.score10
                   this.setState({
                     id,
                     key,
@@ -107,7 +110,8 @@ export default class ReportStudentComment extends Component {
                     score8: val2.score8,
                     score9: val2.score9,
                     score10: val2.score10,
-                    comment: val2.comment
+                    comment: val2.comment,
+                    sum: sum.toFixed(2)
                   })
                 }
               })
@@ -170,7 +174,8 @@ export default class ReportStudentComment extends Component {
   }
 
   render() {
-    const { sid, fname, lname, email, comment, sfname, slname, semail, score1, score2, score3, score4, score5, score6, score7, score8, score9, score10 } = this.state
+    const { sid, fname, lname, email, comment, sfname, slname, semail,
+      score1, score2, score3, score4, score5, score6, score7, score8, score9, score10, sum } = this.state
     return (
       <Grid
         container>
@@ -267,6 +272,11 @@ export default class ReportStudentComment extends Component {
                   <TableCell>10. ความสำเร็จของผลงานที่ปฏิบัติ</TableCell>
                   <TableCell align='center'>8</TableCell>
                   <TableCell align='center'>{score10}</TableCell>
+                </TableRow>
+                <TableRow style={{ backgroundColor: 'lightgray' }}>
+                  <TableCell>รวม</TableCell>
+                  <TableCell align='center'>80</TableCell>
+                  <TableCell align='center'>{sum}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
