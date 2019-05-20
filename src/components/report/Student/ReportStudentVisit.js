@@ -88,12 +88,12 @@ export default class ReportVisit extends Component {
   renerList(suid) {
     const { Vtuid, tuid } = this.state
     var final = [], items = [], id = 0
+    var c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0
     final = tuid.filter(val => Vtuid.includes(val))
     final.forEach((val) => {
       firebase.database().ref(`users/${val}`)
         .once('value').then((snapshot) => {
           var val1 = snapshot.val()
-
           firebase.database().ref('visit')
             .orderByChild('tuid')
             .equalTo(val)
@@ -117,7 +117,6 @@ export default class ReportVisit extends Component {
                     score5: val2.score5,
                     comment: val2.comment
                   })
-
                   var score1 = val2.score1 + this.state.score1
                   var score2 = val2.score2 + this.state.score2
                   var score3 = val2.score3 + this.state.score3
@@ -125,25 +124,24 @@ export default class ReportVisit extends Component {
                   var score5 = val2.score5 + this.state.score5
 
                   if (score1) {
-                    this.setState({
-                      score1: score1 / id
-                    })
-                  } if (score2) {
-                    this.setState({
-                      score2: score2 / id
-                    })
-                  } if (score3) {
-                    this.setState({
-                      score3: score3 / id
-                    })
-                  } if (score4) {
-                    this.setState({
-                      score4: score4 / id
-                    })
-                  } if (score5) {
-                    this.setState({
-                      score5: score5 / id
-                    })
+                    c1 += 1
+                    this.setState({ score1, c1 })
+                  }
+                  if (score2) {
+                    c2 += 1
+                    this.setState({ score2, c2 })
+                  }
+                  if (score3) {
+                    c3 += 1
+                    this.setState({ score3, c3 })
+                  }
+                  if (score4) {
+                    c4 += 1
+                    this.setState({ score4, c4 })
+                  }
+                  if (score5) {
+                    c5 += 1
+                    this.setState({ score5, c5 })
                   }
                 }
               })
@@ -249,7 +247,8 @@ export default class ReportVisit extends Component {
 
   render() {
     const { list, sid, fname, lname, email } = this.state
-    const { score1, score2, score3, score4, score5 } = this.state
+    const { score1, score2, score3, score4, score5,
+      c1, c2, c3, c4, c5 } = this.state
     return (
       <Grid
         container>
@@ -333,11 +332,11 @@ export default class ReportVisit extends Component {
                   <TableCell
                     align='center'
                     colSpan={2}>เฉลี่ย</TableCell>
-                  <TableCell align='center'>{score1.toFixed(2)}</TableCell>
-                  <TableCell align='center'>{score2.toFixed(2)}</TableCell>
-                  <TableCell align='center'>{score3.toFixed(2)}</TableCell>
-                  <TableCell align='center'>{score4.toFixed(2)}</TableCell>
-                  <TableCell align='center'>{score5.toFixed(2)}</TableCell>
+                  <TableCell align='center'>{(score1 / c1).toFixed(2)}</TableCell>
+                  <TableCell align='center'>{(score2 / c2).toFixed(2)}</TableCell>
+                  <TableCell align='center'>{(score3 / c3).toFixed(2)}</TableCell>
+                  <TableCell align='center'>{(score4 / c4).toFixed(2)}</TableCell>
+                  <TableCell align='center'>{(score5 / c5).toFixed(2)}</TableCell>
                   <TableCell align='center' />
                 </TableRow>
               </TableBody>
