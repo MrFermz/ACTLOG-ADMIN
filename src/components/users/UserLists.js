@@ -96,7 +96,7 @@ export default class UserLists extends Component {
   }
 
   componentDidMount() {
-    document.title = 'รายชื่อผู้ใช้ทั้งหมด - ACTLOG ADMIN'
+    document.title = 'จัดการข้อมูลผู้ใช้ - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getData()
