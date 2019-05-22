@@ -36,7 +36,7 @@ const selectionStd = [
   },
   {
     value: 'email',
-    label: 'อีเมลล์'
+    label: 'อีเมล'
   }
 ]
 
@@ -246,7 +246,7 @@ export default class ReportStudent extends Component {
                   <TableCell align='center'>ลำดับ</TableCell>
                   <TableCell>รหัส นศ.</TableCell>
                   <TableCell>ชื่อ - สกุล</TableCell>
-                  <TableCell>อีเมลล์</TableCell>
+                  <TableCell>อีเมล</TableCell>
                   <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>

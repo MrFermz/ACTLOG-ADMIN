@@ -86,7 +86,7 @@ export default class Login extends Component {
             width='10%'
             alt='logo' />
           <TextField
-            label='อีเมลล์'
+            label='อีเมล'
             type='email'
             name='email'
             onChange={this.onChange}

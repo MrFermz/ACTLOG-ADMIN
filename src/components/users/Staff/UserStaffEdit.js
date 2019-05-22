@@ -160,7 +160,7 @@ export default class UserStaffEdit extends Component {
           </Grid>
           <Grid>
             <TextField
-              label='อีเมลล์'
+              label='อีเมล'
               variant='outlined'
               margin='normal'
               value={email}

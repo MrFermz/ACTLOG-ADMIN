@@ -133,7 +133,7 @@ export default class UserTeachDetail extends Component {
           </Grid>
           <Grid>
             <TextField
-              label='อีเมลล์'
+              label='อีเมล'
               variant='outlined'
               margin='normal'
               value={email} />
@@ -179,7 +179,7 @@ export default class UserTeachDetail extends Component {
               {`ยืนยันผู้ใช้เพื่อให้เข้าใช้งานแอปพลิเคชันได้ และแอดมินสามารถดู แก้ไข ข้อมูลได้`}</Typography>
             <TextField
               InputLabelProps={{ shrink: true }}
-              label='อีเมลล์'
+              label='อีเมล'
               variant='outlined'
               margin='normal'
               value={email}

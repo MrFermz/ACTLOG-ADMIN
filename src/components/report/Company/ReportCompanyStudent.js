@@ -194,7 +194,7 @@ export default class ReportCompanyStudent extends Component {
                   <TableCell align='center'>ลำดับ</TableCell>
                   <TableCell>รหัสนักศึกษา</TableCell>
                   <TableCell>ชื่อ - สกุล</TableCell>
-                  <TableCell>อีเมลล์</TableCell>
+                  <TableCell>อีเมล</TableCell>
                   <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>

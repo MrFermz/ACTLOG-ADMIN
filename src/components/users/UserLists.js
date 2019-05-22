@@ -51,7 +51,7 @@ const selectionStd = [
   },
   {
     value: 'email',
-    label: 'อีเมลล์'
+    label: 'อีเมล'
   }
 ]
 
@@ -66,7 +66,7 @@ const selectionTeacher = [
   },
   {
     value: 'email',
-    label: 'อีเมลล์'
+    label: 'อีเมล'
   }
 ]
 
@@ -81,7 +81,7 @@ const selectionStaff = [
   },
   {
     value: 'email',
-    label: 'อีเมลล์'
+    label: 'อีเมล'
   }
 ]
 
@@ -368,7 +368,7 @@ export default class UserLists extends Component {
                   {type === 'Staff'
                     ? <TableCell>สถานประกอบการ</TableCell>
                     : null}
-                  <TableCell>อีเมลล์</TableCell>
+                  <TableCell>อีเมล</TableCell>
                   <TableCell
                     align='center'
                     style={{ width: 70 }}>สถานะ</TableCell>

@@ -264,7 +264,7 @@ export default class ReportStaff extends Component {
                   <TableCell>ชื่อ - สกุล</TableCell>
                   <TableCell>เบอร์โทร</TableCell>
                   <TableCell>สถานประกอบการ</TableCell>
-                  <TableCell>อีเมลล์</TableCell>
+                  <TableCell>อีเมล</TableCell>
                   <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>

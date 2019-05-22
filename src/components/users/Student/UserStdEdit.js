@@ -216,7 +216,7 @@ export default class UserEdit extends Component {
           <Grid>
             <TextField
               disabled
-              label='อีเมลล์'
+              label='อีเมล'
               variant='outlined'
               margin='normal'
               name='email'

@@ -32,7 +32,7 @@ const selectionTeacher = [
   },
   {
     value: 'email',
-    label: 'อีเมลล์'
+    label: 'อีเมล'
   }
 ]
 
@@ -211,7 +211,7 @@ export default class ReportTeacher extends Component {
                   <TableCell align='center'>ลำดับ</TableCell>
                   <TableCell>ชื่อ - สกุล</TableCell>
                   <TableCell>เบอร์โทร</TableCell>
-                  <TableCell>อีเมลล์</TableCell>
+                  <TableCell>อีเมล</TableCell>
                   <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
