@@ -13,7 +13,8 @@ export default class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      message: ''
+      message: '',
+      secret: 0
     }
   }
 
@@ -61,10 +62,19 @@ export default class Login extends Component {
             }
           })
       }).catch((err) => {
-        this.setState({ message: err.message })
+        if (this.state.secret === 100) {
+          this.setState({ message: 'By Mr.Fermz' })
+        } else {
+          this.setState({ message: err.message })
+        }
       })
   }
 
+  secretCount() {
+    this.setState({
+      secret: this.state.secret + 1
+    })
+  }
 
   render() {
     const { message } = this.state
@@ -105,6 +115,7 @@ export default class Login extends Component {
           <Button
             variant='contained'
             color='primary'
+            onClickCapture={this.secretCount.bind(this)}
             onClick={this.onSubmit.bind(this)}>
             เข้าสู่ระบบ</Button>
         </Grid>
