@@ -10,7 +10,8 @@ import {
   Button,
   TextField,
   Grid,
-  MenuItem
+  MenuItem,
+  Typography
 } from '@material-ui/core'
 import Menus from '../Menus'
 import {
@@ -91,22 +92,34 @@ export default class UserLists extends Component {
     this.state = {
       list: [],
       type: 'Student',
-      select: 'sid'
+      select: 'sid',
+      year: ''
     }
   }
 
   componentDidMount() {
     document.title = 'จัดการข้อมูลผู้ใช้ - ACTLOG ADMIN'
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.getData()
-      } else {
-        this.props.history.push('/')
-      }
-    })
+    firebase.database().ref('temp')
+      .once('value').then((snapshot) => {
+        var val = snapshot.val()
+        var year = val.year
+        if (year) {
+          this.setState({ year })
+          firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              this.getData()
+            } else {
+              this.props.history.push('/')
+            }
+          })
+        } else {
+          this.props.history.push('/home')
+        }
+      })
   }
 
   getData() {
+    const { year } = this.state
     var items = [], id = 0
     firebase.database().ref('users')
       .orderByChild('type')
@@ -114,17 +127,20 @@ export default class UserLists extends Component {
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
           var val = child.val()
-          id += 1
-          items.push({
-            id: id,
-            fname: val.fname,
-            lname: val.lname,
-            email: val.email,
-            uid: val.uid,
-            type: val.type,
-            sid: val.sid,
-            stat: val.typeStat
-          })
+          var userYear = val.year
+          if (userYear === year) {
+            id += 1
+            items.push({
+              id: id,
+              fname: val.fname,
+              lname: val.lname,
+              email: val.email,
+              uid: val.uid,
+              type: val.type,
+              sid: val.sid,
+              stat: val.typeStat
+            })
+          }
         })
         this.setState({ list: items })
       })
@@ -136,7 +152,7 @@ export default class UserLists extends Component {
   }
 
   searchData(word) {
-    const { type, select } = this.state
+    const { type, select, year } = this.state
     var items = [], id = 0
     firebase.database().ref('users')
       .orderByChild(select)
@@ -145,10 +161,24 @@ export default class UserLists extends Component {
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
           var val = child.val()
-          id += 1
-          if (val.type === type) {
+          var userYear = val.year
+          if ((val.type === type && val.type === 'Student') && userYear === year) {
+            id += 1
             items.push({
-              id: id,
+              id,
+              fname: val.fname,
+              lname: val.lname,
+              email: val.email,
+              uid: val.uid,
+              type: val.type,
+              sid: val.sid,
+              tel: val.telNum,
+              stat: val.typeStat
+            })
+          } if (val.type === type && val.type !== 'Student') {
+            id += 1
+            items.push({
+              id,
               fname: val.fname,
               lname: val.lname,
               email: val.email,
@@ -171,6 +201,7 @@ export default class UserLists extends Component {
   }
 
   searchDataType(type) {
+    const { year } = this.state
     var items = [], id = 0
     firebase.database().ref('users')
       .orderByChild('type')
@@ -178,20 +209,37 @@ export default class UserLists extends Component {
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
           var val = child.val()
-          id += 1
+          var userYear = val.year
           if (type !== 'Staff') {
-            items.push({
-              id,
-              fname: val.fname,
-              lname: val.lname,
-              email: val.email,
-              uid: val.uid,
-              type: val.type,
-              sid: val.sid,
-              tel: val.telNum,
-              stat: val.typeStat
-            })
-            this.setState({ list: items })
+            if (type === 'Student') {
+              if (userYear === year) {
+                id += 1
+                items.push({
+                  id,
+                  fname: val.fname,
+                  lname: val.lname,
+                  email: val.email,
+                  uid: val.uid,
+                  type: val.type,
+                  sid: val.sid,
+                  stat: val.typeStat
+                })
+              }
+              this.setState({ list: items })
+            } else {
+              id += 1
+              items.push({
+                id,
+                fname: val.fname,
+                lname: val.lname,
+                email: val.email,
+                uid: val.uid,
+                type: val.type,
+                sid: val.sid,
+                stat: val.typeStat
+              })
+              this.setState({ list: items })
+            }
           } else {
             var key = val.company
             id = 0
@@ -258,7 +306,6 @@ export default class UserLists extends Component {
               <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
             ))}</TextField>
           <TextField
-            id='outlined-email-input'
             label={`ค้นหา`}
             type='search'
             name='search'
@@ -322,7 +369,7 @@ export default class UserLists extends Component {
   }
 
   render() {
-    const { list, type } = this.state
+    const { list, type, year } = this.state
     return (
       <Grid
         container
@@ -337,19 +384,32 @@ export default class UserLists extends Component {
           direction='column'
           style={{ padding: 30 }}>
           <Grid
+            container
+            direction='row'
             style={{ width: '100%' }}>
-            <TextField
-              select
-              label='เลือกประเภทผู้ใช้'
-              onChange={this.onChangeType}
-              value={this.state.type}
-              margin='normal'
-              variant='outlined'
-              style={{ width: 150, marginRight: 15 }}>
-              {searchType.map((option, i) => (
-                <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
-              ))}</TextField>
-            {this.renderSelection()}
+            <Grid>
+              <TextField
+                select
+                label='เลือกประเภทผู้ใช้'
+                onChange={this.onChangeType}
+                value={this.state.type}
+                margin='normal'
+                variant='outlined'
+                style={{ width: 150, marginRight: 15 }}>
+                {searchType.map((option, i) => (
+                  <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
+                ))}</TextField>
+              {this.renderSelection()}
+            </Grid>
+            <Grid
+              justify='flex-start'
+              style={{ width: '50%', alignSelf: 'center' }}>
+              <Typography
+                style={{
+                  fontSize: 25,
+                  paddingLeft: 20
+                }}>ปีการศึกษา : {parseInt(year) + 543}</Typography>
+            </Grid>
           </Grid>
           <Paper
             style={{ width: '100%' }}>
@@ -397,7 +457,7 @@ export default class UserLists extends Component {
                       : <TableCell align='center'>ยืนยันแล้ว</TableCell>}
                     <TableCell align='center'>
                       <Button
-                        variant='flat'
+                        variant='text'
                         onClick={() => {
                           if (row.type === 'Student') {
                             this.props.history.push({

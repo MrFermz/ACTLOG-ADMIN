@@ -70,6 +70,7 @@ export default class CompanyAdd extends Component {
   onChange = (e) => {
     const { name, value } = e.target
     this.setState({ [name]: value })
+    console.log([name], value)
     if (value === 'other') {
       this.setState({ other: false })
     }
@@ -79,14 +80,6 @@ export default class CompanyAdd extends Component {
     e.preventDefault()
     const { name, tel, address, address1, address2, province, zip, comType, objective } = this.state
     if (name) {
-      // var date = new Date()
-      // var year = date.getFullYear()
-      // var month = date.getMonth()
-      // var day = date.getDay()
-      // var hour = date.getHours()
-      // var min = date.getMinutes()
-      // var sec = date.getSeconds()
-      // var id = `${year}-${month}-${day}-${hour}-${min}-${sec}`
       firebase.database().ref(`company`).push({
         name,
         tel,
@@ -156,6 +149,7 @@ export default class CompanyAdd extends Component {
   }
 
   render() {
+    const { other, comType } = this.state
     return (
       <Grid
         container
@@ -182,12 +176,14 @@ export default class CompanyAdd extends Component {
               onChange={this.onChange}
               InputLabelProps={{ shrink: true }}
               margin='normal'
+              value={comType}
               variant='outlined'>
               {comTypeSelect.map((option, i) => (
                 <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
               ))}</TextField>
             <TextField
-              disabled={this.state.other}
+              disabled={other}
+              value={comType}
               fullWidth
               label='อื่น ๆ'
               variant='outlined'

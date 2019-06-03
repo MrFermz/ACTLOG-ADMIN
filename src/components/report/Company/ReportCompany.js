@@ -14,7 +14,8 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  TextField
+  TextField,
+  Typography
 } from '@material-ui/core'
 import {
   MoreHoriz
@@ -26,19 +27,31 @@ export default class ReportCompany extends Component {
     this.state = {
       list: [],
       open: false,
-      key: ''
+      key: '',
+      year: ''
+
     }
   }
 
   componentDidMount() {
     document.title = 'รายงานสถานประกอบการ - ACTLOG ADMIN'
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.getData()
-      } else {
-        this.props.history.push('/')
-      }
-    })
+    firebase.database().ref('temp')
+      .once('value').then((snapshot) => {
+        var val = snapshot.val()
+        var year = val.year
+        if (year) {
+          this.setState({ year })
+          firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              this.getData()
+            } else {
+              this.props.history.push('/')
+            }
+          })
+        } else {
+          this.props.history.push('/home')
+        }
+      })
   }
 
   getData() {
@@ -161,7 +174,7 @@ export default class ReportCompany extends Component {
   }
 
   render() {
-    const { list } = this.state
+    const { list, year } = this.state
     return (
       <Grid
         container>
@@ -176,14 +189,27 @@ export default class ReportCompany extends Component {
           direction='column'
           style={{ padding: 30 }}>
           <Grid
+            container
+            direction='row'
             style={{ width: '100%' }}>
-            <TextField
-              label='ค้นหาชื่อ'
-              type='search'
-              name='search'
-              onChange={this.onChange}
-              margin='normal'
-              variant='outlined' />
+            <Grid>
+              <TextField
+                label='ค้นหาชื่อ'
+                type='search'
+                name='search'
+                onChange={this.onChange}
+                margin='normal'
+                variant='outlined' />
+            </Grid>
+            <Grid
+              justify='flex-start'
+              style={{ width: '50%', alignSelf: 'center' }}>
+              <Typography
+                style={{
+                  fontSize: 25,
+                  paddingLeft: 20
+                }}>ปีการศึกษา : {parseInt(year) + 543}</Typography>
+            </Grid>
           </Grid>
           <Paper
             style={{ width: '100%' }}>

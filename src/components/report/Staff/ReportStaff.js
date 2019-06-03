@@ -15,7 +15,8 @@ import {
   DialogContent,
   DialogActions,
   MenuItem,
-  TextField
+  TextField,
+  Typography
 } from '@material-ui/core'
 import {
   MoreHoriz
@@ -42,19 +43,30 @@ export default class ReportStaff extends Component {
     this.state = {
       list: [],
       open: false,
-      uid: ''
+      uid: '',
+      year: ''
     }
   }
 
   componentDidMount() {
     document.title = 'รายงานผู้ดูแล - ACTLOG ADMIN'
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.getData()
-      } else {
-        this.props.history.push('/')
-      }
-    })
+    firebase.database().ref('temp')
+      .once('value').then((snapshot) => {
+        var val = snapshot.val()
+        var year = val.year
+        if (year) {
+          this.setState({ year })
+          firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              this.getData()
+            } else {
+              this.props.history.push('/')
+            }
+          })
+        } else {
+          this.props.history.push('/home')
+        }
+      })
   }
 
   getData() {
@@ -218,7 +230,7 @@ export default class ReportStaff extends Component {
   }
 
   render() {
-    const { list } = this.state
+    const { list, year } = this.state
     return (
       <Grid
         container
@@ -233,27 +245,41 @@ export default class ReportStaff extends Component {
           container
           direction='column'
           style={{ padding: 30 }}>
-          <Grid>
-            <TextField
-              select
-              label='เลือกการค้นหา'
-              onChange={this.onChangeSelect}
-              value={this.state.select}
-              margin='normal'
-              variant='outlined'
-              InputLabelProps={{ shrink: true }}
-              style={{ width: 150, marginRight: 15 }}>
-              {selectionStaff.map((option, i) => (
-                <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
-              ))}</TextField>
-            <TextField
-              label={`ค้นหา`}
-              type='search'
-              name='search'
-              style={{ marginRight: 10 }}
-              onChange={this.onChange}
-              margin='normal'
-              variant='outlined' />
+          <Grid
+            container
+            direction='row'
+            style={{ width: '100%' }}>
+            <Grid>
+              <TextField
+                select
+                label='เลือกการค้นหา'
+                onChange={this.onChangeSelect}
+                value={this.state.select}
+                margin='normal'
+                variant='outlined'
+                InputLabelProps={{ shrink: true }}
+                style={{ width: 150, marginRight: 15 }}>
+                {selectionStaff.map((option, i) => (
+                  <MenuItem key={i} value={option.value}>{option.label}</MenuItem>
+                ))}</TextField>
+              <TextField
+                label={`ค้นหา`}
+                type='search'
+                name='search'
+                style={{ marginRight: 10 }}
+                onChange={this.onChange}
+                margin='normal'
+                variant='outlined' />
+            </Grid>
+            <Grid
+              justify='flex-start'
+              style={{ width: '50%', alignSelf: 'center' }}>
+              <Typography
+                style={{
+                  fontSize: 25,
+                  paddingLeft: 20
+                }}>ปีการศึกษา : {parseInt(year) + 543}</Typography>
+            </Grid>
           </Grid>
           <Paper
             style={{ width: '100%' }}>

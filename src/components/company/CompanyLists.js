@@ -11,7 +11,8 @@ import {
   TableCell,
   TableBody,
   Button,
-  Fab
+  Fab,
+  Typography
 } from '@material-ui/core'
 import {
   Add,
@@ -22,19 +23,30 @@ export default class CompanyLists extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      list: []
+      list: [],
+      year: ''
     }
   }
 
   componentDidMount() {
     document.title = 'จัดการข้อมูลสถานประกอบการ - ACTLOG ADMIN'
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.getData()
-      } else {
-        this.props.history.push('/')
-      }
-    })
+    firebase.database().ref('temp')
+      .once('value').then((snapshot) => {
+        var val = snapshot.val()
+        var year = val.year
+        if (year) {
+          this.setState({ year })
+          firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              this.getData()
+            } else {
+              this.props.history.push('/')
+            }
+          })
+        } else {
+          this.props.history.push('/home')
+        }
+      })
   }
 
   getData() {
@@ -92,7 +104,7 @@ export default class CompanyLists extends Component {
   }
 
   render() {
-    const { list } = this.state
+    const { list, year } = this.state
     return (
       <Grid
         container
@@ -107,19 +119,32 @@ export default class CompanyLists extends Component {
           direction='column'
           style={{ padding: 30 }}>
           <Grid
+            container
+            direction='row'
             style={{ width: '100%' }}>
-            <TextField
-              label='ค้นหาชื่อ'
-              type='search'
-              name='search'
-              onChange={this.onChange}
-              margin='normal'
-              variant='outlined' />
-            <Fab
-              style={{ marginTop: 17, marginLeft: 15 }}
-              color='primary'
-              onClick={() => this.props.history.push('/cadd')}>
-              <Add /></Fab>
+            <Grid>
+              <TextField
+                label='ค้นหาชื่อ'
+                type='search'
+                name='search'
+                onChange={this.onChange}
+                margin='normal'
+                variant='outlined' />
+              <Fab
+                style={{ marginTop: 17, marginLeft: 15 }}
+                color='primary'
+                onClick={() => this.props.history.push('/cadd')}>
+                <Add /></Fab>
+            </Grid>
+            <Grid
+              justify='flex-start'
+              style={{ width: '50%', alignSelf: 'center' }}>
+              <Typography
+                style={{
+                  fontSize: 25,
+                  paddingLeft: 20
+                }}>ปีการศึกษา : {parseInt(year) + 543}</Typography>
+            </Grid>
           </Grid>
           <Paper
             style={{ width: '100%' }}>
@@ -127,9 +152,9 @@ export default class CompanyLists extends Component {
               <TableHead>
                 <TableRow>
                   <TableCell align='center'>ลำดับ</TableCell>
-                  <TableCell align='center'>ชื่อสถานประกอบการ</TableCell>
-                  <TableCell align='center'>เบอร์ติดต่อ</TableCell>
-                  <TableCell align='center'>ที่อยู่</TableCell>
+                  <TableCell>ชื่อสถานประกอบการ</TableCell>
+                  <TableCell>เบอร์ติดต่อ</TableCell>
+                  <TableCell style={{ width: 300 }}>ที่อยู่</TableCell>
                   <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>
