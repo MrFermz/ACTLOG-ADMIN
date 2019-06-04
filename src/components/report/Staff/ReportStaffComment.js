@@ -40,16 +40,27 @@ export default class ReportStaffComment extends Component {
 
   componentDidMount() {
     document.title = 'ประเมินผลการฝึกงาน - ACTLOG ADMIN'
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.getData()
-      } else {
-        this.props.history.push('/')
-      }
-    })
+    firebase.database().ref('temp')
+      .once('value').then((snapshot) => {
+        var val = snapshot.val()
+        var year = val.year
+        if (year) {
+          this.setState({ year })
+          firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              this.getData()
+            } else {
+              this.props.history.push('/')
+            }
+          })
+        } else {
+          this.props.history.push('/home')
+        }
+      })
   }
 
   getData() {
+    const { year } = this.state
     var cuid = this.props.location.state.uid
     var csuid = [], suid = []
     firebase.database().ref('comment')
@@ -68,7 +79,10 @@ export default class ReportStaffComment extends Component {
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
           var val = child.val()
-          suid.push(val.uid)
+          var userYear = val.year
+          if (userYear === year) {
+            suid.push(val.uid)
+          }
         })
         this.setState({ suid })
       }).then(() => {

@@ -55,27 +55,74 @@ export default class ReportCompany extends Component {
   }
 
   getData() {
-    var items = [], id = 0
-    firebase.database().ref('company')
+    const { year } = this.state
+    var ccuid = [], cuid = []
+    firebase.database().ref('users')
+      .orderByChild('type')
+      .equalTo('Student')
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
           var val = child.val()
-          var key = child.key
-          id += 1
-          items.push({
-            id: id,
-            key,
-            name: val.name,
-            tel: val.tel,
-            add: val.address,
-            add1: val.address1,
-            add2: val.address2,
-            province: val.province,
-            zip: val.zip
-          })
+          var userYear = val.year
+          var suid = val.uid
+          if (userYear === year) {
+            firebase.database().ref('comment')
+              .orderByChild('suid')
+              .equalTo(suid)
+              .once('value').then((snapshot) => {
+                snapshot.forEach((child) => {
+                  var val = child.val()
+                  ccuid.push(val.cuid)
+                })
+                this.setState({ Ccuid: ccuid })
+              })
+            firebase.database().ref('users')
+              .orderByChild('type')
+              .equalTo('Staff')
+              .once('value').then((snapshot) => {
+                snapshot.forEach((child) => {
+                  var val = child.val()
+                  cuid.push(val.uid)
+                })
+                this.setState({ cuid })
+              }).then(() => {
+                this.renderList()
+              })
+          }
         })
-        this.setState({ list: items })
       })
+  }
+
+  renderList() {
+    const { Ccuid, cuid } = this.state
+    var final = [], items = [], id = 0
+    final = cuid.filter(val => Ccuid.includes(val))
+    final = new Set(final)
+    final.forEach((val) => {
+      firebase.database().ref(`users/${val}`)
+        .once('value').then((snapshot) => {
+          var val1 = snapshot.val()
+          var com = val1.company
+          firebase.database().ref(`company/${com}`)
+            .once('value').then((snapshot) => {
+              var val2 = snapshot.val()
+              var key = snapshot.key
+              id += 1
+              items.push({
+                id,
+                key,
+                name: val2.name,
+                tel: val2.tel,
+                add: val2.address,
+                add1: val2.address1,
+                add2: val2.address2,
+                province: val2.province,
+                zip: val2.zip
+              })
+              this.setState({ list: items })
+            })
+        })
+    })
   }
 
   onChange = (e) => {

@@ -46,16 +46,27 @@ export default class ReportTeacherVisit extends Component {
 
   componentDidMount() {
     document.title = 'ผลนิเทศอาจารย์ - ACTLOG ADMIN'
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.getData()
-      } else {
-        this.props.history.push('/')
-      }
-    })
+    firebase.database().ref('temp')
+      .once('value').then((snapshot) => {
+        var val = snapshot.val()
+        var year = val.year
+        if (year) {
+          this.setState({ year })
+          firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              this.getData()
+            } else {
+              this.props.history.push('/')
+            }
+          })
+        } else {
+          this.props.history.push('/home')
+        }
+      })
   }
 
   getData() {
+    const { year } = this.state
     var tuid = this.props.location.state.uid
     var vsuid = [], suid = []
 
@@ -76,7 +87,10 @@ export default class ReportTeacherVisit extends Component {
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
           var val = child.val()
-          suid.push(val.uid)
+          var userYear = val.year
+          if (userYear === year) {
+            suid.push(val.uid)
+          }
         })
         this.setState({ suid })
       }).then(() => {

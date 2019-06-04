@@ -70,13 +70,53 @@ export default class ReportStaff extends Component {
   }
 
   getData() {
-    var items = [], id = 0
+    const { year } = this.state
+    var ccuid = [], cuid = []
     firebase.database().ref('users')
       .orderByChild('type')
-      .equalTo('Staff')
+      .equalTo('Student')
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
           var val = child.val()
+          var userYear = val.year
+          var suid = val.uid
+          if (userYear === year) {
+            firebase.database().ref('comment')
+              .orderByChild('suid')
+              .equalTo(suid)
+              .once('value').then((snapshot) => {
+                snapshot.forEach((child) => {
+                  var val = child.val()
+                  ccuid.push(val.cuid)
+                })
+                this.setState({ Ccuid: ccuid })
+              })
+            firebase.database().ref('users')
+              .orderByChild('type')
+              .equalTo('Staff')
+              .once('value').then((snapshot) => {
+                snapshot.forEach((child) => {
+                  var val = child.val()
+                  cuid.push(val.uid)
+                })
+                this.setState({ cuid })
+              }).then(() => {
+                this.renderList()
+              })
+          }
+        })
+      })
+  }
+
+  renderList() {
+    const { Ccuid, cuid } = this.state
+    var final = [], items = [], id = 0
+    final = cuid.filter(val => Ccuid.includes(val))
+    final = new Set(final)
+    final.forEach((val) => {
+      firebase.database().ref(`users/${val}`)
+        .once('value').then((snapshot) => {
+          var val = snapshot.val()
           var key = val.company
           if (key) {
             firebase.database().ref(`company/${key}`)
@@ -84,7 +124,7 @@ export default class ReportStaff extends Component {
                 var val1 = snapshot.val()
                 id += 1
                 items.push({
-                  id: id,
+                  id,
                   fname: val.fname,
                   lname: val.lname,
                   email: val.email,
@@ -100,7 +140,7 @@ export default class ReportStaff extends Component {
               .once('value').then((snapshot) => {
                 id += 1
                 items.push({
-                  id: id,
+                  id,
                   fname: val.fname,
                   lname: val.lname,
                   email: val.email,
@@ -113,7 +153,7 @@ export default class ReportStaff extends Component {
               })
           }
         })
-      })
+    })
   }
 
   handleAlert() {
@@ -177,56 +217,60 @@ export default class ReportStaff extends Component {
   }
 
   searchData(word) {
-    const { select } = this.state
-    var items = [], id = 0
-    if (select) {
-      firebase.database().ref('users')
-        .orderByChild(select)
-        .startAt(word)
-        .endAt(word + '\uf8ff')
-        .once('value').then((snapshot) => {
-          snapshot.forEach((child) => {
-            var val = child.val()
-            var key = val.company
-            if (val.type === 'Staff') {
-              if (key) {
-                firebase.database().ref(`company/${key}`)
-                  .once('value').then((snapshot) => {
-                    var val1 = snapshot.val()
-                    id += 1
-                    items.push({
-                      id: id,
-                      fname: val.fname,
-                      lname: val.lname,
-                      email: val.email,
-                      uid: val.uid,
-                      type: val.type,
-                      tel: val.telNum,
-                      company: val1.name
+    const { select, Ccuid, cuid } = this.state
+    var final = [], items = [], id = 0
+    final = cuid.filter(val => Ccuid.includes(val))
+    final = new Set(final)
+    final.forEach((uid) => {
+      if (select) {
+        firebase.database().ref('users')
+          .orderByChild(select)
+          .startAt(word)
+          .endAt(word + '\uf8ff')
+          .once('value').then((snapshot) => {
+            snapshot.forEach((child) => {
+              var val = child.val()
+              var key = val.company
+              if (val.type === 'Staff' && val.uid === uid) {
+                if (key) {
+                  firebase.database().ref(`company/${key}`)
+                    .once('value').then((snapshot) => {
+                      var val1 = snapshot.val()
+                      id += 1
+                      items.push({
+                        id: id,
+                        fname: val.fname,
+                        lname: val.lname,
+                        email: val.email,
+                        uid: val.uid,
+                        type: val.type,
+                        tel: val.telNum,
+                        company: val1.name
+                      })
+                      this.setState({ list: items })
                     })
-                    this.setState({ list: items })
-                  })
-              } else {
-                firebase.database().ref(`company/${key}`)
-                  .once('value').then((snapshot) => {
-                    id += 1
-                    items.push({
-                      id: id,
-                      fname: val.fname,
-                      lname: val.lname,
-                      email: val.email,
-                      uid: val.uid,
-                      type: val.type,
-                      tel: val.telNum,
-                      company: '-'
+                } else {
+                  firebase.database().ref(`company/${key}`)
+                    .once('value').then((snapshot) => {
+                      id += 1
+                      items.push({
+                        id: id,
+                        fname: val.fname,
+                        lname: val.lname,
+                        email: val.email,
+                        uid: val.uid,
+                        type: val.type,
+                        tel: val.telNum,
+                        company: '-'
+                      })
+                      this.setState({ list: items })
                     })
-                    this.setState({ list: items })
-                  })
+                }
               }
-            }
+            })
           })
-        })
-    }
+      }
+    })
   }
 
   render() {

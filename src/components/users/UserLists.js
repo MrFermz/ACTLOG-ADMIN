@@ -119,7 +119,6 @@ export default class UserLists extends Component {
   }
 
   getData() {
-    const { year } = this.state
     var items = [], id = 0
     firebase.database().ref('users')
       .orderByChild('type')
@@ -127,20 +126,17 @@ export default class UserLists extends Component {
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
           var val = child.val()
-          var userYear = val.year
-          if (userYear === year) {
-            id += 1
-            items.push({
-              id: id,
-              fname: val.fname,
-              lname: val.lname,
-              email: val.email,
-              uid: val.uid,
-              type: val.type,
-              sid: val.sid,
-              stat: val.typeStat
-            })
-          }
+          id += 1
+          items.push({
+            id: id,
+            fname: val.fname,
+            lname: val.lname,
+            email: val.email,
+            uid: val.uid,
+            type: val.type,
+            sid: val.sid,
+            stat: val.typeStat
+          })
         })
         this.setState({ list: items })
       })
@@ -152,7 +148,7 @@ export default class UserLists extends Component {
   }
 
   searchData(word) {
-    const { type, select, year } = this.state
+    const { type, select } = this.state
     var items = [], id = 0
     firebase.database().ref('users')
       .orderByChild(select)
@@ -161,8 +157,7 @@ export default class UserLists extends Component {
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
           var val = child.val()
-          var userYear = val.year
-          if ((val.type === type && val.type === 'Student') && userYear === year) {
+          if (val.type === type && val.type === 'Student') {
             id += 1
             items.push({
               id,

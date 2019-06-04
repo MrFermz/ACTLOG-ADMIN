@@ -33,16 +33,27 @@ export default class ReportCompanyStudent extends Component {
 
   componentDidMount() {
     document.title = 'รายชื่อนักศึกษา - ACTLOG ADMIN'
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.getData()
-      } else {
-        this.props.history.push('/')
-      }
-    })
+    firebase.database().ref('temp')
+      .once('value').then((snapshot) => {
+        var val = snapshot.val()
+        var year = val.year
+        if (year) {
+          this.setState({ year })
+          firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              this.getData()
+            } else {
+              this.props.history.push('/')
+            }
+          })
+        } else {
+          this.props.history.push('/home')
+        }
+      })
   }
 
   getData() {
+    const { year } = this.state
     var key = this.props.location.state.key
     var items = [], id = 0
     firebase.database().ref('users')
@@ -64,16 +75,19 @@ export default class ReportCompanyStudent extends Component {
                 firebase.database().ref(`users/${suid}`)
                   .once('value').then((snapshot) => {
                     var val3 = snapshot.val()
-                    id += 1
-                    items.push({
-                      id,
-                      uid: val3.uid,
-                      sid: val3.sid,
-                      fname: val3.fname,
-                      lname: val3.lname,
-                      email: val3.email,
-                      tel: val3.telNum
-                    })
+                    var userYear = val3.year
+                    if(userYear === year){
+                      id += 1
+                      items.push({
+                        id,
+                        uid: val3.uid,
+                        sid: val3.sid,
+                        fname: val3.fname,
+                        lname: val3.lname,
+                        email: val3.email,
+                        tel: val3.telNum
+                      })
+                    }
                     this.setState({ list: items })
                   })
               })
