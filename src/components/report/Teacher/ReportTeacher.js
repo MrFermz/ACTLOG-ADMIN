@@ -44,7 +44,7 @@ export default class ReportTeacher extends Component {
       list: [],
       open: false,
       uid: '',
-      year:''
+      year: ''
     }
   }
 
@@ -72,19 +72,19 @@ export default class ReportTeacher extends Component {
   getData() {
     var items = [], id = 0
     firebase.database().ref('users')
-      .orderByChild('type')
+      .orderByChild('type_user')
       .equalTo('Teacher')
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
           var val = child.val()
           id += 1
           items.push({
-            id: id,
+            id,
             fname: val.fname,
             lname: val.lname,
             email: val.email,
             uid: val.uid,
-            tel: val.telNum,
+            tel: val.tel_number,
           })
           this.setState({ list: items })
         })
@@ -109,7 +109,7 @@ export default class ReportTeacher extends Component {
               onClick={() => {
                 this.props.history.push({
                   pathname: '/teachDetail',
-                  state: { uid: uid }
+                  state: { uid }
                 })
               }}>ดูข้อมูลผู้ใช้</Button>
           </Grid>
@@ -120,7 +120,7 @@ export default class ReportTeacher extends Component {
                 this.props.history.push({
                   pathname: '/ReportTeacherVisit',
                   state: {
-                    uid: uid,
+                    uid,
                     fname,
                     lname,
                     email
@@ -163,12 +163,12 @@ export default class ReportTeacher extends Component {
             if (val.type === 'Teacher') {
               id += 1
               items.push({
-                id: id,
+                id,
                 fname: val.fname,
                 lname: val.lname,
                 email: val.email,
                 uid: val.uid,
-                tel: val.telNum
+                tel: val.tel_number
               })
             }
             this.setState({ list: items })
@@ -178,7 +178,7 @@ export default class ReportTeacher extends Component {
   }
 
   render() {
-    const { list,year } = this.state
+    const { list, year } = this.state
     return (
       <Grid
         container

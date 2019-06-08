@@ -73,7 +73,7 @@ export default class ReportStaff extends Component {
     const { year } = this.state
     var ccuid = [], cuid = []
     firebase.database().ref('users')
-      .orderByChild('type')
+      .orderByChild('type_user')
       .equalTo('Student')
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
@@ -92,7 +92,7 @@ export default class ReportStaff extends Component {
                 this.setState({ Ccuid: ccuid })
               })
             firebase.database().ref('users')
-              .orderByChild('type')
+              .orderByChild('type_user')
               .equalTo('Staff')
               .once('value').then((snapshot) => {
                 snapshot.forEach((child) => {
@@ -129,8 +129,8 @@ export default class ReportStaff extends Component {
                   lname: val.lname,
                   email: val.email,
                   uid: val.uid,
-                  type: val.type,
-                  tel: val.telNum,
+                  type: val.type_user,
+                  tel: val.tel_number,
                   company: val1.name
                 })
                 this.setState({ list: items })
@@ -145,8 +145,8 @@ export default class ReportStaff extends Component {
                   lname: val.lname,
                   email: val.email,
                   uid: val.uid,
-                  type: val.type,
-                  tel: val.telNum,
+                  type: val.type_user,
+                  tel: val.tel_number,
                   company: '-'
                 })
                 this.setState({ list: items })
@@ -238,13 +238,13 @@ export default class ReportStaff extends Component {
                       var val1 = snapshot.val()
                       id += 1
                       items.push({
-                        id: id,
+                        id,
                         fname: val.fname,
                         lname: val.lname,
                         email: val.email,
                         uid: val.uid,
-                        type: val.type,
-                        tel: val.telNum,
+                        type: val.type_user,
+                        tel: val.tel_number,
                         company: val1.name
                       })
                       this.setState({ list: items })
@@ -254,13 +254,13 @@ export default class ReportStaff extends Component {
                     .once('value').then((snapshot) => {
                       id += 1
                       items.push({
-                        id: id,
+                        id,
                         fname: val.fname,
                         lname: val.lname,
                         email: val.email,
                         uid: val.uid,
-                        type: val.type,
-                        tel: val.telNum,
+                        type: val.type_user,
+                        tel: val.tel_number,
                         company: '-'
                       })
                       this.setState({ list: items })

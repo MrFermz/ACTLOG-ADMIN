@@ -82,14 +82,14 @@ export default class CompanyAdd extends Component {
     if (name) {
       firebase.database().ref(`company`).push({
         name,
-        tel,
+        tel_number: tel,
         address,
         address1,
         address2,
         province,
         zip,
-        comType,
-        objective
+        type_company: comType,
+        detail_company: objective
       }).then(() => {
         this.props.history.goBack()
       })

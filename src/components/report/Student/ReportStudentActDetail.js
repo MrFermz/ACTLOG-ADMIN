@@ -43,8 +43,8 @@ export default class ReportStudentActDetail extends Component {
         var val = snapshot.val()
         this.setState({
           date: new Date(val.date).toLocaleDateString('th-TH', options),
-          timeCome: val.timeCome,
-          timeBack: val.timeBack,
+          timeCome: val.work_come,
+          timeBack: val.work_back,
           morning: val.morning,
           afternoon: val.afternoon,
           comment: val.comment

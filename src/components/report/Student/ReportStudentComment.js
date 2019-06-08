@@ -60,7 +60,7 @@ export default class ReportStudentComment extends Component {
         this.setState({ Ccuid: ccuid })
       })
     firebase.database().ref('users')
-      .orderByChild('type')
+      .orderByChild('type_user')
       .equalTo('Staff')
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
@@ -93,26 +93,49 @@ export default class ReportStudentComment extends Component {
                   var sum = val2.score1 + val2.score2 + val2.score3 + val2.score4
                     + val2.score5 + val2.score6 + val2.score7 + val2.score8 +
                     val2.score9 + val2.score10
-                  this.setState({
-                    id,
-                    key,
-                    fname: val1.fname,
-                    lname: val1.lname,
-                    email: val1.email,
-                    uid: val1.uid,
-                    score1: val2.score1,
-                    score2: val2.score2,
-                    score3: val2.score3,
-                    score4: val2.score4,
-                    score5: val2.score5,
-                    score6: val2.score6,
-                    score7: val2.score7,
-                    score8: val2.score8,
-                    score9: val2.score9,
-                    score10: val2.score10,
-                    comment: val2.comment,
-                    sum: sum.toFixed(2)
-                  })
+                  if (!isNaN(sum)) {
+                    this.setState({
+                      id,
+                      key,
+                      fname: val1.fname,
+                      lname: val1.lname,
+                      email: val1.email,
+                      uid: val1.uid,
+                      score1: val2.score1,
+                      score2: val2.score2,
+                      score3: val2.score3,
+                      score4: val2.score4,
+                      score5: val2.score5,
+                      score6: val2.score6,
+                      score7: val2.score7,
+                      score8: val2.score8,
+                      score9: val2.score9,
+                      score10: val2.score10,
+                      comment: val2.comment,
+                      sum: sum.toFixed(2)
+                    })
+                  }else{
+                      this.setState({
+                        id,
+                        key,
+                        fname: val1.fname,
+                        lname: val1.lname,
+                        email: val1.email,
+                        uid: val1.uid,
+                        score1: val2.score1,
+                        score2: val2.score2,
+                        score3: val2.score3,
+                        score4: val2.score4,
+                        score5: val2.score5,
+                        score6: val2.score6,
+                        score7: val2.score7,
+                        score8: val2.score8,
+                        score9: val2.score9,
+                        score10: val2.score10,
+                        comment: val2.comment,
+                        sum: 'คะแนนไม่ครบ'
+                      })
+                  }
                 }
               })
               this.setState({ list: items })

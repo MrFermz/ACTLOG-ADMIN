@@ -48,19 +48,19 @@ export default class UserEdit extends Component {
   getData() {
     var items = []
     var uid = this.props.location.state.uid
-    this.setState({ uid: uid })
+    this.setState({ uid })
     firebase.database().ref(`users/${uid}`)
       .once('value').then((snapshot) => {
         var val = snapshot.val()
         this.setState({
-          sid: val.sid,
+          sid: val.suid,
           fname: val.fname,
           lname: val.lname,
           email: val.email,
           group: val.group,
-          tel: val.telNum,
-          dateStartPicker: val.dateStart,
-          dateEndPicker: val.dateEnd,
+          tel: val.tel_number,
+          dateStartPicker: val.date_start,
+          dateEndPicker: val.date_end,
           company: '-'
         })
         firebase.database().ref('comment')
@@ -78,14 +78,14 @@ export default class UserEdit extends Component {
                     .once('value').then((snapshot) => {
                       var val3 = snapshot.val()
                       this.setState({
-                        sid: val.sid,
+                        sid: val.suid,
                         fname: val.fname,
                         lname: val.lname,
                         email: val.email,
                         group: val.group,
-                        tel: val.telNum,
-                        dateStartPicker: val.dateStart,
-                        dateEndPicker: val.dateEnd,
+                        tel: val.tel_number,
+                        dateStartPicker: val.date_start,
+                        dateEndPicker: val.date_end,
                         company: val3.name
                       })
                     })
@@ -109,28 +109,29 @@ export default class UserEdit extends Component {
   onSubmit = (e) => {
     e.preventDefault()
     const { uid, sid, fname, lname, group, tel, dateStartPicker, dateEndPicker } = this.state
-    if (dateStartPicker || dateEndPicker) {
+    console.log(fname)
+    if (dateStartPicker || dateEndPicker || sid || fname || lname || group || tel) {
       firebase.database().ref(`users/${uid}`).update({
-        sid,
+        suid: sid,
         fname,
         lname,
         group,
-        telNum: tel,
-        dateStart: dateStartPicker,
-        dateEnd: dateEndPicker
+        tel_number: tel,
+        date_start: dateStartPicker,
+        date_end: dateEndPicker
       }).then(() => {
         this.handleAlert()
         this.props.history.goBack()
       })
     } else {
       firebase.database().ref(`users/${uid}`).update({
-        sid,
-        fname,
-        lname,
-        group,
-        telNum: tel,
-        dateStart: '',
-        dateEnd: ''
+        suid: '',
+        fname: '',
+        lname: '',
+        group: '',
+        tel_number: '',
+        date_start: '',
+        date_end: ''
       }).then(() => {
         this.handleAlert()
         this.props.history.goBack()

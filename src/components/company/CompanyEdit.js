@@ -76,14 +76,14 @@ export default class CompanyEdit extends Component {
         this.setState({
           key: key,
           name: val.name,
-          tel: val.tel,
+          tel: val.tel_number,
           address: val.address,
           address1: val.address1,
           address2: val.address2,
           province: val.province,
           zip: val.zip,
-          comType: val.comType,
-          objective: val.objective
+          comType: val.type_company,
+          objective: val.detail_company
         })
       })
   }
@@ -101,14 +101,14 @@ export default class CompanyEdit extends Component {
     const { key, name, tel, address, address1, address2, province, zip, comType, objective } = this.state
     firebase.database().ref(`company/${key}`).update({
       name: name,
-      tel,
+      tel_number: tel,
       address,
       address1,
       address2,
       province,
       zip,
-      comType,
-      objective
+      type_company: comType,
+      detail_company: objective
     }).then(() => {
       this.props.history.goBack()
     })

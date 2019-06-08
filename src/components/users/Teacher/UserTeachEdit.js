@@ -46,25 +46,35 @@ export default class UserTeachEdit extends Component {
           uid: val.uid,
           fname: val.fname,
           lname: val.lname,
-          tel: val.telNum,
+          tel: val.tel_number,
           email: val.email,
-          type: val.type
+          type: val.type_user
         })
       })
   }
 
   onSubmit = (e) => {
     e.preventDefault()
-    const { uid, fname, lname, tel, email } = this.state
-    firebase.database().ref(`users/${uid}`).update({
-      fname,
-      lname,
-      telNum: tel,
-      email
-    }).then(() => {
-      this.handleAlert()
-      this.props.history.goBack()
-    })
+    const { uid, fname, lname, tel } = this.state
+    if (fname || lname || tel) {
+      firebase.database().ref(`users/${uid}`).update({
+        fname,
+        lname,
+        tel_number: tel
+      }).then(() => {
+        this.handleAlert()
+        this.props.history.goBack()
+      })
+    } else {
+      firebase.database().ref(`users/${uid}`).update({
+        fname: '',
+        lname: '',
+        tel_number: ''
+      }).then(() => {
+        this.handleAlert()
+        this.props.history.goBack()
+      })
+    }
   }
 
   handleAlert() {

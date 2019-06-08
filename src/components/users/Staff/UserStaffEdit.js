@@ -56,9 +56,9 @@ export default class UserStaffEdit extends Component {
               uid: val.uid,
               fname: val.fname,
               lname: val.lname,
-              tel: val.telNum,
+              tel: val.tel_number,
               email: val.email,
-              type: val.type,
+              type: val.type_user,
               company: key,
               position: val.position,
               major: val.major
@@ -82,19 +82,35 @@ export default class UserStaffEdit extends Component {
   onSubmit = (e) => {
     e.preventDefault()
     const { uid, fname, lname, tel, email, company, position, major } = this.state
-    firebase.database().ref(`users/${uid}`)
-      .update({
-        fname,
-        lname,
-        telNum: tel,
-        email,
-        company,
-        position,
-        major
-      }).then(() => {
-        this.handleAlert()
-        this.props.history.goBack()
-      })
+    if (fname || lname || tel || email || company || position || major) {
+      firebase.database().ref(`users/${uid}`)
+        .update({
+          fname,
+          lname,
+          tel_number: tel,
+          email,
+          company,
+          position,
+          major
+        }).then(() => {
+          this.handleAlert()
+          this.props.history.goBack()
+        })
+    } else {
+      firebase.database().ref(`users/${uid}`)
+        .update({
+          fname: '',
+          lname: '',
+          tel_number: '',
+          email: '',
+          company: '',
+          position: '',
+          major: ''
+        }).then(() => {
+          this.handleAlert()
+          this.props.history.goBack()
+        })
+    }
   }
 
   onChange = (e) => {

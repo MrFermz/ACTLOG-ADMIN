@@ -69,10 +69,10 @@ export default class UserStaffDetail extends Component {
                 uid: val.uid,
                 fname: val.fname,
                 lname: val.lname,
-                tel: val.telNum,
+                tel: val.tel_number,
                 email: val.email,
-                typeStat: val.typeStat,
-                type: val.type,
+                typeStat: val.stat_type_user,
+                type: val.type_user,
                 company: val1.name,
                 position: val.position,
                 major: val.major
@@ -85,10 +85,10 @@ export default class UserStaffDetail extends Component {
                 uid: val.uid,
                 fname: val.fname,
                 lname: val.lname,
-                tel: val.telNum,
+                tel: val.tel_number,
                 email: val.email,
-                typeStat: val.typeStat,
-                type: val.type,
+                typeStat: val.stat_type_user,
+                type: val.type_user,
                 company: '-',
                 position: val.position,
                 major: val.major
@@ -102,9 +102,9 @@ export default class UserStaffDetail extends Component {
     const { uid, type } = this.state
     firebase.database().ref(`users/${uid}`)
       .update({
-        typeStat: true,
-        setup: true,
-        type
+        stat_type_user: true,
+        stat_setup: true,
+        type_user: type
       }).then(() => {
         // this.props.history.goBack()
         this.handleAlert()
@@ -274,7 +274,7 @@ export default class UserStaffDetail extends Component {
     const { value } = e.target
     var uid = this.props.location.state.uid
     firebase.database().ref(`users/${uid}`).update({
-      type: value
+      type_user: value
     }).then(() => {
       if (value === 'Staff') {
         //

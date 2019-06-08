@@ -35,14 +35,14 @@ export default class CompanyDetail extends Component {
         this.setState({
           key: key,
           name: val.name,
-          tel: val.tel,
+          tel: val.tel_number,
           address: val.address,
           address1: val.address1,
           address2: val.address2,
           province: val.province,
           zip: val.zip,
-          comType: val.comType,
-          objective: val.objective
+          comType: val.type_company,
+          objective: val.detail_company
         })
       })
   }

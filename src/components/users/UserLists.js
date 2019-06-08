@@ -121,21 +121,21 @@ export default class UserLists extends Component {
   getData() {
     var items = [], id = 0
     firebase.database().ref('users')
-      .orderByChild('type')
+      .orderByChild('type_user')
       .equalTo('Student')
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
           var val = child.val()
           id += 1
           items.push({
-            id: id,
+            id,
             fname: val.fname,
             lname: val.lname,
             email: val.email,
             uid: val.uid,
-            type: val.type,
-            sid: val.sid,
-            stat: val.typeStat
+            type: val.type_user,
+            sid: val.suid,
+            stat: val.stat_type_user
           })
         })
         this.setState({ list: items })
@@ -157,7 +157,8 @@ export default class UserLists extends Component {
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
           var val = child.val()
-          if (val.type === type && val.type === 'Student') {
+          var type_user = val.type_user
+          if (type_user === type && type_user === 'Student') {
             id += 1
             items.push({
               id,
@@ -165,12 +166,11 @@ export default class UserLists extends Component {
               lname: val.lname,
               email: val.email,
               uid: val.uid,
-              type: val.type,
-              sid: val.sid,
-              tel: val.telNum,
-              stat: val.typeStat
+              type: val.type_user,
+              tel: val.tel_number,
+              stat: val.stat_type_user
             })
-          } if (val.type === type && val.type !== 'Student') {
+          } if (type_user === type && type_user !== 'Student') {
             id += 1
             items.push({
               id,
@@ -178,10 +178,9 @@ export default class UserLists extends Component {
               lname: val.lname,
               email: val.email,
               uid: val.uid,
-              type: val.type,
-              sid: val.sid,
-              tel: val.telNum,
-              stat: val.typeStat
+              type: val.type_user,
+              tel: val.tel_number,
+              stat: val.stat_type_user
             })
           }
           this.setState({ list: items })
@@ -199,7 +198,7 @@ export default class UserLists extends Component {
     const { year } = this.state
     var items = [], id = 0
     firebase.database().ref('users')
-      .orderByChild('type')
+      .orderByChild('type_user')
       .equalTo(type)
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
@@ -215,9 +214,9 @@ export default class UserLists extends Component {
                   lname: val.lname,
                   email: val.email,
                   uid: val.uid,
-                  type: val.type,
-                  sid: val.sid,
-                  stat: val.typeStat
+                  type: val.type_user,
+                  sid: val.suid,
+                  stat: val.stat_type_user
                 })
               }
               this.setState({ list: items })
@@ -229,9 +228,9 @@ export default class UserLists extends Component {
                 lname: val.lname,
                 email: val.email,
                 uid: val.uid,
-                type: val.type,
-                sid: val.sid,
-                stat: val.typeStat
+                type: val.type_user,
+                tel: val.tel_number,
+                stat: val.stat_type_user
               })
               this.setState({ list: items })
             }
@@ -249,10 +248,10 @@ export default class UserLists extends Component {
                     lname: val.lname,
                     email: val.email,
                     uid: val.uid,
-                    type: val.type,
-                    tel: val.telNum,
+                    type: val.type_user,
+                    tel: val.tel_number,
                     company: val1.name,
-                    stat: val.typeStat
+                    stat: val.stat_type_user
                   })
                   this.setState({ list: items })
                 })
@@ -266,10 +265,10 @@ export default class UserLists extends Component {
                     lname: val.lname,
                     email: val.email,
                     uid: val.uid,
-                    type: val.type,
-                    tel: val.telNum,
+                    type: val.type_user,
+                    tel: val.tel_number,
                     company: '-',
-                    stat: val.typeStat
+                    stat: val.stat_type_user
                   })
                   this.setState({ list: items })
                 })
@@ -365,6 +364,7 @@ export default class UserLists extends Component {
 
   render() {
     const { list, type, year } = this.state
+    console.log(list)
     return (
       <Grid
         container

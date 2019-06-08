@@ -51,14 +51,14 @@ export default class ReportCompanyUsers extends Component {
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
           var val = child.val()
-          if (val.type === 'Staff') {
+          if (val.type_user === 'Staff') {
             id += 1
             items.push({
               id,
               uid: val.uid,
               fname: val.fname,
               lname: val.lname,
-              tel: val.telNum,
+              tel: val.tel_number,
               email: val.email,
             })
           }

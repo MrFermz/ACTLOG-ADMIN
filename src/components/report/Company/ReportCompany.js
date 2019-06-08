@@ -58,7 +58,7 @@ export default class ReportCompany extends Component {
     const { year } = this.state
     var ccuid = [], cuid = []
     firebase.database().ref('users')
-      .orderByChild('type')
+      .orderByChild('type_user')
       .equalTo('Student')
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
@@ -77,7 +77,7 @@ export default class ReportCompany extends Component {
                 this.setState({ Ccuid: ccuid })
               })
             firebase.database().ref('users')
-              .orderByChild('type')
+              .orderByChild('type_user')
               .equalTo('Staff')
               .once('value').then((snapshot) => {
                 snapshot.forEach((child) => {
@@ -112,7 +112,7 @@ export default class ReportCompany extends Component {
                 id,
                 key,
                 name: val2.name,
-                tel: val2.tel,
+                tel: val2.tel_number,
                 add: val2.address,
                 add1: val2.address1,
                 add2: val2.address2,

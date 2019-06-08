@@ -74,7 +74,7 @@ export default class ReportStaffComment extends Component {
         this.setState({ Csuid: csuid })
       })
     firebase.database().ref('users')
-      .orderByChild('type')
+      .orderByChild('type_user')
       .equalTo('Student')
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
@@ -110,7 +110,7 @@ export default class ReportStaffComment extends Component {
                   items.push({
                     id,
                     key,
-                    sid: val1.sid,
+                    sid: val1.suid,
                     fname: val1.fname,
                     lname: val1.lname,
                     email: val1.email,

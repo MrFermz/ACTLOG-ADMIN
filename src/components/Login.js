@@ -22,7 +22,7 @@ export default class Login extends Component {
     document.title = 'เข้าสู่ระบบ - ACTLOG ADMIN'
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        firebase.database().ref(`users/${user.uid}/type`)
+        firebase.database().ref(`users/${user.uid}/type_user`)
           .once('value').then((snapshot) => {
             var val = snapshot.val()
             if (val === 'Admin') {
@@ -51,7 +51,7 @@ export default class Login extends Component {
     firebase.auth()
       .signInWithEmailAndPassword(email, password)
       .then((res) => {
-        firebase.database().ref(`users/${res.user.uid}/type`)
+        firebase.database().ref(`users/${res.user.uid}/type_user`)
           .once('value').then((snapshot) => {
             var val = snapshot.val()
             if (val === 'Admin') {

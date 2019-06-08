@@ -77,7 +77,7 @@ export default class ReportStudent extends Component {
     const { year } = this.state
     var items = [], id = 0
     firebase.database().ref('users')
-      .orderByChild('type')
+      .orderByChild('type_user')
       .equalTo('Student')
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {
@@ -91,8 +91,8 @@ export default class ReportStudent extends Component {
               lname: val.lname,
               email: val.email,
               uid: val.uid,
-              type: val.type,
-              sid: val.sid
+              type: val.type_user,
+              sid: val.suid
             })
           }
         })

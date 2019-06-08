@@ -59,11 +59,11 @@ export default class ReportStudentAct extends Component {
             key: child.key,
             id: id,
             date: new Date(val.date).toLocaleDateString('th-TH', options),
-            timeCome: val.timeCome,
-            timeBack: val.timeBack,
-            stat: val.stat
+            timeCome: val.work_come,
+            timeBack: val.work_back,
+            stat: val.stat_approve
           })
-          var stat = val.stat
+          var stat = val.stat_approve
           if (stat === 0) {
             this.setState({ stat0: this.state.stat0 + 1 })
           } else if (stat === 1) {

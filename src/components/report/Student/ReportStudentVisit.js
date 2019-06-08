@@ -72,7 +72,7 @@ export default class ReportVisit extends Component {
       })
 
     firebase.database().ref('users')
-      .orderByChild('type')
+      .orderByChild('type_user')
       .equalTo('Teacher')
       .once('value').then((snapshot) => {
         snapshot.forEach((child) => {

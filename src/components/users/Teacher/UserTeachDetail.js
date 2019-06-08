@@ -63,10 +63,10 @@ export default class UserTeachDetail extends Component {
           uid: val.uid,
           fname: val.fname,
           lname: val.lname,
-          tel: val.telNum,
+          tel: val.tel_number,
           email: val.email,
-          typeStat: val.typeStat,
-          type: val.type
+          typeStat: val.stat_type_user,
+          type: val.type_user
         })
       })
   }
@@ -74,8 +74,8 @@ export default class UserTeachDetail extends Component {
   onTypeStat() {
     const { uid } = this.state
     firebase.database().ref(`users/${uid}`).update({
-      typeStat: true,
-      setup: true,
+      stat_type_user: true,
+      stat_setup: true,
     }).then(() => {
       this.handleAlert()
       this.getData()
@@ -221,7 +221,7 @@ export default class UserTeachDetail extends Component {
     const { value } = e.target
     var uid = this.props.location.state.uid
     firebase.database().ref(`users/${uid}`).update({
-      type: value
+      type_user: value
     }).then(() => {
       if (value === 'Teacher') {
         //

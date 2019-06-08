@@ -76,16 +76,15 @@ export default class ReportCompanyStudent extends Component {
                   .once('value').then((snapshot) => {
                     var val3 = snapshot.val()
                     var userYear = val3.year
-                    if(userYear === year){
+                    if (userYear === year) {
                       id += 1
                       items.push({
                         id,
                         uid: val3.uid,
-                        sid: val3.sid,
+                        sid: val3.suid,
                         fname: val3.fname,
                         lname: val3.lname,
-                        email: val3.email,
-                        tel: val3.telNum
+                        email: val3.email
                       })
                     }
                     this.setState({ list: items })

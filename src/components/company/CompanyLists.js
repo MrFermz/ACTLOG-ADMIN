@@ -57,10 +57,10 @@ export default class CompanyLists extends Component {
           var val = child.val()
           id += 1
           items.push({
-            id: id,
+            id,
             key: child.key,
             name: val.name,
-            tel: val.tel,
+            tel: val.tel_number,
             add: val.address,
             add1: val.address1,
             add2: val.address2,
@@ -88,10 +88,10 @@ export default class CompanyLists extends Component {
           var val = child.val()
           id += 1
           items.push({
-            id: id,
+            id,
             key: child.key,
             name: val.name,
-            tel: val.tel,
+            tel: val.tel_number,
             add: val.address,
             add1: val.address1,
             add2: val.address2,

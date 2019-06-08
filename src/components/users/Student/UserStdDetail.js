@@ -59,23 +59,23 @@ export default class UserDetail extends Component {
 
   getData() {
     var uid = this.props.location.state.uid
-    this.setState({ uid: uid })
+    this.setState({ uid })
     firebase.database().ref(`users/${uid}`)
       .once('value').then((snapshot) => {
         var val = snapshot.val()
         this.setState({
-          uid: uid,
-          sid: val.sid,
+          uid,
+          sid: val.suid,
           fname: val.fname,
           lname: val.lname,
           group: val.group,
-          tel: val.telNum,
-          dateStart: val.dateStart,
-          dateEnd: val.dateEnd,
+          tel: val.tel_number,
+          dateStart: val.date_start,
+          dateEnd: val.date_end,
           email: val.email,
           company: '-',
-          typeStat: val.typeStat,
-          type: val.type
+          typeStat: val.stat_type_user,
+          type: val.type_user
         })
         firebase.database().ref('comment')
           .orderByChild('suid')
@@ -93,33 +93,33 @@ export default class UserDetail extends Component {
                       var val4 = snapshot.val()
                       if (val4.name) {
                         this.setState({
-                          uid: uid,
-                          sid: val.sid,
+                          uid,
+                          sid: val.suid,
                           fname: val.fname,
                           lname: val.lname,
                           group: val.group,
-                          tel: val.telNum,
-                          dateStart: val.dateStart,
-                          dateEnd: val.dateEnd,
+                          tel: val.tel_number,
+                          dateStart: val.date_start,
+                          dateEnd: val.date_end,
                           email: val.email,
                           company: val4.name,
-                          typeStat: val.typeStat,
-                          type: val.type
+                          typeStat: val.stat_type_user,
+                          type: val.type_user
                         })
                       } else {
                         this.setState({
-                          uid: uid,
-                          sid: val.sid,
+                          uid,
+                          sid: val.suid,
                           fname: val.fname,
                           lname: val.lname,
                           group: val.group,
-                          tel: val.telNum,
-                          dateStart: val.dateStart,
-                          dateEnd: val.dateEnd,
+                          tel: val.tel_number,
+                          dateStart: val.date_start,
+                          dateEnd: val.date_end,
                           email: val.email,
                           company: '-',
-                          typeStat: val.typeStat,
-                          type: val.type
+                          typeStat: val.stat_type_user,
+                          type: val.type_user
                         })
                       }
                     })
@@ -132,10 +132,10 @@ export default class UserDetail extends Component {
   onTypeStat() {
     const { uid } = this.state
     firebase.database().ref(`users/${uid}`).update({
-      typeStat: true,
-      setup: true,
-      sidStat: true,
-      subject: 'เทคโนโลยีสารสนเทศ'
+      stat_type_user: true,
+      stat_setup: true,
+      stat_suid: true,
+      major: 'เทคโนโลยีสารสนเทศ'
     }).then(() => {
       this.handleAlert()
       this.getData()
@@ -330,7 +330,7 @@ export default class UserDetail extends Component {
     const { value } = e.target
     var uid = this.props.location.state.uid
     firebase.database().ref(`users/${uid}`).update({
-      type: value
+      type_user: value
     }).then(() => {
       if (value === 'Student') {
         //
