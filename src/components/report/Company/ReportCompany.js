@@ -142,7 +142,7 @@ export default class ReportCompany extends Component {
           var key = child.key
           id += 1
           items.push({
-            id: id,
+            id,
             key,
             name: val.name,
             tel: val.tel,

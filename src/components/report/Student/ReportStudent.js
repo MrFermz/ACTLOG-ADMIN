@@ -32,7 +32,7 @@ const selectionStd = [
     label: 'นามสกุล'
   },
   {
-    value: 'sid',
+    value: 'suid',
     label: 'รหัส นศ.'
   },
   {
@@ -48,7 +48,8 @@ export default class ReportStudent extends Component {
       list: [],
       open: false,
       uid: '',
-      year: ''
+      year: '',
+      select: 'suid'
     }
   }
 
@@ -199,7 +200,7 @@ export default class ReportStudent extends Component {
           snapshot.forEach((child) => {
             var val = child.val()
             var userYear = val.year
-            if (val.type === 'Student' && userYear === year) {
+            if (val.type_user === 'Student' && userYear === year) {
               id += 1
               items.push({
                 id,
@@ -207,8 +208,8 @@ export default class ReportStudent extends Component {
                 lname: val.lname,
                 email: val.email,
                 uid: val.uid,
-                type: val.type,
-                sid: val.sid
+                type: val.type_user,
+                sid: val.suid
               })
             }
             this.setState({ list: items })

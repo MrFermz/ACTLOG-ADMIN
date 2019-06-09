@@ -47,7 +47,7 @@ const selectionStd = [
     label: 'นามสกุล'
   },
   {
-    value: 'sid',
+    value: 'suid',
     label: 'รหัส นศ.'
   },
   {
@@ -92,7 +92,7 @@ export default class UserLists extends Component {
     this.state = {
       list: [],
       type: 'Student',
-      select: 'sid',
+      select: 'suid',
       year: ''
     }
   }
@@ -191,6 +191,9 @@ export default class UserLists extends Component {
   onChangeType = (e) => {
     const { value } = e.target
     this.setState({ type: value, word: '' })
+    if (value === 'Teacher' || value === 'Staff' || value === 'Admin') {
+      this.setState({ select: 'email' })
+    }
     this.searchDataType(value)
   }
 

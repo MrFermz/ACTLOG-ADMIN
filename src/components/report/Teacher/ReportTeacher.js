@@ -44,7 +44,8 @@ export default class ReportTeacher extends Component {
       list: [],
       open: false,
       uid: '',
-      year: ''
+      year: '',
+      select: 'email'
     }
   }
 
@@ -160,7 +161,7 @@ export default class ReportTeacher extends Component {
         .once('value').then((snapshot) => {
           snapshot.forEach((child) => {
             var val = child.val()
-            if (val.type === 'Teacher') {
+            if (val.type_user === 'Teacher') {
               id += 1
               items.push({
                 id,

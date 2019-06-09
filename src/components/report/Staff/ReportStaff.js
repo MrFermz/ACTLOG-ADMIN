@@ -33,7 +33,7 @@ const selectionStaff = [
   },
   {
     value: 'email',
-    label: 'อีเมลล์'
+    label: 'อีเมล'
   }
 ]
 
@@ -44,7 +44,8 @@ export default class ReportStaff extends Component {
       list: [],
       open: false,
       uid: '',
-      year: ''
+      year: '',
+      select: 'email'
     }
   }
 
@@ -231,7 +232,7 @@ export default class ReportStaff extends Component {
             snapshot.forEach((child) => {
               var val = child.val()
               var key = val.company
-              if (val.type === 'Staff' && val.uid === uid) {
+              if (val.type_user === 'Staff' && val.uid === uid) {
                 if (key) {
                   firebase.database().ref(`company/${key}`)
                     .once('value').then((snapshot) => {

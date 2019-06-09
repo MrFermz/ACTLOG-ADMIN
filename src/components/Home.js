@@ -42,7 +42,7 @@ export default class Home extends Component {
           let year = val.year
           years.push(`${year}`)
         })
-        this.hasDuplicate(years)
+        this.hasDuplicate(years.sort().reverse())
       })
     firebase.database().ref('temp/year')
       .once('value').then((snapshot) => {
@@ -54,6 +54,7 @@ export default class Home extends Component {
   hasDuplicate(years) {
     var items = []
     var newYear = new Set(years)
+    console.log(newYear)
     newYear.forEach((value) => {
       items.push({ value, label: parseInt(value) + 543 })
     })
